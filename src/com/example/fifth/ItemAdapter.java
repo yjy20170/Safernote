@@ -14,10 +14,8 @@ import android.widget.TextView;
 
 public class ItemAdapter extends ArrayAdapter<Item>{
 	private int resourceId;
-	private Context context;
 	public ItemAdapter(Context context, int itemViewResourceId, List<Item> items){
 		super(context, itemViewResourceId, items);
-		this.context = context;
 		resourceId = itemViewResourceId;
 	}
 	@Override
@@ -44,7 +42,7 @@ public class ItemAdapter extends ArrayAdapter<Item>{
 		}
 		
 		viewHolder.itemTitle.setText(item.title);
-		viewHolder.itemWordCount.setText("字数："+Integer.toString(item.wordCount));
+		viewHolder.itemWordCount.setText("字数："+item.wordCount);
 		viewHolder.itemCreateTime.setText("创建:"+item.createTime);
 		viewHolder.itemEditTime.setText("修改:"+item.editTime);
 		viewHolder.itemSummary.setText(item.content);

@@ -54,6 +54,9 @@ public class activity_locked extends Activity implements OnClickListener{
 				if(!getIntent().getBooleanExtra("isOnAppStart",true)){
 					finish();
 				}else{//启动app时
+					//将password储存到静态变量中
+					SafeActivity.password = inputString;
+					
 					startActivity(new Intent(this,activity_1.class));
 					finish();
 				}

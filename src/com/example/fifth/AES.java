@@ -7,27 +7,39 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+
 public class AES {
-	public static String encrypt(String seed, String cleartext) throws Exception {      
-        byte[] rawKey = getRawKey(seed.getBytes());      
-        byte[] result = encrypt(rawKey, cleartext.getBytes());      
-        return toHex(result);      
+	
+	public static String encrypt(String seed, String cleartext){      
+		try{
+	        byte[] rawKey = getRawKey(seed.getBytes());      
+	        byte[] result = encrypt(rawKey, cleartext.getBytes());      
+	        return toHex(result);
+		}catch(Exception e){
+			return "error";
+		}
     }      
           
-    public static String decrypt(String seed, String encrypted) throws Exception {      
-        byte[] rawKey = getRawKey(seed.getBytes());      
-        byte[] enc = toByte(encrypted);      
-        byte[] result = decrypt(rawKey, enc);      
-        return new String(result);      
+    public static String decrypt(String seed, String encrypted){
+    	try{
+	        byte[] rawKey = getRawKey(seed.getBytes());      
+	        byte[] enc = toByte(encrypted);      
+	        byte[] result = decrypt(rawKey, enc);      
+	        return new String(result);
+    	}catch(Exception e){
+    		return e.toString();
+    	}
     }      
      
-    private static byte[] getRawKey(byte[] seed) throws Exception {      
-        KeyGenerator kgen = KeyGenerator.getInstance("AES");      
-        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");      
-        sr.setSeed(seed);      
-        kgen.init(128, sr); // 192 and 256 bits may not be available      
-        SecretKey skey = kgen.generateKey();      
-        byte[] raw = skey.getEncoded();      
+    private static byte[] getRawKey(byte[] seed) throws Exception {
+        KeyGenerator kgen = KeyGenerator.getInstance("AES");
+        //需加上  『,"Crypto"』，否则报错 javax.crypto.BadPaddingException: pad block corrupted
+        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG","Crypto");      
+        sr.setSeed(seed);
+        kgen.init(128, sr); // 192 and 256 bits may not be available     
+        SecretKey skey = kgen.generateKey();
+        //SecretKey aesKey = new SecretKeySpec(byte[] keyData, "AES")
+        byte[] raw = skey.getEncoded();
         return raw;      
     }      
      
@@ -36,7 +48,7 @@ public class AES {
         SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");      
         Cipher cipher = Cipher.getInstance("AES");      
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec);      
-        byte[] encrypted = cipher.doFinal(clear);      
+        byte[] encrypted = cipher.doFinal(clear);
         return encrypted;      
     }      
      
@@ -62,7 +74,7 @@ public class AES {
             result[i] = Integer.valueOf(hexString.substring(2*i, 2*i+2), 16).byteValue();      
         return result;      
     }      
-     
+    
     public static String toHex(byte[] buf) {      
         if (buf == null)      
             return "";      

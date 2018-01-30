@@ -19,7 +19,7 @@ public class Item {
 	public ArrayList<String> tags = new ArrayList<String>();
 	public String tagsString;
 	public String content;
-	public int wordCount;
+	public String wordCount;
 	
 	public Item(Context context){
 		this.context = context;
@@ -29,13 +29,13 @@ public class Item {
 	//供测试
 	public Item(String title){
 		this.title = title;
-		this.wordCount = 999;
+		this.wordCount = "999";
 	}
 	
 	public void createNew(String createTime){
 		isNew = true;
 		title = "";
-		wordCount = 0;
+		wordCount = "0";
 		this.createTime = createTime;
 		tagsString = "";
 		content = "";
@@ -46,7 +46,7 @@ public class Item {
 			//建一条空项目
 			String INSERT_ITEM = "insert into items ("
 					+ "title, wordCount, createTime, editTime, tagsString, content) values("
-					+ "'', 0, '"+createTime+"','','','')";
+					+ "'', 0, '"+AES.encrypt(SafeActivity.password, createTime)+"','','','')";
 			db.execSQL(INSERT_ITEM);
 			int offset = getTableLength(db, "items") - 1;
 			Cursor cursor = db.rawQuery("select * from items limit 1 offset "+offset, null);		
@@ -56,11 +56,11 @@ public class Item {
 		}
 		//new alert(context, "updateDbData...");
 		ContentValues values = new ContentValues();
-		values.put("title", title);
-		values.put("wordCount",wordCount);
-		values.put("editTime", editTime);
-		values.put("tagsString",tagsString);
-		values.put("content", content);
+		values.put("title", AES.encrypt(SafeActivity.password, title));
+		values.put("wordCount",AES.encrypt(SafeActivity.password, wordCount));
+		values.put("editTime", AES.encrypt(SafeActivity.password, editTime));
+		values.put("tagsString",AES.encrypt(SafeActivity.password, tagsString));
+		values.put("content", AES.encrypt(SafeActivity.password, content));
 		db.update("items", values, "id = ?", new String[]{Integer.toString(id)});
 	}
 	
@@ -73,15 +73,15 @@ public class Item {
 		cursor.moveToFirst();
 		id = Integer.parseInt(cursor.getString(cursor.getColumnIndex("id")));
 		
-		title = cursor.getString(cursor.getColumnIndex("title"));
-		wordCount = Integer.parseInt(cursor.getString(cursor.getColumnIndex("wordCount")));
-		createTime = cursor.getString(cursor.getColumnIndex("createTime"));
-		editTime = cursor.getString(cursor.getColumnIndex("editTime"));
-		tagsString = cursor.getString(cursor.getColumnIndex("tagsString"));
+		title = AES.decrypt(SafeActivity.password, cursor.getString(cursor.getColumnIndex("title")));
+		wordCount = AES.decrypt(SafeActivity.password, cursor.getString(cursor.getColumnIndex("wordCount")));
+		createTime = AES.decrypt(SafeActivity.password, cursor.getString(cursor.getColumnIndex("createTime")));
+		editTime = AES.decrypt(SafeActivity.password, cursor.getString(cursor.getColumnIndex("editTime")));
+		tagsString = AES.decrypt(SafeActivity.password, cursor.getString(cursor.getColumnIndex("tagsString")));
 		for(String tag: tagsString.split(",")){
 			tags.add(tag);
 		}
-		content = cursor.getString(cursor.getColumnIndex("content"));
+		content = AES.decrypt(SafeActivity.password, cursor.getString(cursor.getColumnIndex("content")));
 	}
 	
 	public void delete(){

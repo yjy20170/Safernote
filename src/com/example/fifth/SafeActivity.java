@@ -7,6 +7,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 public class SafeActivity extends Activity{
+	public static String password;
 	protected boolean isFromStack=false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -44,7 +45,9 @@ public class SafeActivity extends Activity{
 	}
 	
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data){
-		isFromStack=true;
+	protected void onActivityResult(int requestCode, int resultCode, Intent intent){
+		if(requestCode==0){//由上面打开activity_lock时的startActivityForResult(intent, 0)决定
+			isFromStack=true;
+		}
 	}
 }

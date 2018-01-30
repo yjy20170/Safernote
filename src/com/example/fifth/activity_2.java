@@ -173,7 +173,7 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 	public void save(){
 		//将View中的字符串写入item，及相关数据
 		item.title = titleView.getText().toString();
-		item.wordCount = contentView.getText().length();
+		item.wordCount = Integer.toString(contentView.getText().length());
 		item.editTime = timeFormat.format(new Date());
 		item.tagsString = tagsView.getText().toString();
 		item.content = contentView.getText().toString();
