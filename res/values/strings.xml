@@ -1,0 +1,5 @@
+<resources>
+
+    <string name="app_name">fifth</string>
+	<string name="database_name">dataStore.db</string>
+</resources>
