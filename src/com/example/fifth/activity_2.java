@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
@@ -255,15 +256,15 @@ public class activity_2 extends SafeActivity
 				v.setFocusable(false);
 				v.setFocusableInTouchMode(false);
 			}
-			//恢复滚动区域高度
-			LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)findViewById(R.id.mainArea).getLayoutParams();
+			//恢复滚动区域高度//R.id.mainArea LinearLayout.LayoutParams
+			FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams)findViewById(R.id.layout_2).getLayoutParams();
 			layoutParams.height = LayoutParams.WRAP_CONTENT;
-			findViewById(R.id.mainArea).setLayoutParams(layoutParams);
+			findViewById(R.id.layout_2).setLayoutParams(layoutParams);
 		}else{
 			//压缩滚动区域高度
-			LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)findViewById(R.id.mainArea).getLayoutParams();
-			layoutParams.height = 650;//TODO: 自动化
-			findViewById(R.id.mainArea).setLayoutParams(layoutParams);
+			FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams)findViewById(R.id.layout_2).getLayoutParams();
+			layoutParams.height = 755;//TODO: 自动化
+			findViewById(R.id.layout_2).setLayoutParams(layoutParams);
 			//显示cursor，弹出软键盘
 			v.setFocusable(true);
 			v.setFocusableInTouchMode(true);

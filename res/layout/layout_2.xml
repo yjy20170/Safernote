@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:id="@+id/layout_2">
     <LinearLayout
-        android:layout_height="47dp"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:background="#dadcdc">
@@ -15,7 +15,7 @@
             android:background="@drawable/back"
             android:layout_width="37dp"
             android:layout_height="30dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="-1dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"/>
         <com.example.fifth.SuperEditText
@@ -43,7 +43,8 @@
 	<ScrollView 
 	    android:id="@+id/mainArea"
     	android:layout_width="match_parent" 
-    	android:layout_height="wrap_content"
+    	android:layout_height="0dp"
+    	android:layout_weight="1"
     	android:fillViewport="false"
     	android:fadeScrollbars="true">
         <LinearLayout 
