@@ -1,11 +1,15 @@
 package com.example.fifth;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.ViewDragHelper;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -56,6 +60,9 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 		});
 		start2Btn = (Button) findViewById(R.id.start2);
 		start2Btn.setOnClickListener(this);
+		
+		//改变左侧菜单响应范围,但是设置后横向所有位置都能响应？
+		//setDrawerLeftEdgeSize((DrawerLayout)findViewById(R.id.drawer_layout),(float)15);
 	}
 	@Override
 	public void onClick(View v){
@@ -78,37 +85,36 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 			SQLiteDatabase db = dbHelper.getWritableDatabase();
 			listView = (ListView)findViewById(R.id.listView);
 			int tableItemsLength = Item.getTableLength(db, "items");
-			new alert(this, "onRestart, items count: "+tableItemsLength);
 			//根据数据库中Item行数，初始化list
-			//list = new ArrayList<Item>();
 			list.clear();
 			for(int i=0;i<tableItemsLength;i++){
 				list.add(new Item(this));
 			}
-			//listView.requestFocus();
-			//itemAdapter.notifyAll();
-			//itemAdapter.notifyDataSetInvalidated();
 			itemAdapter.notifyDataSetChanged();
-			/*
-			itemAdapter = new ItemAdapter(this, R.layout.layout_item, list);
-			listView.setAdapter(itemAdapter);
-			*/
-			//itemAdapter.notifyDataSetChanged();
-			/*
-	        Intent intent = new Intent(activity_1.this, activity_1.class); 
-	        //关闭动画效果
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-	        startSafeActivity(intent);
-			finish();
-			*/
 		}
 		super.onRestart();
-		//重绘
-		//getWindow().getDecorView().invalidate();
-		//onCreate(null);
-		//
-		//
-		//itemAdapter.notifyDataSetChanged
-	}//
-	
+	}
+	private void setDrawerLeftEdgeSize(DrawerLayout drawerLayout, float displayWidthPercentage) {
+		try {
+			// find ViewDragHelper and set it accessible
+			Field leftDraggerField = drawerLayout.getClass().getDeclaredField("mLeftDragger");
+			leftDraggerField.setAccessible(true);
+			ViewDragHelper leftDragger = (ViewDragHelper) leftDraggerField.get(drawerLayout);
+			// find edgesize and set is accessible
+			Field edgeSizeField = leftDragger.getClass().getDeclaredField("mEdgeSize");
+			edgeSizeField.setAccessible(true);
+			int edgeSize = edgeSizeField.getInt(leftDragger);
+			// set new edgesize
+			// Point displaySize = new Point();
+			DisplayMetrics dm = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(dm);
+			edgeSizeField.setInt(leftDragger, Math.max(edgeSize, (int) (dm.widthPixels * displayWidthPercentage)));
+		} catch (NoSuchFieldException e) {
+			Log.e("NoSuchFieldException", e.getMessage().toString());
+		} catch (IllegalArgumentException e) {
+			Log.e("IllegalArgument", e.getMessage().toString());
+		} catch (IllegalAccessException e) {
+			Log.e("IllegalAccessException", e.getMessage().toString());
+		}
+	}
 }

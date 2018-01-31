@@ -3,6 +3,8 @@ package com.example.fifth;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.crypto.Mac;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -10,6 +12,9 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.GestureDetector.OnGestureListener;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -17,7 +22,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
-public class activity_2 extends SafeActivity implements OnClickListener{
+public class activity_2 extends SafeActivity 
+		implements OnClickListener, OnGestureListener{
 	private Button finish;
 	private SuperEditText titleView;
 	private Button cancel;
@@ -30,17 +36,10 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 	public int viewType;	
 	Item item;
 	int itemPosition;
+	private GestureDetector detector; 
+	
 	
 	public SuperEditText lastFocus;
-	
-	private void setTwoBackground(View v, int id){
-		GradientDrawable pressed = (GradientDrawable)getResources().getDrawable(R.drawable.activity_2_titlebar_btn_style);
-		Drawable normal = getResources().getDrawable(id);
-		StateListDrawable stateListDrawable = new StateListDrawable();
-        stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, pressed);
-        stateListDrawable.addState(new int[]{}, normal);
-        v.setBackground(stateListDrawable);
-	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -81,6 +80,61 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 			lastFocus = titleView;
 			setViewType(titleView, 2);
 		}
+		
+		//ÊÖÊÆ¼àÌý
+		detector = new GestureDetector(this, this);
+	}
+	
+
+  
+    @Override  
+    public boolean onDown(MotionEvent e) {  
+        return false;  
+    }  
+    @Override  
+    public void onShowPress(MotionEvent e) {  
+    }
+    @Override  
+    public boolean onSingleTapUp(MotionEvent e) {  
+        return false;  
+    }  
+    @Override  
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,  
+            float distanceY) {  
+        return false;  
+    }  
+    @Override  
+    public void onLongPress(MotionEvent e) {  
+    } 
+    //TODO: ×óÓÒ»¬ÇÐ»»Item
+	@Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,  
+            float velocityY) {
+		if (Math.abs(e1.getY()-e2.getY()) < 120){
+			if(e1.getX() - e2.getX() > 70){
+				new alert(this, "×ó»¬");
+				return true;
+			}else if(e1.getX() - e2.getX() < -70){
+				new alert(this, "ÓÒ»¬");
+				return true;
+			}
+		}
+		return false;
+	}
+	@Override  
+	public boolean dispatchTouchEvent(MotionEvent ev){  
+		detector.onTouchEvent(ev); //ÈÃGestureDetectorÏìÓ¦´¥ÅöÊÂ¼þ  
+		super.dispatchTouchEvent(ev); //ÈÃActivityÏìÓ¦´¥ÅöÊÂ¼þ  
+		return false;
+	}
+	
+	private void setTwoBackground(View v, int id){
+		GradientDrawable pressed = (GradientDrawable)getResources().getDrawable(R.drawable.activity_2_titlebar_btn_style);
+		Drawable normal = getResources().getDrawable(id);
+		StateListDrawable stateListDrawable = new StateListDrawable();
+        stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, pressed);
+        stateListDrawable.addState(new int[]{}, normal);
+        v.setBackground(stateListDrawable);
 	}
 	
 	@Override
