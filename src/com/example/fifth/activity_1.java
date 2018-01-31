@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
@@ -18,7 +17,6 @@ import android.widget.Button;
 import android.widget.ListView;
 
 public class activity_1 extends SafeActivity implements OnClickListener{
-	private Button start2Btn;
 	private ListView listView;
 	private ItemAdapter itemAdapter;
 	private ArrayList<Item> list;
@@ -26,8 +24,6 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_1);
-		DbHelper dbHelper = new DbHelper(this, getString(R.string.database_name), null, 1);
-		SQLiteDatabase db = dbHelper.getReadableDatabase();
 		/*/db test
 		Cursor cursor = db.rawQuery("select * from items", null);
 		if(cursor.moveToFirst()){
@@ -38,11 +34,11 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 		}/*/
 		
 		listView = (ListView)findViewById(R.id.listView);
-		int tableItemsLength = Item.getTableLength(db, "items");
+		int tableItemsLength = Item.getTableLength(MyApplication.db, "items");
 		//根据数据库中Item行数，初始化list
 		list = new ArrayList<Item>();
 		for(int i=0;i<tableItemsLength;i++){
-			list.add(new Item(this));
+			list.add(new Item());
 		}
 		itemAdapter = new ItemAdapter(this, R.layout.layout_item, list);
 		listView.setAdapter(itemAdapter);
@@ -58,8 +54,8 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 				startSafeActivity(intent);
 			}
 		});
-		start2Btn = (Button) findViewById(R.id.start2);
-		start2Btn.setOnClickListener(this);
+		((Button) findViewById(R.id.start2)).setOnClickListener(this);
+		((Button) findViewById(R.id.set_password)).setOnClickListener(this);
 		
 		//改变左侧菜单响应范围,但是设置后横向所有位置都能响应？
 		//setDrawerLeftEdgeSize((DrawerLayout)findViewById(R.id.drawer_layout),(float)15);
@@ -73,6 +69,9 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 			intent.putExtra("position", -1);
 			startSafeActivity(intent);
 			break;
+		case R.id.set_password:
+			startSafeActivity(new Intent(this, activity_set_password.class));
+			break;
 		default:
 		}
 	}
@@ -81,14 +80,12 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 	@Override
 	public void onRestart(){
 		if(isFromStack){
-			DbHelper dbHelper = new DbHelper(this, getString(R.string.database_name), null, 1);
-			SQLiteDatabase db = dbHelper.getWritableDatabase();
 			listView = (ListView)findViewById(R.id.listView);
-			int tableItemsLength = Item.getTableLength(db, "items");
+			int tableItemsLength = Item.getTableLength(MyApplication.db, "items");
 			//根据数据库中Item行数，初始化list
 			list.clear();
 			for(int i=0;i<tableItemsLength;i++){
-				list.add(new Item(this));
+				list.add(new Item());
 			}
 			itemAdapter.notifyDataSetChanged();
 		}
@@ -100,11 +97,11 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 			Field leftDraggerField = drawerLayout.getClass().getDeclaredField("mLeftDragger");
 			leftDraggerField.setAccessible(true);
 			ViewDragHelper leftDragger = (ViewDragHelper) leftDraggerField.get(drawerLayout);
-			// find edgesize and set is accessible
+			// find edge size and set is accessible
 			Field edgeSizeField = leftDragger.getClass().getDeclaredField("mEdgeSize");
 			edgeSizeField.setAccessible(true);
 			int edgeSize = edgeSizeField.getInt(leftDragger);
-			// set new edgesize
+			// set new edge size
 			// Point displaySize = new Point();
 			DisplayMetrics dm = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(dm);

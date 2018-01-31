@@ -7,7 +7,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 public class SafeActivity extends Activity{
-	public static String password;
 	protected boolean isFromStack=false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState){

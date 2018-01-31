@@ -4,17 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:id="@+id/layout_2">"
+    android:id="@+id/layout_2">
     <LinearLayout
-        android:layout_height="wrap_content"
+        android:layout_height="47dp"
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:background="#dadcdc">
-        <Button
+        <com.example.fifth.SuperButton
             android:id="@+id/finish"
+            android:background="@drawable/back"
             android:layout_width="37dp"
             android:layout_height="30dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="0dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"/>
         <com.example.fifth.SuperEditText
@@ -22,15 +23,16 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:textSize="22sp"/>"
-        <Button
+            android:layout_marginTop="1dp"
+            android:textSize="22sp"/>
+        <com.example.fifth.SuperButton
             android:id="@+id/cancel"
             android:background="@drawable/cancel"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginRight="25dp"
             />
-        <Button
+        <com.example.fifth.SuperButton
             android:id="@+id/save"
             android:background="@drawable/save"
             android:layout_width="39dp"
@@ -65,7 +67,7 @@
 		            android:id="@+id/tags"
 		            android:layout_width="0dp"
 		            android:layout_weight="1"
-		            android:layout_height="match_parent"
+		            android:layout_height="wrap_content"
 		            android:paddingTop="7dp"
 		            android:paddingBottom="7dp"
 		            android:paddingLeft="4dp"

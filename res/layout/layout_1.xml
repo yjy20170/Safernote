@@ -20,40 +20,9 @@
 	        android:id="@+id/start2"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:text="新建Item"
+	        android:text="@string/create_item"
 	        />
-	
 	</LinearLayout>
-	<LinearLayout
-	    android:layout_gravity="start"
-        android:layout_height="match_parent"
-        android:layout_width="250dp"
-        android:orientation="vertical"
-        android:background="#ffffff">
-        <ImageView
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_marginTop="-15dp"
-            android:layout_marginLeft="6dp"
-            android:src="@drawable/icon_large"
-            />
-        <Button 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#fff"
-            android:text="1111111111111"
-            />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#fff"
-            android:text="2222"
-            />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#fff"
-            android:text="3333333333"
-            />
-    </LinearLayout>
+	<include 
+	    layout="@layout/layout_navigation_drawer"/>
 </android.support.v4.widget.DrawerLayout>

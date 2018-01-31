@@ -11,8 +11,7 @@ import android.database.sqlite.SQLiteStatement;
 public class Item {
 	public int id;
 	public boolean isNew = false;
-	public Context context;
-	public SQLiteDatabase db;
+	public SQLiteDatabase db = MyApplication.db;
 	public String title;
 	public String createTime;
 	public String editTime;
@@ -21,10 +20,7 @@ public class Item {
 	public String content;
 	public String wordCount;
 	
-	public Item(Context context){
-		this.context = context;
-		DbHelper dbHelper = new DbHelper(context, context.getString(R.string.database_name), null, 1);
-		db = dbHelper.getWritableDatabase();
+	public Item(){
 	}
 	//供测试
 	public Item(String title){
@@ -40,13 +36,24 @@ public class Item {
 		tagsString = "";
 		content = "";
 	}
-	
+	//用于修改密码后的更新
+	public void updateDbData(String password){
+		//new alert(context, "updateDbData...");
+		ContentValues values = new ContentValues();
+		values.put("title", AES.encrypt(password, title));
+		values.put("wordCount",AES.encrypt(password, wordCount));
+		values.put("createTime", AES.encrypt(password, createTime));
+		values.put("editTime", AES.encrypt(password, editTime));
+		values.put("tagsString",AES.encrypt(password, tagsString));
+		values.put("content", AES.encrypt(password, content));
+		db.update("items", values, "id = ?", new String[]{Integer.toString(id)});
+	}
 	public void updateDbData(){
 		if(isNew){
 			//建一条空项目
 			String INSERT_ITEM = "insert into items ("
 					+ "title, wordCount, createTime, editTime, tagsString, content) values("
-					+ "'', 0, '"+AES.encrypt(SafeActivity.password, createTime)+"','','','')";
+					+ "'', 0, '"+AES.encrypt(Settings.password, createTime)+"','','','')";
 			db.execSQL(INSERT_ITEM);
 			int offset = getTableLength(db, "items") - 1;
 			Cursor cursor = db.rawQuery("select * from items limit 1 offset "+offset, null);		
@@ -56,11 +63,11 @@ public class Item {
 		}
 		//new alert(context, "updateDbData...");
 		ContentValues values = new ContentValues();
-		values.put("title", AES.encrypt(SafeActivity.password, title));
-		values.put("wordCount",AES.encrypt(SafeActivity.password, wordCount));
-		values.put("editTime", AES.encrypt(SafeActivity.password, editTime));
-		values.put("tagsString",AES.encrypt(SafeActivity.password, tagsString));
-		values.put("content", AES.encrypt(SafeActivity.password, content));
+		values.put("title", AES.encrypt(Settings.password, title));
+		values.put("wordCount",AES.encrypt(Settings.password, wordCount));
+		values.put("editTime", AES.encrypt(Settings.password, editTime));
+		values.put("tagsString",AES.encrypt(Settings.password, tagsString));
+		values.put("content", AES.encrypt(Settings.password, content));
 		db.update("items", values, "id = ?", new String[]{Integer.toString(id)});
 	}
 	
@@ -73,16 +80,17 @@ public class Item {
 		cursor.moveToFirst();
 		id = Integer.parseInt(cursor.getString(cursor.getColumnIndex("id")));
 		
-		title = AES.decrypt(SafeActivity.password, cursor.getString(cursor.getColumnIndex("title")));
-		wordCount = AES.decrypt(SafeActivity.password, cursor.getString(cursor.getColumnIndex("wordCount")));
-		createTime = AES.decrypt(SafeActivity.password, cursor.getString(cursor.getColumnIndex("createTime")));
-		editTime = AES.decrypt(SafeActivity.password, cursor.getString(cursor.getColumnIndex("editTime")));
-		tagsString = AES.decrypt(SafeActivity.password, cursor.getString(cursor.getColumnIndex("tagsString")));
+		title = AES.decrypt(Settings.password, cursor.getString(cursor.getColumnIndex("title")));
+		wordCount = AES.decrypt(Settings.password, cursor.getString(cursor.getColumnIndex("wordCount")));
+		createTime = AES.decrypt(Settings.password, cursor.getString(cursor.getColumnIndex("createTime")));
+		editTime = AES.decrypt(Settings.password, cursor.getString(cursor.getColumnIndex("editTime")));
+		tagsString = AES.decrypt(Settings.password, cursor.getString(cursor.getColumnIndex("tagsString")));
 		for(String tag: tagsString.split(",")){
 			tags.add(tag);
 		}
-		content = AES.decrypt(SafeActivity.password, cursor.getString(cursor.getColumnIndex("content")));
+		content = AES.decrypt(Settings.password, cursor.getString(cursor.getColumnIndex("content")));
 	}
+	
 	
 	public void delete(){
 		if(isNew){//未写入数据库

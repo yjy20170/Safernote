@@ -3,14 +3,9 @@ package com.example.fifth;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.crypto.Mac;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
@@ -54,11 +49,6 @@ public class activity_2 extends SafeActivity
 		tagsView = (SuperEditText)findViewById(R.id.tags);
 		delete = (Button)findViewById(R.id.delete);
 		contentView = (SuperEditText)findViewById(R.id.content);
-
-		//设置按钮样式
-		setTwoBackground(finish, R.drawable.back);
-		setTwoBackground(cancel, R.drawable.cancel);
-		setTwoBackground(save, R.drawable.save);
 		
 		//绑定OnClickListener!!!
 		finish.setOnClickListener(this);
@@ -68,7 +58,7 @@ public class activity_2 extends SafeActivity
 		
 		itemPosition = getIntent().getIntExtra("position", 0);
 		viewType = getIntent().getIntExtra("viewType", 0);
-		item = new Item(this);
+		item = new Item();
 		if(viewType==0){
 			//从数据库加载内容
 			item.getDbData(itemPosition);
@@ -112,10 +102,10 @@ public class activity_2 extends SafeActivity
             float velocityY) {
 		if (Math.abs(e1.getY()-e2.getY()) < 120){
 			if(e1.getX() - e2.getX() > 70){
-				new alert(this, "左滑");
+				new alert("左滑");
 				return true;
 			}else if(e1.getX() - e2.getX() < -70){
-				new alert(this, "右滑");
+				new alert("右滑");
 				return true;
 			}
 		}
@@ -126,15 +116,6 @@ public class activity_2 extends SafeActivity
 		detector.onTouchEvent(ev); //让GestureDetector响应触碰事件  
 		super.dispatchTouchEvent(ev); //让Activity响应触碰事件  
 		return false;
-	}
-	
-	private void setTwoBackground(View v, int id){
-		GradientDrawable pressed = (GradientDrawable)getResources().getDrawable(R.drawable.activity_2_titlebar_btn_style);
-		Drawable normal = getResources().getDrawable(id);
-		StateListDrawable stateListDrawable = new StateListDrawable();
-        stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, pressed);
-        stateListDrawable.addState(new int[]{}, normal);
-        v.setBackground(stateListDrawable);
 	}
 	
 	@Override
@@ -181,9 +162,9 @@ public class activity_2 extends SafeActivity
 		}else if(viewType==1){
 			finishWithoutSave();
 		}else if(viewType==2){
-			new alert(this, "activity_2 handle onBackPressed in viewType 2 ?");
+			new alert("activity_2 handle onBackPressed in viewType 2 ?");
 		}else{
-			new alert(this, "activity_2 handle onBackPressed in viewType 3 ?");
+			new alert("activity_2 handle onBackPressed in viewType 3 ?");
 		}
 	}
 	
@@ -275,7 +256,6 @@ public class activity_2 extends SafeActivity
 				v.setFocusableInTouchMode(false);
 			}
 			//恢复滚动区域高度
-			//findViewById(R.id.mainArea).setLayoutParams(initMainAreaLayoutPrams);
 			LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)findViewById(R.id.mainArea).getLayoutParams();
 			layoutParams.height = LayoutParams.WRAP_CONTENT;
 			findViewById(R.id.mainArea).setLayoutParams(layoutParams);

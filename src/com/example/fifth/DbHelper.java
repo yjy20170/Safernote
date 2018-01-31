@@ -20,19 +20,17 @@ public class DbHelper extends SQLiteOpenHelper {
 	public static final String INSERT_SETTINGS = "insert into settings ("
 			+ "md5password) values("
 			+ "'"+MD5Util.MD5(defaultPassword)+"')";
-	private Context mContext;
 	public DbHelper(Context context, String name, CursorFactory
 			factory, int version) {
 		super(context, name, factory, version);
-		mContext = context;
 	}
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(CREATE_ITEMS);
 		db.execSQL(CREATE_SETTINGS);
 		db.execSQL(INSERT_SETTINGS);
-		new alert(mContext, "database created");
-		new alert(mContext, "default password is "+defaultPassword);
+		new alert("database created");
+		new alert("default password is "+defaultPassword);
 	}
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
