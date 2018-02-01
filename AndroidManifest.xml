@@ -2,8 +2,8 @@
     package="com.example.fifth"
     android:versionCode="1"
     android:versionName="1.0" >
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
-    </uses-permission>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="21" />
@@ -41,6 +41,9 @@
 		<activity 
 		    android:name=".activity_importExportDb"
             android:excludeFromRecents="true"></activity>
+		<activity 
+		    android:name=".activity_testNewDb"
+		    android:excludeFromRecents="true"></activity>
     </application>
 
 </manifest>

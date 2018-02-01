@@ -53,7 +53,7 @@ public class Item {
 			//建一条空项目
 			String INSERT_ITEM = "insert into items ("
 					+ "title, wordCount, createTime, editTime, tagsString, content) values("
-					+ "'', 0, '"+AES.encrypt(Settings.password, createTime)+"','','','')";
+					+ "'', 0, '"+AES.encrypt(MyApplication.password, createTime)+"','','','')";
 			db.execSQL(INSERT_ITEM);
 			int offset = getTableLength(db, "items") - 1;
 			Cursor cursor = db.rawQuery("select * from items limit 1 offset "+offset, null);		
@@ -62,16 +62,9 @@ public class Item {
 			isNew = false;
 		}
 		//new alert(context, "updateDbData...");
-		ContentValues values = new ContentValues();
-		values.put("title", AES.encrypt(Settings.password, title));
-		values.put("wordCount",AES.encrypt(Settings.password, wordCount));
-		values.put("editTime", AES.encrypt(Settings.password, editTime));
-		values.put("tagsString",AES.encrypt(Settings.password, tagsString));
-		values.put("content", AES.encrypt(Settings.password, content));
-		db.update("items", values, "id = ?", new String[]{Integer.toString(id)});
+		updateDbData(MyApplication.password);
 	}
 	
-	//TODO: 直接加载整个items列表
 	//根据id，从数据库加载数据
 	public void getDbData(int position){
 		//wrong: this.id = getTableLength(db, "items") - position;
@@ -80,17 +73,16 @@ public class Item {
 		cursor.moveToFirst();
 		id = Integer.parseInt(cursor.getString(cursor.getColumnIndex("id")));
 		
-		title = AES.decrypt(Settings.password, cursor.getString(cursor.getColumnIndex("title")));
-		wordCount = AES.decrypt(Settings.password, cursor.getString(cursor.getColumnIndex("wordCount")));
-		createTime = AES.decrypt(Settings.password, cursor.getString(cursor.getColumnIndex("createTime")));
-		editTime = AES.decrypt(Settings.password, cursor.getString(cursor.getColumnIndex("editTime")));
-		tagsString = AES.decrypt(Settings.password, cursor.getString(cursor.getColumnIndex("tagsString")));
+		title = AES.decrypt(MyApplication.password, cursor.getString(cursor.getColumnIndex("title")));
+		wordCount = AES.decrypt(MyApplication.password, cursor.getString(cursor.getColumnIndex("wordCount")));
+		createTime = AES.decrypt(MyApplication.password, cursor.getString(cursor.getColumnIndex("createTime")));
+		editTime = AES.decrypt(MyApplication.password, cursor.getString(cursor.getColumnIndex("editTime")));
+		tagsString = AES.decrypt(MyApplication.password, cursor.getString(cursor.getColumnIndex("tagsString")));
 		for(String tag: tagsString.split(",")){
 			tags.add(tag);
 		}
-		content = AES.decrypt(Settings.password, cursor.getString(cursor.getColumnIndex("content")));
+		content = AES.decrypt(MyApplication.password, cursor.getString(cursor.getColumnIndex("content")));
 	}
-	
 	
 	public void delete(){
 		if(isNew){//未写入数据库

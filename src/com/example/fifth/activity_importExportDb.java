@@ -7,6 +7,8 @@ import java.nio.channels.FileChannel;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -33,7 +35,11 @@ public class activity_importExportDb extends SafeActivity implements OnClickList
     		onBackPressed();
     		break;
     	case R.id.import_db:
-    		getImportFilePath();
+    		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");//设置类型
+            intent.addCategory(Intent.CATEGORY_OPENABLE);  
+          //由于在文件选择器界面进入后台时不能上锁，因此将文件选择器视为不安全
+            startActivityForResult(intent,1);
     		break;
     	case R.id.export_db:
     		//若不存在，创建新文件夹
@@ -49,49 +55,61 @@ public class activity_importExportDb extends SafeActivity implements OnClickList
     		break;
     	}
     }
-    private void getImportFilePath(){
-		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*");//设置类型
-        intent.addCategory(Intent.CATEGORY_OPENABLE);  
-        startActivityForResult(intent,1);
-	}
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data){
 		if (resultCode == Activity.RESULT_OK) {
 	        if (requestCode == 1) {
 	            Uri uri = data.getData();
-	            //TODO 检验文件是否符合规范，是则importDB()
-	            //需考虑导入的数据与当前密码不一致的情况
-	            new alert("文件路径："+uri.getPath().toString());
-	        }  
+	            //首先importDB()检验文件是否符合规范，
+	            //是则看能否得到MD5Password(此处同MyApplication
+	            String MD5Password="";
+	            try{
+		            importDB(uri.getPath().toString(),"temp.db");//getString(R.string.database_name)
+		            DbHelper dbHelper = new DbHelper(MyApplication.context, "temp.db", null, 1);
+		            SQLiteDatabase db = dbHelper.getWritableDatabase();
+		            Cursor cursor = db.rawQuery("select * from settings", null);		
+		    		cursor.moveToFirst();
+		    		MD5Password = cursor.getString(cursor.getColumnIndex("md5password"));
+		    		db.close();
+		    		dbHelper.close();
+		    		new alert("数据正常");
+	            }catch(Exception e){
+	            	new alert("数据异常: "+e.toString(),"long");
+	            	return;//不继续执行后面的操作
+	            }
+	            
+	            //输入密码校验MD5值，若通过，提示是否导出原数据，然后覆盖原数据库
+	            Intent intent = new Intent(this, activity_testNewDb.class);
+	            intent.putExtra("MD5Password", MD5Password);
+	            startSafeActivity(intent);
+	            
+	        }
 	    }
 	}
-    private void importDB(String importFilePath) {
+    private void importDB(String importFilePath, String dbName) {
         try {
             File sd = Environment.getExternalStorageDirectory();
             File data  = Environment.getDataDirectory();
-
-            if (sd.canRead()) {
-                String  currentDBPath= "//data//" + getString(R.string.package_name)
-                        + "//databases//" + getString(R.string.database_name);
-                File backupDB = new File(sd, importFilePath);
-                File currentDB  = new File(data, currentDBPath);
-
-                FileInputStream inputStream = new FileInputStream(currentDB);
-                FileOutputStream outputStream = new FileOutputStream(backupDB);
-                FileChannel src = inputStream.getChannel();
-                FileChannel dst = outputStream.getChannel();
-                dst.transferFrom(src, 0, src.size());
-                src.close();
-                dst.close();
-                inputStream.close();
-                outputStream.close();
-                new alert(backupDB.toString());
-
+            String  currentDBPath= "//data//" + getString(R.string.package_name)
+                    + "//databases//" + dbName;
+            //String relativePath = importFilePath.split(sd.toString())[importFilePath.split(sd.toString()).length-1];
+            File backupDB = new File(importFilePath);//sd, relativePath);
+            File currentDB  = new File(data, currentDBPath);
+            if(!currentDB.exists()){
+            	currentDB.createNewFile();
             }
+            FileInputStream inputStream = new FileInputStream(backupDB);
+            FileOutputStream outputStream = new FileOutputStream(currentDB);
+            FileChannel src = inputStream.getChannel();
+            FileChannel dst = outputStream.getChannel();
+            dst.transferFrom(src, 0, src.size());
+            src.close();
+            dst.close();
+            inputStream.close();
+            outputStream.close();
         } catch (Exception e) {
 
-            new alert(e.toString());
+        	((Button) findViewById(R.id.export_db)).setText("import error: "+e.toString());
 
         }
     }

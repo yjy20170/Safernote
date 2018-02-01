@@ -9,7 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 public class activity_locked extends Activity implements OnClickListener{
-	private String MD5password;
+	private String MD5Password;
 	private PasswordInputer passwordInputer;
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -19,7 +19,7 @@ public class activity_locked extends Activity implements OnClickListener{
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.layout_locked);
 		
-		MD5password = Settings.getMD5Password();
+		MD5Password = MyApplication.getMD5Password();
 		
 		passwordInputer = (PasswordInputer)findViewById(R.id.password_inputer);
 		findViewById(R.id.submit_password).setOnClickListener(this);
@@ -33,13 +33,13 @@ public class activity_locked extends Activity implements OnClickListener{
 		switch(v.getId()){
 		case R.id.submit_password:
 			String MD5inputString = MD5Util.MD5(passwordInputer.getInput());
-			if(MD5inputString.equals(MD5password)){
+			if(MD5inputString.equals(MD5Password)){
 				//onRestart触发的
 				if(!getIntent().getBooleanExtra("isOnAppStart",true)){
 					finish();
 				}else{//启动app时
 					//将password储存到静态变量中
-					Settings.password = passwordInputer.getInput();
+					MyApplication.password = passwordInputer.getInput();
 					
 					startActivity(new Intent(this,activity_1.class));
 					finish();
