@@ -20,6 +20,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	public static final String INSERT_SETTINGS = "insert into settings ("
 			+ "md5password) values("
 			+ "'"+MD5Util.MD5(defaultPassword)+"')";
+	public static final String CREATE_HISTORY = "";
 	public DbHelper(Context context, String name, CursorFactory
 			factory, int version) {
 		super(context, name, factory, version);
@@ -34,5 +35,9 @@ public class DbHelper extends SQLiteOpenHelper {
 	}
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		switch(oldVersion){
+		case 1:
+			//db.execSQL();
+		}
 	}
 }

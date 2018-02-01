@@ -2,7 +2,8 @@
     package="com.example.fifth"
     android:versionCode="1"
     android:versionName="1.0" >
-
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
+    </uses-permission>
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="21" />
@@ -34,9 +35,12 @@
 		</activity>
 		    
 		<activity 
-		    android:name=".activity_set_password"
+		    android:name=".activity_setPassword"
             android:excludeFromRecents="true">
 		</activity>
+		<activity 
+		    android:name=".activity_importExportDb"
+            android:excludeFromRecents="true"></activity>
     </application>
 
 </manifest>

@@ -20,10 +20,11 @@
         android:text="@string/set_password"
         />
     <Button
+        android:id="@+id/import_export_db"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
-        android:text="2"
+        android:text="导入与导出数据"
         />
     <Button
         android:layout_width="match_parent"

@@ -6,7 +6,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class activity_set_password extends SafeActivity implements OnClickListener{
+public class activity_setPassword extends SafeActivity implements OnClickListener{
 	private String inputString;
 	private TextView tip;
 	private PasswordInputer passwordInputer;

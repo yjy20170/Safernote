@@ -3,7 +3,9 @@ package com.example.fifth;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
@@ -56,6 +58,7 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 		});
 		((Button) findViewById(R.id.createItem)).setOnClickListener(this);
 		((Button) findViewById(R.id.set_password)).setOnClickListener(this);
+		((Button) findViewById(R.id.import_export_db)).setOnClickListener(this);
 		
 		//改变左侧菜单响应范围,但是设置后横向所有位置都能响应？
 		//setDrawerLeftEdgeSize((DrawerLayout)findViewById(R.id.drawer_layout),(float)15);
@@ -70,7 +73,10 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 			startSafeActivity(intent);
 			break;
 		case R.id.set_password:
-			startSafeActivity(new Intent(this, activity_set_password.class));
+			startSafeActivity(new Intent(this, activity_setPassword.class));
+			break;
+		case R.id.import_export_db:
+			startSafeActivity(new Intent(this, activity_importExportDb.class));
 			break;
 		default:
 		}
@@ -114,4 +120,5 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 			Log.e("IllegalAccessException", e.getMessage().toString());
 		}
 	}
+	
 }
