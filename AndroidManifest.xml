@@ -14,16 +14,19 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity_1"
-            android:label="fifth">
+            android:label="fifth"
+            android:excludeFromRecents="true">
 		</activity>
 		
 		<activity
 		    android:windowSoftInputMode="stateUnchanged|adjustNothing"
-		    android:name=".activity_2">
+		    android:name=".activity_2"
+            android:excludeFromRecents="true">
 		</activity>
 		
 		<activity
-		    android:name=".activity_locked">
+		    android:name=".activity_locked"
+            android:excludeFromRecents="true">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
@@ -31,7 +34,8 @@
 		</activity>
 		    
 		<activity 
-		    android:name=".activity_set_password">
+		    android:name=".activity_set_password"
+            android:excludeFromRecents="true">
 		</activity>
     </application>
 
