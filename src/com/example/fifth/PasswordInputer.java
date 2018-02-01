@@ -67,8 +67,8 @@ public class PasswordInputer extends LinearLayout implements OnClickListener{
 			break;
 		case R.id.pw_delete:
 			if(inputString.length()>0){
-				inputString=inputString.substring(0, inputString.length() - 1);
-				addInput("");
+					inputString=inputString.substring(0, inputString.length() - 1);
+					addInput("");
 			}
 			break;
 		default:
@@ -76,17 +76,23 @@ public class PasswordInputer extends LinearLayout implements OnClickListener{
 	}
 	
 	private void addInput(String c){
-		if(inputString.length()+c.length()>16){
-			//TODO 全局context
+		int n = inputString.length();
+		if(n + c.length()>16){
 			new alert("密码长度不能超过16！");
 		}else{
 			inputString += c;
-			int n = inputString.length();
-			String s="";
+			n = inputString.length();
+			String s = "";
 			for(int i=0;i<n;i++){
-				s+="•";
+				s += "•";
 			}
 			input.setText(s);
+		}
+		//动态改变字体大小
+		if(n <= 8){
+			input.setTextSize(120);
+		}else{
+			input.setTextSize(8 * 120 / n);
 		}
 	}
 	

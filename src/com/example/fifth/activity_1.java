@@ -54,7 +54,7 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 				startSafeActivity(intent);
 			}
 		});
-		((Button) findViewById(R.id.start2)).setOnClickListener(this);
+		((Button) findViewById(R.id.createItem)).setOnClickListener(this);
 		((Button) findViewById(R.id.set_password)).setOnClickListener(this);
 		
 		//改变左侧菜单响应范围,但是设置后横向所有位置都能响应？
@@ -63,7 +63,7 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 	@Override
 	public void onClick(View v){
 		switch(v.getId()){
-		case R.id.start2:
+		case R.id.createItem:
 			Intent intent = new Intent(this, activity_2.class);
 			intent.putExtra("viewType", 2);
 			intent.putExtra("position", -1);
