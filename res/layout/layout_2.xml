@@ -10,6 +10,12 @@
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:background="#dadcdc">
+        <View
+            android:id="@+id/blank_view"
+		    android:layout_width="0dp"  
+		    android:layout_height="0dp"  
+		    android:focusable="true"  
+		    android:focusableInTouchMode="true"/>
         <com.example.fifth.SuperButton
             android:id="@+id/finish"
             android:background="@drawable/back"

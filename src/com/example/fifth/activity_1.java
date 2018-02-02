@@ -60,8 +60,8 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 		((Button) findViewById(R.id.set_password)).setOnClickListener(this);
 		((Button) findViewById(R.id.import_export_db)).setOnClickListener(this);
 		
-		//改变左侧菜单响应范围,但是设置后横向所有位置都能响应？
-		//setDrawerLeftEdgeSize((DrawerLayout)findViewById(R.id.drawer_layout),(float)15);
+		//改变左侧菜单响应范围
+		setDrawerLeftEdgeSize((DrawerLayout)findViewById(R.id.drawer_layout),(float)0.15);
 	}
 	@Override
 	public void onClick(View v){

@@ -29,13 +29,13 @@ public class activity_2 extends SafeActivity
 	private SuperEditText contentView;
 	public static SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	//0：无键盘无按钮  1：无键盘有按钮  2：有键盘无按钮  3：有键盘有按钮
-	public int viewType;	
+	public int viewType;
 	Item item;
 	int itemPosition;
 	private GestureDetector detector; 
 	
 	
-	public SuperEditText lastFocus;
+	public SuperEditText lastFocus = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -70,6 +70,7 @@ public class activity_2 extends SafeActivity
 			showItem();
 			lastFocus = titleView;
 			setViewType(titleView, 2);
+			titleView.enterEdit();
 		}
 		
 		//手势监听
@@ -103,10 +104,10 @@ public class activity_2 extends SafeActivity
             float velocityY) {
 		if (Math.abs(e1.getY()-e2.getY()) < 120){
 			if(e1.getX() - e2.getX() > 70){
-				new alert("左滑");
+				new alert("TODO 左滑");
 				return true;
 			}else if(e1.getX() - e2.getX() < -70){
-				new alert("右滑");
+				new alert("TODO 右滑");
 				return true;
 			}
 		}
@@ -123,23 +124,25 @@ public class activity_2 extends SafeActivity
 	public void onClick(View v){
 		switch(v.getId()){
 		case R.id.finish:
-			if(activity_2.this.viewType==0||activity_2.this.viewType==2){
-				activity_2.super.onBackPressed();
+			if(viewType==0||viewType==2){
+				super.onBackPressed();
 			}else{
-				activity_2.this.finishWithoutSave();
+				finishWithoutSave();
 			}
 			break;
 		case R.id.cancel:
-			activity_2.this.showItem();
-			activity_2.this.setViewType(lastFocus, 0);
+			setViewType(lastFocus, 0);
+			lastFocus.leaveEdit();
+			showItem();
 			break;
 		case R.id.save:
-			activity_2.this.save();
-			activity_2.this.setViewType(lastFocus, 0);
+			save();
+			//不改变键盘状态，只改变按钮显示
+			setViewType(lastFocus, viewType - 1);
 			break;
 		case R.id.delete:
 			item.delete();
-			activity_2.super.onBackPressed();
+			super.onBackPressed();
 			break;
 		}
 	}
@@ -224,7 +227,7 @@ public class activity_2 extends SafeActivity
 	}
 	
 	public void setViewType(View v, int viewType){	//v 被点击的元素，只有editing和edited用到
-		//new alert(this, "setViewType: "+Integer.toString(viewType));
+		//new alert("setViewType: "+Integer.toString(viewType));
 		//改变SuperEditText内容后，根据与数据库中内容的对比来触发
 		if((viewType==2||viewType==3) && v == null){
 			save.setVisibility(viewType==3?View.VISIBLE:View.GONE);
@@ -240,22 +243,7 @@ public class activity_2 extends SafeActivity
 			save.setVisibility(View.VISIBLE);
 			cancel.setVisibility(View.VISIBLE);
 		}
-		//输入法
-		final InputMethodManager inputMethodManager = (InputMethodManager) 
-				this.getSystemService(Context.INPUT_METHOD_SERVICE);
 		if(viewType==0||viewType==1){
-			
-        	//强制关闭输入法
-			if (inputMethodManager != null && this.getCurrentFocus() != null) {
-				inputMethodManager.hideSoftInputFromWindow(
-						this.getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
-			}
-			
-			//隐藏光标
-			if(v != null){
-				v.setFocusable(false);
-				v.setFocusableInTouchMode(false);
-			}
 			//恢复滚动区域高度//R.id.mainArea LinearLayout.LayoutParams
 			FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams)findViewById(R.id.layout_2).getLayoutParams();
 			layoutParams.height = LayoutParams.WRAP_CONTENT;
@@ -265,12 +253,6 @@ public class activity_2 extends SafeActivity
 			FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams)findViewById(R.id.layout_2).getLayoutParams();
 			layoutParams.height = 755;//TODO: 自动化
 			findViewById(R.id.layout_2).setLayoutParams(layoutParams);
-			//显示cursor，弹出软键盘
-			v.setFocusable(true);
-			v.setFocusableInTouchMode(true);
-			v.requestFocus();
-			v.clearFocus();
-			inputMethodManager.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
 		}
 		this.viewType = viewType;
 	}
