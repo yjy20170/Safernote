@@ -21,17 +21,20 @@ public class DbHelper extends SQLiteOpenHelper {
 			+ "md5password) values("
 			+ "'"+MD5Util.MD5(defaultPassword)+"')";
 	public static final String CREATE_HISTORY = "";
+	private String dbName;
 	public DbHelper(Context context, String name, CursorFactory
 			factory, int version) {
 		super(context, name, factory, version);
+		dbName = name;
 	}
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL(CREATE_ITEMS);
-		db.execSQL(CREATE_SETTINGS);
-		db.execSQL(INSERT_SETTINGS);
-		new alert("database created");
-		new alert("default password is "+defaultPassword);
+		if(dbName.equals(MyApplication.context.getString(R.string.database_name))){
+			db.execSQL(CREATE_ITEMS);
+			db.execSQL(CREATE_SETTINGS);
+			db.execSQL(INSERT_SETTINGS);
+			new alert("数据库创建完毕\n初始密码为"+defaultPassword);
+		}
 	}
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

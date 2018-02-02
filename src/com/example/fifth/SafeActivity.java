@@ -7,7 +7,8 @@ import android.view.Window;
 import android.view.WindowManager;
 
 public class SafeActivity extends Activity{
-	protected boolean isFromStack=false;
+	protected boolean isFromStack = false;
+	protected boolean hasResult = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -22,10 +23,9 @@ public class SafeActivity extends Activity{
 	protected void onRestart(){//Stop
 		super.onRestart();
 		if(!isFromStack){
-			isFromStack = true;
 			Intent intent = new Intent(this,activity_locked.class);
 			intent.putExtra("isOnAppStart", false);
-			startActivityForResult(intent, 0);
+			startSafeActivityForResult(intent, 1);
 		}else{
 			//假如是从栈中返回产生的Restart（而不是按home键等），
 			//则该activity必位于栈顶，下次Restart必由home键等产生
@@ -45,7 +45,7 @@ public class SafeActivity extends Activity{
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent){
-		if(requestCode==0){//由上面打开activity_lock时的startActivityForResult(intent, 0)决定
+		if(requestCode==1){//由上面打开activity_lock时的startActivityForResult(intent, 0)决定
 			isFromStack=true;
 		}
 	}
