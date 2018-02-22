@@ -1,4 +1,4 @@
-package com.example.fifth;
+ï»¿package com.example.fifth;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,7 +25,7 @@ public class activity_importExportDb extends SafeActivity implements OnClickList
         ((Button) findViewById(R.id.export_db)).setOnClickListener(this);
         ((Button) findViewById(R.id.import_db)).setOnClickListener(this);
         ((Button) findViewById(R.id.export_db)).setText(
-        		"½«Êı¾İµ¼³öÖÁ /" + getString(R.string.app_name)
+        		"å°†æ•°æ®å¯¼å‡ºè‡³ /" + getString(R.string.app_name)
         		+ "/" + getString(R.string.database_name));
     }
     @Override
@@ -36,14 +36,14 @@ public class activity_importExportDb extends SafeActivity implements OnClickList
     		break;
     	case R.id.import_db:
     		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("*/*");//ÉèÖÃÀàĞÍ
+            intent.setType("*/*");//è®¾ç½®ç±»å‹
             intent.addCategory(Intent.CATEGORY_OPENABLE);  
-            //ÓÉÓÚÔÚÎÄ¼şÑ¡ÔñÆ÷½çÃæ½øÈëºóÌ¨Ê±²»ÄÜÉÏËø£¬Òò´Ë½«ÎÄ¼şÑ¡ÔñÆ÷ÊÓÎª²»°²È« startActivityForResult
-            //ÌåÑé²»ºÃ£¬¸Ä»Ø
+            //ç”±äºåœ¨æ–‡ä»¶é€‰æ‹©å™¨ç•Œé¢è¿›å…¥åå°æ—¶ä¸èƒ½ä¸Šé”ï¼Œå› æ­¤å°†æ–‡ä»¶é€‰æ‹©å™¨è§†ä¸ºä¸å®‰å…¨ startActivityForResult
+            //ä½“éªŒä¸å¥½ï¼Œæ”¹å›
             startSafeActivityForResult(intent,1);
     		break;
     	case R.id.export_db:
-    		//Èô²»´æÔÚ£¬´´½¨ĞÂÎÄ¼ş¼Ğ
+    		//è‹¥ä¸å­˜åœ¨ï¼Œåˆ›å»ºæ–°æ–‡ä»¶å¤¹
     		File direct = new File(Environment.getExternalStorageDirectory() + "/"+getString(R.string.app_name));
             if(!direct.exists())
             {
@@ -58,13 +58,13 @@ public class activity_importExportDb extends SafeActivity implements OnClickList
     }
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data){
-		//ĞèÖ´ĞĞSfaActivityµÄonActivityResult£¬ÒÔÉèÖÃisFromStack
+		//éœ€æ‰§è¡ŒSfaActivityçš„onActivityResultï¼Œä»¥è®¾ç½®isFromStack
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == Activity.RESULT_OK) {
 	        if (requestCode == 1) {
 	            Uri uri = data.getData();
-	            //Ê×ÏÈimportDB()¼ìÑéÎÄ¼şÊÇ·ñ·ûºÏ¹æ·¶£¬
-	            //ÊÇÔò¿´ÄÜ·ñµÃµ½MD5Password(´Ë´¦Í¬MyApplication
+	            //é¦–å…ˆimportDB()æ£€éªŒæ–‡ä»¶æ˜¯å¦ç¬¦åˆè§„èŒƒï¼Œ
+	            //æ˜¯åˆ™çœ‹èƒ½å¦å¾—åˆ°MD5Password(æ­¤å¤„åŒMyApplication
 	            String MD5Password="";
 	            DbHelper dbHelper;
 	            SQLiteDatabase db;
@@ -79,20 +79,20 @@ public class activity_importExportDb extends SafeActivity implements OnClickList
 			    		MD5Password = cursor.getString(cursor.getColumnIndex("md5password"));
 			    		db.close();
 			    		dbHelper.close();
-			    		new alert("Êı¾İÕı³£");
+			    		new alert("æ•°æ®æ­£å¸¸");
 	            	}catch(Exception e){
-		            	new alert("Êı¾İÒì³£: "+e.toString(),"long");
+		            	new alert("æ•°æ®å¼‚å¸¸: "+e.toString(),"long");
 		            	toDb.delete();
-		            	return;//²»¼ÌĞøÖ´ĞĞºóÃæµÄ²Ù×÷
+		            	return;//ä¸ç»§ç»­æ‰§è¡Œåé¢çš„æ“ä½œ
 		            }
 	            }else{
 		    		return;
 	            }
 	            
-	            //ÊäÈëÃÜÂëĞ£ÑéMD5Öµ£¬ÈôÍ¨¹ı£¬ÌáÊ¾ÊÇ·ñµ¼³öÔ­Êı¾İ£¬È»ºó¸²¸ÇÔ­Êı¾İ¿â
+	            //è¾“å…¥å¯†ç æ ¡éªŒMD5å€¼ï¼Œè‹¥é€šè¿‡ï¼Œæç¤ºæ˜¯å¦å¯¼å‡ºåŸæ•°æ®ï¼Œç„¶åè¦†ç›–åŸæ•°æ®åº“
 	            Intent intent = new Intent(this, activity_testNewDb.class);
 	            intent.putExtra("MD5Password", MD5Password);
-	            startSafeActivityForResult(intent, 1);//ÔÚ·µ»Ø¸ÃactivityÊ±Ç¿ÖÆ²»lock
+	            startSafeActivityForResult(intent, 1);//åœ¨è¿”å›è¯¥activityæ—¶å¼ºåˆ¶ä¸lock
 	            
 	        }
 	    }
@@ -118,7 +118,7 @@ public class activity_importExportDb extends SafeActivity implements OnClickList
 	        outputStream.close();
 	        return currentDB;
     	}catch(Exception e){
-    		new alert("Êı¾İÒì³£: "+e.toString(),"long");
+    		new alert("æ•°æ®å¼‚å¸¸: "+e.toString(),"long");
     		return null;
     	}
     }
@@ -144,7 +144,7 @@ public class activity_importExportDb extends SafeActivity implements OnClickList
                 dst.close();
                 inputStream.close();
                 outputStream.close();
-                new alert("µ¼³ö³É¹¦");
+                new alert("å¯¼å‡ºæˆåŠŸ");
             }
         } catch (Exception e) {
 

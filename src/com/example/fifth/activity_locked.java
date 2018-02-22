@@ -33,20 +33,30 @@ public class activity_locked extends Activity implements OnClickListener{
 		switch(v.getId()){
 		case R.id.submit_password:
 			String MD5inputString = MD5Util.MD5(passwordInputer.getInput());
-			if(MD5inputString.equals(MD5Password)){
-				//onRestart触发的
-				if(!getIntent().getBooleanExtra("isOnAppStart",true)){
-					finish();
-				}else{//启动app时
+			if(getIntent().getBooleanExtra("isOnAppStart",true)){
+				if(MD5inputString.equals(MD5Password)){
 					//将password储存到静态变量中
 					MyApplication.password = passwordInputer.getInput();
-					
 					startActivity(new Intent(this,activity_1.class));
 					finish();
+				}else{
+					new alert("密码错误！");
+					passwordInputer.reset();
 				}
-			}else{
-				new alert("密码错误！");
-				passwordInputer.reset();
+			}else{//onRestart
+				if(MD5inputString.equals(MD5Password)){
+					MyApplication.isErrorPasswordInputed = false;
+					finish();
+				}else if(!MyApplication.isErrorPasswordInputed
+						&& MyApplication.getSafetyLevel()==1
+						&& MyApplication.password.length() > 4
+						&& passwordInputer.getInput().equals(MyApplication.password.substring(0, 4))){
+					finish();
+				}else{
+					MyApplication.isErrorPasswordInputed = true;
+					new alert("密码错误！");
+					passwordInputer.reset();
+				}
 			}
 			break;
 		}

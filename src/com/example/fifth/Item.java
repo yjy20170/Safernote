@@ -1,4 +1,4 @@
-package com.example.fifth;
+ï»¿package com.example.fifth;
 
 import java.util.ArrayList;
 
@@ -22,7 +22,7 @@ public class Item {
 	
 	public Item(){
 	}
-	//¹©²âÊÔ
+	//ä¾›æµ‹è¯•
 	public Item(String title){
 		this.title = title;
 		this.wordCount = "999";
@@ -36,7 +36,7 @@ public class Item {
 		tagsString = "";
 		content = "";
 	}
-	//ÓÃÓÚĞŞ¸ÄÃÜÂëºóµÄ¸üĞÂ
+	//ç”¨äºä¿®æ”¹å¯†ç åçš„æ›´æ–°
 	public void updateDbData(String password){
 		//new alert(context, "updateDbData...");
 		ContentValues values = new ContentValues();
@@ -50,7 +50,7 @@ public class Item {
 	}
 	public void updateDbData(){
 		if(isNew){
-			//½¨Ò»Ìõ¿ÕÏîÄ¿
+			//å»ºä¸€æ¡ç©ºé¡¹ç›®
 			String INSERT_ITEM = "insert into items ("
 					+ "title, wordCount, createTime, editTime, tagsString, content) values("
 					+ "'', 0, '"+AES.encrypt(MyApplication.password, createTime)+"','','','')";
@@ -65,7 +65,7 @@ public class Item {
 		updateDbData(MyApplication.password);
 	}
 	
-	//¸ù¾İid£¬´ÓÊı¾İ¿â¼ÓÔØÊı¾İ
+	//æ ¹æ®idï¼Œä»æ•°æ®åº“åŠ è½½æ•°æ®
 	public void getDbData(int position){
 		//wrong: this.id = getTableLength(db, "items") - position;
 		int offset = getTableLength(db, "items") - position - 1;
@@ -85,14 +85,14 @@ public class Item {
 	}
 	
 	public void delete(){
-		if(isNew){//Î´Ğ´ÈëÊı¾İ¿â
+		if(isNew){//æœªå†™å…¥æ•°æ®åº“
 			return;
 		}
 		db.delete("items", "id = ?", new String[] { Integer.toString(id) });
 	}
 	
 	public static int getTableLength(SQLiteDatabase db, String tableName){
-		//µÃµ½±íÖĞĞĞÊı
+		//å¾—åˆ°è¡¨ä¸­è¡Œæ•°
 		SQLiteStatement statement = db.compileStatement("select count(*) from "+tableName);
 		long count = statement.simpleQueryForLong();
 		return (int)count;

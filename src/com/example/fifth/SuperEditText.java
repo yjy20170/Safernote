@@ -1,4 +1,4 @@
-package com.example.fifth;
+ï»¿package com.example.fifth;
 
 import android.content.Context;
 import android.text.Editable;
@@ -65,7 +65,7 @@ public class SuperEditText extends EditText
 			setCursorVisible(true);
 			activity.setViewType(SuperEditText.this, viewType+2);
 		}else{
-			//½ö½ö¸Ä±äµ±Ç°½¹µãµÄÊôĞÔºÍÖØĞÂ¾Û½¹µ½µã»÷Î»ÖÃ
+			//ä»…ä»…æ”¹å˜å½“å‰ç„¦ç‚¹çš„å±æ€§å’Œé‡æ–°èšç„¦åˆ°ç‚¹å‡»ä½ç½®
 			if(activity.lastFocus != null
 					&& activity.lastFocus.equals(SuperEditText.this)){
 				activity.lastFocus.setCursorVisible(false);
@@ -85,9 +85,9 @@ public class SuperEditText extends EditText
         		activity.setViewType(this, activity.viewType - 2);
         	}
         	clearFocus();
-        	//·ÀÖ¹×Ô¶¯¾Û½¹ÖØĞÂ½«thisÉèÎª½¹µã
+        	//é˜²æ­¢è‡ªåŠ¨èšç„¦é‡æ–°å°†thisè®¾ä¸ºç„¦ç‚¹
         	activity.findViewById(R.id.blank_view).requestFocus();
-        	//±ØĞë·µ»Øtrue£¬·ñÔòÔÚ¹Ø±ÕÊäÈë·¨µÄÇé¿öÏÂµã»÷ÊÂ¼ş½«¼ÌĞø´«²¥£¬±»activity_2.onBackPressed()²¶»ñ
+        	//å¿…é¡»è¿”å›trueï¼Œå¦åˆ™åœ¨å…³é—­è¾“å…¥æ³•çš„æƒ…å†µä¸‹ç‚¹å‡»äº‹ä»¶å°†ç»§ç»­ä¼ æ’­ï¼Œè¢«activity_2.onBackPressed()æ•è·
         	return true;
 	    }
 		return super.onKeyPreIme(keyCode, event);

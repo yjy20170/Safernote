@@ -1,4 +1,4 @@
-package com.example.fifth;
+ï»¿package com.example.fifth;
 
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +17,7 @@ public class activity_setPassword extends SafeActivity implements OnClickListene
 		((Button)findViewById(R.id.finish)).setOnClickListener(this);
 		((Button)findViewById(R.id.save)).setOnClickListener(this);
 		tip = (TextView)findViewById(R.id.input_password_tip);
-		tip.setText("ÇëÊäÈëĞÂÃÜÂë");
+		tip.setText("è¯·è¾“å…¥æ–°å¯†ç ");
 		inputString = "null";
 		passwordInputer = (PasswordInputer)findViewById(R.id.password_inputer);
 	}
@@ -30,20 +30,20 @@ public class activity_setPassword extends SafeActivity implements OnClickListene
 		case R.id.save:
 			if(inputString == "null"){
 				inputString = passwordInputer.getInput();
-				tip.setText("ÇëÔÙ´ÎÊäÈëĞÂÃÜÂë");
-				//ÖØÖÃPasswordInputer
+				tip.setText("è¯·å†æ¬¡è¾“å…¥æ–°å¯†ç ");
+				//é‡ç½®PasswordInputer
 				passwordInputer.reset();
 				break;
 			}else{
 				if(inputString.equals(passwordInputer.getInput())){
-					new alert("ÉèÖÃ³É¹¦");
+					new alert("è®¾ç½®æˆåŠŸ");
 					MyApplication.updatePassword(inputString);
 					onBackPressed();
 				}else{
-					new alert("Á½´ÎÊäÈë²»Ò»ÖÂ£¬ÇëÖØĞÂÊäÈë");
-					//ÖØÖÃPasswordInputerºÍ×ÔÉí
+					new alert("ä¸¤æ¬¡è¾“å…¥ä¸ä¸€è‡´ï¼Œè¯·é‡æ–°è¾“å…¥");
+					//é‡ç½®PasswordInputerå’Œè‡ªèº«
 					passwordInputer.reset();
-					tip.setText("ÇëÊäÈëĞÂÃÜÂë");
+					tip.setText("è¯·è¾“å…¥æ–°å¯†ç ");
 					inputString = "null";
 				}
 			}

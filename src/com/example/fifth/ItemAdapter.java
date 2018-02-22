@@ -1,4 +1,4 @@
-package com.example.fifth;
+ï»¿package com.example.fifth;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class ItemAdapter extends ArrayAdapter<Item>{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent){
 		Item item = getItem(position);
-		//ÖØÒª
+		//é‡è¦
 		item.getDbData(position);
 		//
 		View view;
@@ -42,9 +42,9 @@ public class ItemAdapter extends ArrayAdapter<Item>{
 		}
 		
 		viewHolder.itemTitle.setText(item.title);
-		viewHolder.itemWordCount.setText("×ÖÊı£º"+item.wordCount);
-		viewHolder.itemCreateTime.setText("´´½¨:"+item.createTime);
-		viewHolder.itemEditTime.setText("ĞŞ¸Ä:"+item.editTime);
+		viewHolder.itemWordCount.setText("å­—æ•°ï¼š"+item.wordCount);
+		viewHolder.itemCreateTime.setText("åˆ›å»º:"+item.createTime);
+		viewHolder.itemEditTime.setText("ä¿®æ”¹:"+item.editTime);
 		viewHolder.itemSummary.setText(item.content);
 		setLinesLimit(viewHolder.itemSummary);
 		
@@ -53,17 +53,17 @@ public class ItemAdapter extends ArrayAdapter<Item>{
 		return view;
 	}
 	public void setLinesLimit(final TextView itemSummary) {  
-        //²âÊÔ  
-        ViewTreeObserver observer = itemSummary.getViewTreeObserver(); //textAbstractÎªTextView¿Ø¼ş  
+        //æµ‹è¯•  
+        ViewTreeObserver observer = itemSummary.getViewTreeObserver(); //textAbstractä¸ºTextViewæ§ä»¶  
         observer.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {  
   
             @Override  
             public void onGlobalLayout() {
                 ViewTreeObserver obs = itemSummary.getViewTreeObserver();  
                 obs.removeOnGlobalLayoutListener(this);
-                if(itemSummary.getLineCount() > 3){//TODO: ¿ÉÉèÖÃ
+                if(itemSummary.getLineCount() > 3){//TODO: å¯è®¾ç½®
                     //int length=itemSummary.getText().length();  
-                    int lineEndIndex = itemSummary.getLayout().getLineEnd(3 - 1); //ÉèÖÃµÚÁùĞĞ´òÊ¡ÂÔºÅ
+                    int lineEndIndex = itemSummary.getLayout().getLineEnd(3 - 1); //è®¾ç½®ç¬¬å…­è¡Œæ‰“çœç•¥å·
                     String text = itemSummary.getText().toString().substring(0,lineEndIndex - 1) + " ..." ;  
                     itemSummary.setText(text);
                 }  

@@ -1,4 +1,4 @@
-package com.example.fifth;
+锘縫ackage com.example.fifth;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 		
 		listView = (ListView)findViewById(R.id.listView);
 		int tableItemsLength = Item.getTableLength(MyApplication.db, "items");
-		//根据数据库中Item行数，初始化list
+		//鏍规嵁鏁版嵁搴撲腑Item琛屾暟锛屽垵濮嬪寲list
 		list = new ArrayList<Item>();
 		for(int i=0;i<tableItemsLength;i++){
 			list.add(new Item());
@@ -59,8 +59,9 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 		((Button) findViewById(R.id.createItem)).setOnClickListener(this);
 		((Button) findViewById(R.id.set_password)).setOnClickListener(this);
 		((Button) findViewById(R.id.import_export_db)).setOnClickListener(this);
+		((Button) findViewById(R.id.settings)).setOnClickListener(this);
 		
-		//改变左侧菜单响应范围
+		//鏀瑰彉宸︿晶鑿滃崟鍝嶅簲鑼冨洿
 		setDrawerLeftEdgeSize((DrawerLayout)findViewById(R.id.drawer_layout),(float)0.15);
 	}
 	@Override
@@ -78,6 +79,9 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 		case R.id.import_export_db:
 			startSafeActivity(new Intent(this, activity_importExportDb.class));
 			break;
+		case R.id.settings:
+			startSafeActivity(new Intent(this, activity_settings.class));
+			break;
 		default:
 		}
 	}
@@ -88,7 +92,7 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 		if(isFromStack){
 			listView = (ListView)findViewById(R.id.listView);
 			int tableItemsLength = Item.getTableLength(MyApplication.db, "items");
-			//根据数据库中Item行数，初始化list
+			//鏍规嵁鏁版嵁搴撲腑Item琛屾暟锛屽垵濮嬪寲list
 			list.clear();
 			for(int i=0;i<tableItemsLength;i++){
 				list.add(new Item());

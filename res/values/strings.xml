@@ -1,8 +1,7 @@
-<resources>
+﻿<resources>
 
     <string name="app_name">fifth</string>
     <string name="package_name">com.example.fifth</string>
 	<string name="database_name">dataStore.db</string>
 	<string name="create_item">创建新项目</string>
-	<string name="set_password">修改密码</string>
 </resources>

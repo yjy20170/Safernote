@@ -1,4 +1,4 @@
-package com.example.fifth;
+ï»¿package com.example.fifth;
 
 import java.security.SecureRandom;
 
@@ -33,7 +33,7 @@ public class AES {
      
     private static byte[] getRawKey(byte[] seed) throws Exception {
         KeyGenerator kgen = KeyGenerator.getInstance("AES");
-        //Ğè¼ÓÉÏ  ¡º,"Crypto"¡»£¬·ñÔò±¨´í javax.crypto.BadPaddingException: pad block corrupted
+        //éœ€åŠ ä¸Š  ã€,"Crypto"ã€ï¼Œå¦åˆ™æŠ¥é”™ javax.crypto.BadPaddingException: pad block corrupted
         SecureRandom sr = SecureRandom.getInstance("SHA1PRNG","Crypto");      
         sr.setSeed(seed);
         kgen.init(128, sr); // 192 and 256 bits may not be available     

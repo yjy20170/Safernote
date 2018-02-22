@@ -1,4 +1,4 @@
-package com.example.fifth;
+ï»¿package com.example.fifth;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -16,11 +16,11 @@ public class activity_testNewDb extends SafeActivity implements OnClickListener{
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.layout_set_password);//Ö»ÊÇ½èÓÃ²¼¾Ö£¬Âß¼­ºÍactivity_setPassword²»Í¬
+		setContentView(R.layout.layout_set_password);//åªæ˜¯å€Ÿç”¨å¸ƒå±€ï¼Œé€»è¾‘å’Œactivity_setPasswordä¸åŒ
 		((Button)findViewById(R.id.finish)).setOnClickListener(this);
 		((Button)findViewById(R.id.save)).setOnClickListener(this);
 		tip = (TextView)findViewById(R.id.input_password_tip);
-		tip.setText("ÑéÖ¤µ¼ÈëÊı¾İµÄÃÜÂë");
+		tip.setText("éªŒè¯å¯¼å…¥æ•°æ®çš„å¯†ç ");
 		passwordInputer = (PasswordInputer)findViewById(R.id.password_inputer);
 	}
 	@Override
@@ -32,13 +32,13 @@ public class activity_testNewDb extends SafeActivity implements OnClickListener{
             		+ "/" + getString(R.string.database_name);
 			if(MD5inputString.equals(getIntent().getStringExtra("MD5Password"))){
 				final String passwordOfImportDb = passwordInputer.getInput();
-				//µ¯³ö¶Ô»°¿ò£¬Ñ¯ÎÊÊÇ·ñµ¼³öÔ­Êı¾İ¿â
+				//å¼¹å‡ºå¯¹è¯æ¡†ï¼Œè¯¢é—®æ˜¯å¦å¯¼å‡ºåŸæ•°æ®åº“
 				AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-				dialog.setTitle("È·¶¨Òªµ¼ÈëĞÂÊı¾İÂğ£¿");
-				dialog.setMessage("ÈôÑ¡Ôñ¡°¼ÌĞø¡±£¬ÏÖÓĞµÄËùÓĞÊı¾İ½«»á×Ô¶¯µ¼³öµ½" + backupDBPath
-						+ "\nÍ¬Ê±£¬ÃÜÂë½«±ä¸üÎªµ¼ÈëÊı¾İµÄÃÜÂë");
+				dialog.setTitle("ç¡®å®šè¦å¯¼å…¥æ–°æ•°æ®å—ï¼Ÿ");
+				dialog.setMessage("è‹¥é€‰æ‹©â€œç»§ç»­â€ï¼Œç°æœ‰çš„æ‰€æœ‰æ•°æ®å°†ä¼šè‡ªåŠ¨å¯¼å‡ºåˆ°" + backupDBPath
+						+ "\nåŒæ—¶ï¼Œå¯†ç å°†å˜æ›´ä¸ºå¯¼å…¥æ•°æ®çš„å¯†ç ");
 				dialog.setCancelable(false);
-				dialog.setPositiveButton("¼ÌĞø", new DialogInterface.OnClickListener() {
+				dialog.setPositiveButton("ç»§ç»­", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						activity_importExportDb.exportDB();
@@ -47,17 +47,17 @@ public class activity_testNewDb extends SafeActivity implements OnClickListener{
 				                + "//databases//" + "temp.db";
 						activity_importExportDb.importDB(tempDbPath,MyApplication.context.getString(R.string.database_name));
 						MyApplication.password = passwordOfImportDb;
-						activity_testNewDb.this.onBackPressed();//·µ»ØimportExport
+						activity_testNewDb.this.onBackPressed();//è¿”å›importExport
 					}});
-				dialog.setNegativeButton("È¡Ïû", new DialogInterface.OnClickListener() {
+				dialog.setNegativeButton("å–æ¶ˆ", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						activity_testNewDb.this.onBackPressed();
 					}});
 				dialog.show();
-				//TODO ¿ÉÑ¡Ôñ¸²¸ÇorºÏ²¢
+				//TODO å¯é€‰æ‹©è¦†ç›–oråˆå¹¶
 			}else{
-				new alert("ÃÜÂë´íÎó£¡");
+				new alert("å¯†ç é”™è¯¯ï¼");
 				passwordInputer.reset();
 			}
 			break;

@@ -1,4 +1,4 @@
-package com.example.fifth;
+ï»¿package com.example.fifth;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -18,7 +18,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	public static final String CREATE_SETTINGS = "create table settings ("
 			+ "md5password text)";
 	public static final String INSERT_SETTINGS = "insert into settings ("
-			+ "md5password) values("
+			+ "md5password, safetyLevel) values("
 			+ "'"+MD5Util.MD5(defaultPassword)+"')";
 	public static final String CREATE_HISTORY = "";
 	private String dbName;
@@ -33,14 +33,15 @@ public class DbHelper extends SQLiteOpenHelper {
 			db.execSQL(CREATE_ITEMS);
 			db.execSQL(CREATE_SETTINGS);
 			db.execSQL(INSERT_SETTINGS);
-			new alert("Êı¾İ¿â´´½¨Íê±Ï\n³õÊ¼ÃÜÂëÎª"+defaultPassword);
+			new alert("æ•°æ®åº“åˆ›å»ºå®Œæ¯•\nåˆå§‹å¯†ç ä¸º"+defaultPassword);
 		}
 	}
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		switch(oldVersion){
-		case 1:
-			//db.execSQL();
+		case 1://å¢åŠ å®‰å…¨ç­‰çº§é€‰é¡¹
+			db.execSQL("alter table settings add column safetyLevel integer");
+			db.execSQL("update settings set safetyLevel = 1");
 		}
 	}
 }

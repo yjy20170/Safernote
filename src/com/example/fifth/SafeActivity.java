@@ -1,4 +1,4 @@
-package com.example.fifth;
+ï»¿package com.example.fifth;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,7 +13,7 @@ public class SafeActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		
-		//Íâ¹Û
+		//å¤–è§‚
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -25,15 +25,17 @@ public class SafeActivity extends Activity{
 		if(!isFromStack){
 			Intent intent = new Intent(this,activity_locked.class);
 			intent.putExtra("isOnAppStart", false);
-			startSafeActivityForResult(intent, 1);
+			if(MyApplication.getSafetyLevel()!=0){
+				startSafeActivityForResult(intent, 1);
+			}
 		}else{
-			//¼ÙÈçÊÇ´ÓÕ»ÖĞ·µ»Ø²úÉúµÄRestart£¨¶ø²»ÊÇ°´home¼üµÈ£©£¬
-			//Ôò¸Ãactivity±ØÎ»ÓÚÕ»¶¥£¬ÏÂ´ÎRestart±ØÓÉhome¼üµÈ²úÉú
+			//å‡å¦‚æ˜¯ä»æ ˆä¸­è¿”å›äº§ç”Ÿçš„Restartï¼ˆè€Œä¸æ˜¯æŒ‰homeé”®ç­‰ï¼‰ï¼Œ
+			//åˆ™è¯¥activityå¿…ä½äºæ ˆé¡¶ï¼Œä¸‹æ¬¡Restartå¿…ç”±homeé”®ç­‰äº§ç”Ÿ
 			isFromStack = false;
 		}
 	}
 	
-	//ËùÓĞ startActivity(Intent) ºÍ startActivityForResult(Intent, int) Ó¦¸ÄÎª startSafeActivity
+	//æ‰€æœ‰ startActivity(Intent) å’Œ startActivityForResult(Intent, int) åº”æ”¹ä¸º startSafeActivity
 	protected void startSafeActivity(Intent intent){
 		isFromStack = true;
 		startActivity(intent);
@@ -45,7 +47,7 @@ public class SafeActivity extends Activity{
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent){
-		if(requestCode==1){//ÓÉÉÏÃæ´ò¿ªactivity_lockÊ±µÄstartActivityForResult(intent, 0)¾ö¶¨
+		if(requestCode==1){//ç”±ä¸Šé¢æ‰“å¼€activity_lockæ—¶çš„startActivityForResult(intent, 1)å†³å®š
 			isFromStack=true;
 		}
 	}

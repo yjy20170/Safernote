@@ -1,4 +1,4 @@
-package com.example.fifth;
+ï»¿package com.example.fifth;
 
 import android.app.Application;
 import android.content.ContentValues;
@@ -9,8 +9,9 @@ import android.database.sqlite.SQLiteDatabase;
 public class MyApplication extends Application{
 	public static Context context;
 	public static SQLiteDatabase db;
-	private static final int dbVersion = 1;
+	private static final int dbVersion = 2;
 	public static String password="";
+	public static boolean isErrorPasswordInputed = false;
 	@Override
 	public void onCreate(){
 		context = getApplicationContext();
@@ -23,7 +24,7 @@ public class MyApplication extends Application{
 		return cursor.getString(cursor.getColumnIndex("md5password"));
 	}
 	public static void updatePassword(String newPassword){
-		//¸üĞÂÊı¾İ¿âMD5ÃÜÂë£»ÖØĞÂ¼ÓÃÜËùÓĞItemÊı¾İ£»¸üĞÂÄÚ´æÖĞÃÜÂë£»
+		//æ›´æ–°æ•°æ®åº“MD5å¯†ç ï¼›é‡æ–°åŠ å¯†æ‰€æœ‰Itemæ•°æ®ï¼›æ›´æ–°å†…å­˜ä¸­å¯†ç ï¼›
 		String newMD5Password = MD5Util.MD5(newPassword);
 		ContentValues values = new ContentValues();
 		values.put("md5password", newMD5Password);
@@ -37,5 +38,13 @@ public class MyApplication extends Application{
 		}
 		
 		password = newPassword;
+	}
+	public static int getSafetyLevel(){
+		Cursor cursor = db.rawQuery("select * from settings", null);		
+		cursor.moveToFirst();
+		return cursor.getInt(cursor.getColumnIndex("safetyLevel"));
+	}
+	public static void updateSafetyLevel(int k){
+		db.execSQL("update settings set safetyLevel = "+k);
 	}
 }

@@ -1,4 +1,4 @@
-package com.example.fifth;
+ï»¿package com.example.fifth;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,7 +28,7 @@ public class activity_2 extends SafeActivity
 	private Button delete;
 	private SuperEditText contentView;
 	public static SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	//0£ºÎŞ¼üÅÌÎŞ°´Å¥  1£ºÎŞ¼üÅÌÓĞ°´Å¥  2£ºÓĞ¼üÅÌÎŞ°´Å¥  3£ºÓĞ¼üÅÌÓĞ°´Å¥
+	//0ï¼šæ— é”®ç›˜æ— æŒ‰é’®  1ï¼šæ— é”®ç›˜æœ‰æŒ‰é’®  2ï¼šæœ‰é”®ç›˜æ— æŒ‰é’®  3ï¼šæœ‰é”®ç›˜æœ‰æŒ‰é’®
 	public int viewType;
 	Item item;
 	int itemPosition;
@@ -42,7 +42,7 @@ public class activity_2 extends SafeActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_2);
 
-		//°ó¶¨View
+		//ç»‘å®šView
 		finish = (Button)findViewById(R.id.finish);
 		titleView = (SuperEditText)findViewById(R.id.title);
 		cancel = (Button)findViewById(R.id.cancel);
@@ -51,7 +51,7 @@ public class activity_2 extends SafeActivity
 		delete = (Button)findViewById(R.id.delete);
 		contentView = (SuperEditText)findViewById(R.id.content);
 		
-		//°ó¶¨OnClickListener!!!
+		//ç»‘å®šOnClickListener!!!
 		finish.setOnClickListener(this);
 		cancel.setOnClickListener(this);
 		save.setOnClickListener(this);
@@ -61,7 +61,7 @@ public class activity_2 extends SafeActivity
 		viewType = getIntent().getIntExtra("viewType", 0);
 		item = new Item();
 		if(viewType==0){
-			//´ÓÊı¾İ¿â¼ÓÔØÄÚÈİ
+			//ä»æ•°æ®åº“åŠ è½½å†…å®¹
 			item.getDbData(itemPosition);
 			showItem();
 			setViewType(null, 0);
@@ -73,12 +73,10 @@ public class activity_2 extends SafeActivity
 			titleView.enterEdit();
 		}
 		
-		//ÊÖÊÆ¼àÌı
+		//æ‰‹åŠ¿ç›‘å¬
 		detector = new GestureDetector(this, this);
 	}
 	
-
-  
     @Override  
     public boolean onDown(MotionEvent e) {  
         return false;  
@@ -98,16 +96,16 @@ public class activity_2 extends SafeActivity
     @Override  
     public void onLongPress(MotionEvent e) {  
     } 
-    //TODO: ×óÓÒ»¬ÇĞ»»Item
+    //TODO: å·¦å³æ»‘åˆ‡æ¢Item
 	@Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,  
             float velocityY) {
 		if (Math.abs(e1.getY()-e2.getY()) < 120){
 			if(e1.getX() - e2.getX() > 70){
-				new alert("TODO ×ó»¬");
+				new alert("TODO å·¦æ»‘");
 				return true;
 			}else if(e1.getX() - e2.getX() < -70){
-				new alert("TODO ÓÒ»¬");
+				new alert("TODO å³æ»‘");
 				return true;
 			}
 		}
@@ -115,8 +113,8 @@ public class activity_2 extends SafeActivity
 	}
 	@Override  
 	public boolean dispatchTouchEvent(MotionEvent ev){  
-		detector.onTouchEvent(ev); //ÈÃGestureDetectorÏìÓ¦´¥ÅöÊÂ¼ş  
-		super.dispatchTouchEvent(ev); //ÈÃActivityÏìÓ¦´¥ÅöÊÂ¼ş  
+		detector.onTouchEvent(ev); //è®©GestureDetectorå“åº”è§¦ç¢°äº‹ä»¶  
+		super.dispatchTouchEvent(ev); //è®©Activityå“åº”è§¦ç¢°äº‹ä»¶  
 		return false;
 	}
 	
@@ -137,7 +135,7 @@ public class activity_2 extends SafeActivity
 			break;
 		case R.id.save:
 			save();
-			//²»¸Ä±ä¼üÅÌ×´Ì¬£¬Ö»¸Ä±ä°´Å¥ÏÔÊ¾
+			//ä¸æ”¹å˜é”®ç›˜çŠ¶æ€ï¼Œåªæ”¹å˜æŒ‰é’®æ˜¾ç¤º
 			setViewType(lastFocus, viewType - 1);
 			break;
 		case R.id.delete:
@@ -151,14 +149,14 @@ public class activity_2 extends SafeActivity
  	protected void onRestart(){
 		super.onRestart();
 		if(viewType==2||viewType==3){
-			//´ò¿ª¼üÅÌ
+			//æ‰“å¼€é”®ç›˜
 			InputMethodManager inputManager = 
 					(InputMethodManager)this.getSystemService(Context.INPUT_METHOD_SERVICE);    
 			inputManager.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
 		}
 	}
 	
-	//¸ù¾İµ±Ç°Ëù´¦×´Ì¬£ºread ·µ»Øµ½activity_1 ; editing ¹Ø±ÕÈí¼üÅÌ£¬½øÈëedited×´Ì¬ ; edited µ¯³ödialogÑ¡ÔñÊÇ·ñ±£´æ
+	//æ ¹æ®å½“å‰æ‰€å¤„çŠ¶æ€ï¼šread è¿”å›åˆ°activity_1 ; editing å…³é—­è½¯é”®ç›˜ï¼Œè¿›å…¥editedçŠ¶æ€ ; edited å¼¹å‡ºdialogé€‰æ‹©æ˜¯å¦ä¿å­˜
 	@Override
 	public void onBackPressed() {
 		if(viewType==0){
@@ -174,7 +172,7 @@ public class activity_2 extends SafeActivity
 	
 	public void showItem(){
 		titleView.setText(item.title);
-		//TODO: ¸Ä³ÉÒ»×é°´Å¥
+		//TODO: æ”¹æˆä¸€ç»„æŒ‰é’®
 		tagsView.setText(item.tagsString);
 		contentView.setText(item.content);
 	}
@@ -210,13 +208,13 @@ public class activity_2 extends SafeActivity
 	}
 	
 	public void save(){
-		//½«ViewÖĞµÄ×Ö·û´®Ğ´Èëitem£¬¼°Ïà¹ØÊı¾İ
+		//å°†Viewä¸­çš„å­—ç¬¦ä¸²å†™å…¥itemï¼ŒåŠç›¸å…³æ•°æ®
 		item.title = titleView.getText().toString();
 		item.wordCount = Integer.toString(contentView.getText().length());
 		item.editTime = timeFormat.format(new Date());
 		item.tagsString = tagsView.getText().toString();
 		item.content = contentView.getText().toString();
-		//½«itemÉÏ´«µ½Êı¾İ¿â
+		//å°†itemä¸Šä¼ åˆ°æ•°æ®åº“
 		item.updateDbData();
 	}
 	
@@ -226,16 +224,16 @@ public class activity_2 extends SafeActivity
 				&& contentView.getText().toString().equals(item.content));
 	}
 	
-	public void setViewType(View v, int viewType){	//v ±»µã»÷µÄÔªËØ£¬Ö»ÓĞeditingºÍeditedÓÃµ½
+	public void setViewType(View v, int viewType){	//v è¢«ç‚¹å‡»çš„å…ƒç´ ï¼Œåªæœ‰editingå’Œeditedç”¨åˆ°
 		//new alert("setViewType: "+Integer.toString(viewType));
-		//¸Ä±äSuperEditTextÄÚÈİºó£¬¸ù¾İÓëÊı¾İ¿âÖĞÄÚÈİµÄ¶Ô±ÈÀ´´¥·¢
+		//æ”¹å˜SuperEditTextå†…å®¹åï¼Œæ ¹æ®ä¸æ•°æ®åº“ä¸­å†…å®¹çš„å¯¹æ¯”æ¥è§¦å‘
 		if((viewType==2||viewType==3) && v == null){
 			save.setVisibility(viewType==3?View.VISIBLE:View.GONE);
 			cancel.setVisibility(viewType==3?View.VISIBLE:View.GONE);
 			this.viewType = viewType;
 			return;
 		}
-		//°´Å¥
+		//æŒ‰é’®
 		if(viewType==0||viewType==2){
 			save.setVisibility(View.GONE);
 			cancel.setVisibility(View.GONE);
@@ -244,14 +242,14 @@ public class activity_2 extends SafeActivity
 			cancel.setVisibility(View.VISIBLE);
 		}
 		if(viewType==0||viewType==1){
-			//»Ö¸´¹ö¶¯ÇøÓò¸ß¶È//R.id.mainArea LinearLayout.LayoutParams
+			//æ¢å¤æ»šåŠ¨åŒºåŸŸé«˜åº¦//R.id.mainArea LinearLayout.LayoutParams
 			FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams)findViewById(R.id.layout_2).getLayoutParams();
 			layoutParams.height = LayoutParams.WRAP_CONTENT;
 			findViewById(R.id.layout_2).setLayoutParams(layoutParams);
 		}else{
-			//Ñ¹Ëõ¹ö¶¯ÇøÓò¸ß¶È
+			//å‹ç¼©æ»šåŠ¨åŒºåŸŸé«˜åº¦
 			FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams)findViewById(R.id.layout_2).getLayoutParams();
-			layoutParams.height = 755;//TODO: ×Ô¶¯»¯
+			layoutParams.height = 755;//TODO: è‡ªåŠ¨åŒ–
 			findViewById(R.id.layout_2).setLayoutParams(layoutParams);
 		}
 		this.viewType = viewType;
