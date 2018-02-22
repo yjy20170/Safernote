@@ -2,42 +2,42 @@
   
 <selector xmlns:android="http://schemas.android.com/apk/res/android">  
         
-    <!-- 鎸夐挳鎸変笅镞剁殑镙峰纺 -->  
+    <!-- 按钮按下时的样式 -->  
     <item android:state_pressed="true">
-        <!-- shape锛氭寜阍舰钟?-->
+        <!-- shape：按钮形状 -->
         <shape android:shape="rectangle">
-            <!-- solid锛氲儗鏅～鍏呴鑹?-->  
+            <!-- solid：背景填充颜色 -->  
             <solid android:color="#d0d0d0" />  
-            <!-- gradient锛氲儗鏅笎鍙橀鑹诧紝濡傛灉涓嶆兂鎸夐挳鍙湁涓€绉嶉鑹诧紝鍙互浣跨敤杩欎釜镙囩 -->  
+            <!-- gradient：背景渐变颜色，如果不想按钮只有一种颜色，可以使用这个标签 -->  
             <!-- gradient android:startColor="#dddddd" android:centerColor="#999999" android:endColor="#555555"   
                 android:angle="0" /-->  
-            <!-- corners锛氩浑瑙?-->  
+            <!-- corners：圆角 -->  
             <corners android:radius="3dip" />  
-            <!-- stroke锛氲竟妗?-->  
+            <!-- stroke：边框 -->  
             <stroke android:width="0dip" android:color="#f0f0f0" />  
-            <!-- padding锛氩唴杈硅窛 -->  
+            <!-- padding：内边距 -->  
             <padding android:left="8dp" android:top="8dp"   
                 android:right="8dp" android:bottom="8dp" />   
         </shape>  
     </item>  
-    <!-- 鎸夐挳姝ｅ父镞剁殑镙峰纺 -->  
+    <!-- 按钮正常时的样式 -->  
     <item>
-        <!-- shape锛氭寜阍舰钟?-->  
+        <!-- shape：按钮形状 -->  
         <shape android:shape="rectangle">
-            <!-- solid锛氲儗鏅～鍏呴鑹?-->
+            <!-- solid：背景填充颜色 -->
             <solid android:color="#ffffff" />  
-            <!-- gradient锛氲儗鏅笎鍙橀鑹诧紝濡傛灉涓嶆兂鎸夐挳鍙湁涓€绉嶉鑹诧紝鍙互浣跨敤杩欎釜镙囩 -->  
+            <!-- gradient：背景渐变颜色，如果不想按钮只有一种颜色，可以使用这个标签 -->  
             <!-- gradient android:startColor="#dddddd" android:centerColor="#999999" android:endColor="#555555"   
                 android:angle="0" /-->  
-            <!-- corners锛氩浑瑙?-->  
+            <!-- corners：圆角 -->  
             <corners android:radius="5dip" />  
-            <!-- stroke锛氲竟妗?-->  
+            <!-- stroke：边框 -->  
             <stroke android:width="1dip" android:color="#f0f0f0" />
-            <!-- padding锛氩唴杈硅窛 -->  
+            <!-- padding：内边距 -->  
             <padding android:left="8dp" android:top="8dp"   
                 android:right="8dp" android:bottom="8dp" />   
         </shape>  
     </item>  
-    <!-- 鎸夐挳銮峰缑铹︾偣镞剁殑镙峰纺 -->  
+    <!-- 按钮获得焦点时的样式 -->  
     <!-- item android:state_focused="true"-->  
 </selector>

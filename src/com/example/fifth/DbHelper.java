@@ -18,7 +18,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	public static final String CREATE_SETTINGS = "create table settings ("
 			+ "md5password text)";
 	public static final String INSERT_SETTINGS = "insert into settings ("
-			+ "md5password, safetyLevel) values("
+			+ "md5password) values("
 			+ "'"+MD5Util.MD5(defaultPassword)+"')";
 	public static final String CREATE_HISTORY = "";
 	private String dbName;
