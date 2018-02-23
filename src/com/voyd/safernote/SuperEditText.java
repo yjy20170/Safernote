@@ -3,6 +3,7 @@
 import com.voyd.safernote.R;
 
 import android.content.Context;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -10,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
@@ -17,6 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 public class SuperEditText extends EditText
 		implements OnClickListener,OnTouchListener{
 	private activity_2 activity;
+	private int lastTouchDownY;
 	public SuperEditText(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		activity = (activity_2)context;
@@ -44,13 +47,35 @@ public class SuperEditText extends EditText
 				}
 			}
 		});
+		//长按后调整layout_2高度和scrollView位置以适应键盘
+		//关键：调整layout_2高度后，需等一段时间scrollView的高度才会随之变化
+		this.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				activity.setLongClickViewType(SuperEditText.this, activity.viewType+2);
+				Runnable runnable = new Runnable() {
+					@Override 
+					public void run() {
+						ScrollView scrollView = ((ScrollView)activity.findViewById(R.id.mainArea));
+						scrollView.scrollTo(0, Math.max(0, lastTouchDownY-50));
+					}
+				};
+				Handler handler = new Handler();
+				handler.postDelayed(runnable, 200);
+				return false;
+			}
+		});
 	}
 	@Override
 	public boolean onTouch(View v, MotionEvent event){
+		if(event.getActionMasked()==MotionEvent.ACTION_DOWN){
+			lastTouchDownY = (int)event.getY();
+		}
 		if(activity.getCurrentFocus()!=this){
 			boolean result = super.onTouchEvent(event);
-			if(activity.getCurrentFocus()==this){
-				onClick(null);
+			if(activity.getCurrentFocus()==this
+					&& event.getActionMasked()==MotionEvent.ACTION_UP){
+				onClick(v);
 			}
 			return result;
 		}else{
@@ -66,7 +91,9 @@ public class SuperEditText extends EditText
 			setCursorVisible(true);
 			activity.setViewType(SuperEditText.this, viewType+2);
 		}else{
-			//仅仅改变当前焦点的属性和重新聚焦到点击位置
+			//考虑到从长按状态直接点击文字，viewType不变而高度发生变化
+			activity.setViewType(SuperEditText.this, viewType);
+			//改变当前焦点的属性和重新聚焦到点击位置
 			if(activity.lastFocus != null
 					&& activity.lastFocus.equals(SuperEditText.this)){
 				activity.lastFocus.setCursorVisible(false);
@@ -92,7 +119,7 @@ public class SuperEditText extends EditText
     }
 	
 	public void leaveEdit(){
-		setSelection(0);//解决点击上次离开时位置不会自动调整scrollview的问题
+		setSelection(0);//解决点击上次离开时位置不会自动调整scrollView的问题
 		setCursorVisible(false);
 		InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
 		if (inputMethodManager != null && activity.getCurrentFocus() != null) {

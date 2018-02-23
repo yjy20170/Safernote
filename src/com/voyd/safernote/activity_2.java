@@ -260,4 +260,11 @@ public class activity_2 extends SafeActivity
 		}
 		this.viewType = viewType;
 	}
+	public void setLongClickViewType(View v, int viewType){
+		setViewType(v, viewType);
+		//压缩滚动区域高度
+		FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams)findViewById(R.id.layout_2).getLayoutParams();
+		layoutParams.height = 658;//TODO: 自动化
+		findViewById(R.id.layout_2).setLayoutParams(layoutParams);
+	}
 }
