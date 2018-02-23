@@ -1,4 +1,4 @@
-﻿package com.example.fifth;
+﻿package com.voyd.safernote;
 
 import android.widget.Toast;
 

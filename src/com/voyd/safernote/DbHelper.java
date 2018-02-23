@@ -1,4 +1,6 @@
-﻿package com.example.fifth;
+﻿package com.voyd.safernote;
+
+import com.voyd.safernote.R;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -16,11 +18,12 @@ public class DbHelper extends SQLiteOpenHelper {
 			+ "tagsString text, "
 			+ "content text)";
 	public static final String CREATE_SETTINGS = "create table settings ("
-			+ "md5password text)";
+			+ "md5password text,"
+			+ "safetyLevel integer)";
 	public static final String INSERT_SETTINGS = "insert into settings ("
-			+ "md5password) values("
-			+ "'"+MD5Util.MD5(defaultPassword)+"')";
-	public static final String CREATE_HISTORY = "";
+			+ "md5password,safetyLevel) values("
+			+ "'"+MD5Util.MD5(defaultPassword)+"',"
+			+ "1)";
 	private String dbName;
 	public DbHelper(Context context, String name, CursorFactory
 			factory, int version) {

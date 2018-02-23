@@ -1,4 +1,6 @@
-﻿package com.example.fifth;
+﻿package com.voyd.safernote;
+
+import com.voyd.safernote.R;
 
 import android.os.Bundle;
 import android.view.View;

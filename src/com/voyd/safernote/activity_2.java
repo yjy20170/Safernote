@@ -1,7 +1,9 @@
-﻿package com.example.fifth;
+﻿package com.voyd.safernote;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.voyd.safernote.R;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -135,8 +137,12 @@ public class activity_2 extends SafeActivity
 			break;
 		case R.id.save:
 			save();
+			/*
 			//不改变键盘状态，只改变按钮显示
 			setViewType(lastFocus, viewType - 1);
+			*/
+			setViewType(lastFocus, 0);
+			lastFocus.leaveEdit();
 			break;
 		case R.id.delete:
 			item.delete();
@@ -160,13 +166,13 @@ public class activity_2 extends SafeActivity
 	@Override
 	public void onBackPressed() {
 		if(viewType==0){
-			super.onBackPressed();
+			finish();
 		}else if(viewType==1){
 			finishWithoutSave();
 		}else if(viewType==2){
-			new alert("activity_2 handle onBackPressed in viewType 2 ?");
+			new alert("activity_2.onBackPressed() in viewType 2 ?");
 		}else{
-			new alert("activity_2 handle onBackPressed in viewType 3 ?");
+			new alert("activity_2.onBackPressed() in viewType 3 ?");
 		}
 	}
 	

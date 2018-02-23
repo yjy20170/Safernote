@@ -1,11 +1,11 @@
-﻿package com.example.fifth;
+﻿package com.voyd.safernote;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-import android.app.Activity;
+import com.voyd.safernote.R;
+
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
@@ -26,14 +26,6 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_1);
-		/*/db test
-		Cursor cursor = db.rawQuery("select * from items", null);
-		if(cursor.moveToFirst()){
-			do{
-				String title = cursor.getString(cursor.getColumnIndex("id"));
-				new alert(this, title);
-			}while(cursor.moveToNext());
-		}/*/
 		
 		listView = (ListView)findViewById(R.id.listView);
 		int tableItemsLength = Item.getTableLength(MyApplication.db, "items");

@@ -1,4 +1,6 @@
-﻿package com.example.fifth;
+﻿package com.voyd.safernote;
+
+import com.voyd.safernote.R;
 
 import android.app.Application;
 import android.content.ContentValues;
@@ -9,7 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 public class MyApplication extends Application{
 	public static Context context;
 	public static SQLiteDatabase db;
-	private static final int dbVersion = 2;
+	public static final int dbVersion = 2;
 	public static String password="";
 	public static boolean isErrorPasswordInputed = false;
 	@Override

@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:background="#dadcdc">
-        <com.example.fifth.SuperButton
+        <com.voyd.safernote.SuperButton
             android:id="@+id/finish"
             android:background="@drawable/back"
             android:layout_width="37dp"

@@ -1,29 +1,29 @@
-﻿package com.example.fifth;
+﻿package com.voyd.safernote;
 
 import java.util.List;
+
+import com.voyd.safernote.R;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 
 public class ItemAdapter extends ArrayAdapter<Item>{
 	private int resourceId;
+	private Item item;
 	public ItemAdapter(Context context, int itemViewResourceId, List<Item> items){
 		super(context, itemViewResourceId, items);
 		resourceId = itemViewResourceId;
 	}
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent){
-		Item item = getItem(position);
-		//重要
+		item = getItem(position);
+		//从数据库加载
 		item.getDbData(position);
-		//
 		View view;
 		ViewHolder viewHolder;
 		if(convertView==null){
@@ -45,32 +45,13 @@ public class ItemAdapter extends ArrayAdapter<Item>{
 		viewHolder.itemWordCount.setText("字数："+item.wordCount);
 		viewHolder.itemCreateTime.setText("创建:"+item.createTime);
 		viewHolder.itemEditTime.setText("修改:"+item.editTime);
-		viewHolder.itemSummary.setText(item.content);
-		setLinesLimit(viewHolder.itemSummary);
-		
 		viewHolder.itemTags.setText(item.tagsString);
+		
+		viewHolder.itemSummary.setMaxLines(3);
+		viewHolder.itemSummary.setText(item.content.replace("\n", "  "));//TODO: 可设置全文，缩略，仅标题
 		
 		return view;
 	}
-	public void setLinesLimit(final TextView itemSummary) {  
-        //测试  
-        ViewTreeObserver observer = itemSummary.getViewTreeObserver(); //textAbstract为TextView控件  
-        observer.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {  
-  
-            @Override  
-            public void onGlobalLayout() {
-                ViewTreeObserver obs = itemSummary.getViewTreeObserver();  
-                obs.removeOnGlobalLayoutListener(this);
-                if(itemSummary.getLineCount() > 3){//TODO: 可设置
-                    //int length=itemSummary.getText().length();  
-                    int lineEndIndex = itemSummary.getLayout().getLineEnd(3 - 1); //设置第六行打省略号
-                    String text = itemSummary.getText().toString().substring(0,lineEndIndex - 1) + " ..." ;  
-                    itemSummary.setText(text);
-                }  
-            }  
-        });  
-          
-    } 
 	class ViewHolder{
 		public TextView itemTitle;
 		public TextView itemWordCount;

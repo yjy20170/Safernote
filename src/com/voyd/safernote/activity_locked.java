@@ -1,4 +1,6 @@
-package com.example.fifth;
+package com.voyd.safernote;
+
+import com.voyd.safernote.R;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -54,7 +56,7 @@ public class activity_locked extends Activity implements OnClickListener{
 					finish();
 				}else{
 					MyApplication.isErrorPasswordInputed = true;
-					new alert("密码错误！");
+					new alert("密码错误！需输入长密码!");
 					passwordInputer.reset();
 				}
 			}

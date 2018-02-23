@@ -1,9 +1,11 @@
-﻿package com.example.fifth;
+﻿package com.voyd.safernote;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
+
+import com.voyd.safernote.R;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -71,7 +73,7 @@ public class activity_importExportDb extends SafeActivity implements OnClickList
 	            File toDb;
 	            toDb = importDB(uri.getPath().toString(),"temp.db");//getString(R.string.database_name)
 	            if(toDb != null){
-		            dbHelper = new DbHelper(MyApplication.context, "temp.db", null, 1);
+		            dbHelper = new DbHelper(MyApplication.context, "temp.db", null, MyApplication.dbVersion);
 		            db = dbHelper.getWritableDatabase();
 	            	try{
 			            Cursor cursor = db.rawQuery("select * from settings", null);
@@ -135,6 +137,9 @@ public class activity_importExportDb extends SafeActivity implements OnClickList
                 		+ "/" + MyApplication.context.getString(R.string.database_name);
                 File currentDB = new File(data, currentDBPath);
                 File backupDB = new File(sd, backupDBPath);
+                if(!backupDB.exists()){
+    	        	backupDB.createNewFile();
+    	        }
                 FileInputStream inputStream = new FileInputStream(currentDB);
                 FileOutputStream outputStream = new FileOutputStream(backupDB);
                 FileChannel src = inputStream.getChannel();
@@ -148,6 +153,15 @@ public class activity_importExportDb extends SafeActivity implements OnClickList
             }
         } catch (Exception e) {
 
+            new alert(e.toString());
+            new alert(e.toString());
+            new alert(e.toString());
+            new alert(e.toString());
+            new alert(e.toString());
+            new alert(e.toString());
+            new alert(e.toString());
+            new alert(e.toString());
+            new alert(e.toString());
             new alert(e.toString());
 
         }

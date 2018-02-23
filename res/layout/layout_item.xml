@@ -1,13 +1,14 @@
 ﻿<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="3dp"
-    android:paddingBottom="9dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="11dp"
     android:orientation="vertical" >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:layout_marginBottom="6dp" >
         <TextView
             android:id="@+id/itemTitle"
             android:layout_width="0dp"
@@ -26,7 +27,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="3dp">
         <TextView 
             android:id="@+id/itemCreateTime"
             android:layout_width="0dp"
@@ -34,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:textSize="13sp"
-            android:textColor="#60606A"
+            android:textColor="#70707A"
             />
         <TextView 
             android:id="@+id/itemEditTime"
@@ -42,7 +45,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textSize="13sp"
-            android:textColor="#60606A"
+            android:textColor="#70707A"
             />
     </LinearLayout>
     <LinearLayout 
@@ -64,12 +67,14 @@
     </LinearLayout>
     <TextView 
         android:id="@+id/itemSummary"
-        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#4A4A52"
-        android:textSize="16sp"
-        android:typeface="serif"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="4dp"
+        android:textColor="#56565A"
+        android:textSize="14sp"
+        android:ellipsize="end"
         />
 
 </LinearLayout>

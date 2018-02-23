@@ -1,4 +1,6 @@
-﻿package com.example.fifth;
+﻿package com.voyd.safernote;
+
+import com.voyd.safernote.R;
 
 import android.content.Context;
 import android.text.Editable;
@@ -35,7 +37,6 @@ public class SuperEditText extends EditText
 			public void afterTextChanged(Editable s) {
 				boolean isChanged = activity.isChanged();
 				if(activity.viewType==3	&& !isChanged){
-					new alert("right here");
 					activity.setViewType(null, 2);
 				}
 				if(activity.viewType==2 && isChanged){
@@ -84,9 +85,6 @@ public class SuperEditText extends EditText
         	if(activity.viewType==2||activity.viewType==3){
         		activity.setViewType(this, activity.viewType - 2);
         	}
-        	clearFocus();
-        	//防止自动聚焦重新将this设为焦点
-        	activity.findViewById(R.id.blank_view).requestFocus();
         	//必须返回true，否则在关闭输入法的情况下点击事件将继续传播，被activity_2.onBackPressed()捕获
         	return true;
 	    }
@@ -94,12 +92,16 @@ public class SuperEditText extends EditText
     }
 	
 	public void leaveEdit(){
+		setSelection(0);//解决点击上次离开时位置不会自动调整scrollview的问题
 		setCursorVisible(false);
 		InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
 		if (inputMethodManager != null && activity.getCurrentFocus() != null) {
-		inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(),
-		InputMethodManager.HIDE_NOT_ALWAYS);
+			inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(),
+					InputMethodManager.HIDE_NOT_ALWAYS);
 		}
+		clearFocus();
+    	//防止自动聚焦重新将this设为焦点
+    	activity.findViewById(R.id.blank_view).requestFocus();
 	}
 	public void enterEdit(){
 		requestFocus();

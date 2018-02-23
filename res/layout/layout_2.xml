@@ -16,7 +16,7 @@
 		    android:layout_height="0dp"  
 		    android:focusable="true"  
 		    android:focusableInTouchMode="true"/>
-        <com.example.fifth.SuperButton
+        <com.voyd.safernote.SuperButton
             android:id="@+id/finish"
             android:background="@drawable/back"
             android:layout_width="37dp"
@@ -24,21 +24,21 @@
             android:layout_marginTop="-1dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"/>
-        <com.example.fifth.SuperEditText
+        <com.voyd.safernote.SuperEditText
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:textSize="22sp"/>
-        <com.example.fifth.SuperButton
+        <com.voyd.safernote.SuperButton
             android:id="@+id/cancel"
             android:background="@drawable/cancel"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginRight="25dp"
             />
-        <com.example.fifth.SuperButton
+        <com.voyd.safernote.SuperButton
             android:id="@+id/save"
             android:background="@drawable/save"
             android:layout_width="39dp"
@@ -70,7 +70,7 @@
 		            android:layout_marginBottom="0dp"
 		            android:src="@drawable/tag_large"
 		            />
-		        <com.example.fifth.SuperEditText 
+		        <com.voyd.safernote.SuperEditText 
 		            android:id="@+id/tags"
 		            android:layout_width="0dp"
 		            android:layout_weight="1"
@@ -89,7 +89,7 @@
 		            />
 		    </LinearLayout>
 		    
-			<com.example.fifth.SuperEditText
+			<com.voyd.safernote.SuperEditText
 				android:id="@+id/content"
 			    android:layout_width="match_parent"
 			    android:layout_height="wrap_content"
