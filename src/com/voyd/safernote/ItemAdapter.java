@@ -53,8 +53,11 @@ public class ItemAdapter extends ArrayAdapter<Item>{
 		viewHolder.itemWordCount.setText("字数："+item.wordCount);
 		viewHolder.itemCreateTime.setText("创建:"+item.createTime);
 		viewHolder.itemEditTime.setText("修改:"+item.editTime);
-		viewHolder.itemTags.setText(item.tagsString);
-		
+		if(item.tagsString.equals("")){
+			viewHolder.itemTags.setText("无");
+		}else{
+			viewHolder.itemTags.setText(item.tagsString);
+		}
 		viewHolder.itemSummary.setMaxLines(3);
 		viewHolder.itemSummary.setText(item.content.replace("\n", "  "));//TODO: 可设置全文，缩略，仅标题
 		

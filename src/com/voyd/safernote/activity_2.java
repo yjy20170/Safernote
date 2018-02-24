@@ -9,9 +9,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.GestureDetector;
-import android.view.GestureDetector.OnGestureListener;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -20,8 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
-public class activity_2 extends SafeActivity 
-		implements OnClickListener, OnGestureListener{
+public class activity_2 extends SafeActivity implements OnClickListener{
 	private Button finish;
 	private SuperEditText titleView;
 	private Button cancel;
@@ -35,7 +31,6 @@ public class activity_2 extends SafeActivity
 	public int viewType;
 	Item item;
 	int itemPosition;
-	private GestureDetector detector; 
 	
 	
 	public SuperEditText lastFocus = null;
@@ -78,56 +73,12 @@ public class activity_2 extends SafeActivity
 			titleView.enterEdit();
 		}
 		
-		//手势监听
-		detector = new GestureDetector(this, this);
-		
 		//随stick切换置顶按钮状态 
 		if(item.stick==0){
 			setStick.setText("置顶");
 		}else{
 			setStick.setText("取消置顶");
 		}
-	}
-	
-    @Override  
-    public boolean onDown(MotionEvent e) {  
-        return false;  
-    }  
-    @Override  
-    public void onShowPress(MotionEvent e) {  
-    }
-    @Override  
-    public boolean onSingleTapUp(MotionEvent e) {  
-        return false;  
-    }  
-    @Override  
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,  
-            float distanceY) {  
-        return false;  
-    }  
-    @Override  
-    public void onLongPress(MotionEvent e) {  
-    } 
-    //TODO: 左右滑切换Item
-	@Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,  
-            float velocityY) {
-		if (Math.abs(e1.getY()-e2.getY()) < 120){
-			if(e1.getX() - e2.getX() > 70){
-				new alert("TODO 左滑");
-				return true;
-			}else if(e1.getX() - e2.getX() < -70){
-				new alert("TODO 右滑");
-				return true;
-			}
-		}
-		return false;
-	}
-	@Override  
-	public boolean dispatchTouchEvent(MotionEvent ev){  
-		detector.onTouchEvent(ev); //让GestureDetector响应触碰事件  
-		super.dispatchTouchEvent(ev); //让Activity响应触碰事件  
-		return false;
 	}
 	
 	@Override

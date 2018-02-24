@@ -58,23 +58,24 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 		((Button) findViewById(R.id.settings)).setOnClickListener(this);
 		
 		//改变左侧菜单响应范围
-		setDrawerLeftEdgeSize((DrawerLayout)findViewById(R.id.drawer_layout),(float)0.15);
+		setDrawerLeftEdgeSize((DrawerLayout)findViewById(R.id.drawer_layout),(float)0.10);
 	}
 	@Override
 	public void onClick(View v){
 		switch(v.getId()){
 		case R.id.createItem:
+			//
 			Intent intent = new Intent(this, activity_2.class);
 			intent.putExtra("viewType", 2);
 			intent.putExtra("position", -1);
 			startSafeActivity(intent);
-			/*/加密可能会出现在字符串结尾随机加上ascii码小于16的字符的bug;先滑动显示完每个item再使用
+			/*/加密可能会出现在字符串结尾随机加上ascii码小于等于16的字符的bug;先滑动显示完每个item再使用
 			for(Item item:list){
 				String[] ss = {item.title,item.wordCount,item.createTime,item.editTime,item.tagsString,item.content};
 				for(int k=0;k<6;k++){
 					if(ss[k]!=null){
 						while(ss[k].length()>0){
-							if(Character.valueOf(ss[k].charAt(ss[k].length()-1)).hashCode()<16){
+							if(Character.valueOf(ss[k].charAt(ss[k].length()-1)).hashCode()<17){
 								ss[k]=ss[k].substring(0, ss[k].length()-1);
 							}else{
 								break;
