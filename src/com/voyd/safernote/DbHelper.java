@@ -16,7 +16,8 @@ public class DbHelper extends SQLiteOpenHelper {
 			+ "createTime text, "
 			+ "editTime text, "
 			+ "tagsString text, "
-			+ "content text)";
+			+ "content text, "
+			+ "stick integer DEFAULT 0)";
 	public static final String CREATE_SETTINGS = "create table settings ("
 			+ "md5password text,"
 			+ "safetyLevel integer)";
@@ -45,6 +46,8 @@ public class DbHelper extends SQLiteOpenHelper {
 		case 1://增加安全等级选项
 			db.execSQL("alter table settings add column safetyLevel integer");
 			db.execSQL("update settings set safetyLevel = 1");
+		case 2://置顶
+			db.execSQL("alter table items add column stick integer DEFAULT 0");
 		}
 	}
 }

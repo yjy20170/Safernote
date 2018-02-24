@@ -17,6 +17,14 @@
             android:layout_marginRight="20dp"
             android:textSize="22sp"
             />
+        <ImageView 
+            android:id="@+id/itemStick"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="26dp"
+            android:src="@drawable/pin"
+            />
         <TextView
             android:id="@+id/itemWordCount"
             android:layout_width="wrap_content"
@@ -74,6 +82,7 @@
         android:layout_marginRight="4dp"
         android:textColor="#56565A"
         android:textSize="14sp"
+        android:maxLines="3"
         android:ellipsize="end"
         />
 

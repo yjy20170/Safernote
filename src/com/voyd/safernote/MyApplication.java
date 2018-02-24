@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 public class MyApplication extends Application{
 	public static Context context;
 	public static SQLiteDatabase db;
-	public static final int dbVersion = 2;
+	public static final int dbVersion = 3;
 	public static String password="";
 	public static boolean isErrorPasswordInputed = false;
 	@Override
@@ -35,7 +35,7 @@ public class MyApplication extends Application{
 		int itemsCount = Item.getTableLength(db, "items");
 		Item item = new Item();
 		for(int i=0;i<itemsCount;i++){
-			item.getDbData(i);
+			item.loadDbData(i);
 			item.updateDbData(newPassword);
 		}
 		

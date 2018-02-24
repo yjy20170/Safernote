@@ -29,6 +29,7 @@ public class activity_2 extends SafeActivity
 	private SuperEditText tagsView;
 	private Button delete;
 	private SuperEditText contentView;
+	private Button setStick;
 	public static SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	//0：无键盘无按钮  1：无键盘有按钮  2：有键盘无按钮  3：有键盘有按钮
 	public int viewType;
@@ -52,19 +53,21 @@ public class activity_2 extends SafeActivity
 		tagsView = (SuperEditText)findViewById(R.id.tags);
 		delete = (Button)findViewById(R.id.delete);
 		contentView = (SuperEditText)findViewById(R.id.content);
+		setStick = (Button)findViewById(R.id.setStick);
 		
 		//绑定OnClickListener!!!
 		finish.setOnClickListener(this);
 		cancel.setOnClickListener(this);
 		save.setOnClickListener(this);
 		delete.setOnClickListener(this);
+		setStick.setOnClickListener(this);
 		
 		itemPosition = getIntent().getIntExtra("position", 0);
 		viewType = getIntent().getIntExtra("viewType", 0);
 		item = new Item();
 		if(viewType==0){
 			//从数据库加载内容
-			item.getDbData(itemPosition);
+			item.loadDbData(itemPosition);
 			showItem();
 			setViewType(null, 0);
 		}else if(viewType==2){
@@ -77,6 +80,13 @@ public class activity_2 extends SafeActivity
 		
 		//手势监听
 		detector = new GestureDetector(this, this);
+		
+		//随stick切换置顶按钮状态 
+		if(item.stick==0){
+			setStick.setText("置顶");
+		}else{
+			setStick.setText("取消置顶");
+		}
 	}
 	
     @Override  
@@ -145,10 +155,75 @@ public class activity_2 extends SafeActivity
 			lastFocus.leaveEdit();
 			break;
 		case R.id.delete:
-			item.delete();
-			super.onBackPressed();
+			deleteWarning();
+			break;
+		case R.id.setStick:
+			item.setStick(1-item.stick);//0-1
+			if(item.stick==0){
+				setStick.setText("置顶");
+			}else{
+				setStick.setText("取消置顶");
+			}
 			break;
 		}
+	}
+	
+	@SuppressLint("InflateParams")
+	public void deleteWarning(){
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity_2.this);
+		LinearLayout dialogView= (LinearLayout) getLayoutInflater().inflate(R.layout.layout_delete_dialog,null);
+		
+		dialogBuilder.setView(dialogView);
+		dialogBuilder.setCancelable(true);
+		final AlertDialog dialog = dialogBuilder.show();
+		OnClickListener onClickListener = new OnClickListener(){
+        	@Override
+        	public void onClick(View v){
+        		switch(v.getId()){
+        		case R.id.dialogCancel:
+        			dialog.dismiss();
+        			break;
+        		case R.id.dialogConfirm:
+        			item.delete();
+        			dialog.dismiss();
+        			activity_2.super.onBackPressed();
+        			break;
+        		}
+        	}
+        };
+        dialog.findViewById(R.id.dialogCancel).setOnClickListener(onClickListener);
+        dialog.findViewById(R.id.dialogConfirm).setOnClickListener(onClickListener);
+	}
+	
+	@SuppressLint("InflateParams")
+	public void finishWithoutSave(){
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity_2.this);
+		LinearLayout dialogView= (LinearLayout) getLayoutInflater().inflate(R.layout.layout_askifsave_dialog,null);
+		
+		dialogBuilder.setView(dialogView);
+		dialogBuilder.setCancelable(true);
+		final AlertDialog dialog = dialogBuilder.show();
+		OnClickListener onClickListener = new OnClickListener(){
+        	@Override
+        	public void onClick(View v){
+        		switch(v.getId()){
+        		case R.id.dialogCancel:
+        			dialog.dismiss();
+        			break;
+        		case R.id.dialogNosave:
+        			dialog.dismiss();
+        			activity_2.super.onBackPressed();
+        			break;
+        		case R.id.dialogSave:
+        			activity_2.this.save();
+        			activity_2.super.onBackPressed();
+        			break;
+        		}
+        	}
+        };
+        dialog.findViewById(R.id.dialogCancel).setOnClickListener(onClickListener);
+        dialog.findViewById(R.id.dialogNosave).setOnClickListener(onClickListener);
+        dialog.findViewById(R.id.dialogSave).setOnClickListener(onClickListener);
 	}
 	
 	@Override
@@ -181,36 +256,6 @@ public class activity_2 extends SafeActivity
 		//TODO: 改成一组按钮
 		tagsView.setText(item.tagsString);
 		contentView.setText(item.content);
-	}
-	
-	@SuppressLint("InflateParams") public void finishWithoutSave(){
-		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity_2.this);
-		LinearLayout dialogView= (LinearLayout) getLayoutInflater().inflate(R.layout.layout_askifsave_dialog,null);
-		
-		dialogBuilder.setView(dialogView);
-		dialogBuilder.setCancelable(true);
-		final AlertDialog dialog = dialogBuilder.show();
-		OnClickListener onClickListener = new OnClickListener(){
-        	@Override
-        	public void onClick(View v){
-        		switch(v.getId()){
-        		case R.id.dialogCancel:
-        			dialog.dismiss();
-        			break;
-        		case R.id.dialogNosave:
-        			dialog.dismiss();
-        			activity_2.super.onBackPressed();
-        			break;
-        		case R.id.dialogSave:
-        			activity_2.this.save();
-        			activity_2.super.onBackPressed();
-        			break;
-        		}
-        	}
-        };
-        dialog.findViewById(R.id.dialogCancel).setOnClickListener(onClickListener);
-        dialog.findViewById(R.id.dialogNosave).setOnClickListener(onClickListener);
-        dialog.findViewById(R.id.dialogSave).setOnClickListener(onClickListener);
 	}
 	
 	public void save(){

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.voyd.safernote.R;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
@@ -29,11 +30,14 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 		
 		listView = (ListView)findViewById(R.id.listView);
 		int tableItemsLength = Item.getTableLength(MyApplication.db, "items");
+		//初始化stick数组
+		Item.loadSticks();
 		//根据数据库中Item行数，初始化list
 		list = new ArrayList<Item>();
 		for(int i=0;i<tableItemsLength;i++){
 			list.add(new Item());
 		}
+		
 		itemAdapter = new ItemAdapter(this, R.layout.layout_item, list);
 		listView.setAdapter(itemAdapter);
 		
@@ -64,6 +68,30 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 			intent.putExtra("viewType", 2);
 			intent.putExtra("position", -1);
 			startSafeActivity(intent);
+			/*/加密可能会出现在字符串结尾随机加上ascii码小于16的字符的bug;先滑动显示完每个item再使用
+			for(Item item:list){
+				String[] ss = {item.title,item.wordCount,item.createTime,item.editTime,item.tagsString,item.content};
+				for(int k=0;k<6;k++){
+					if(ss[k]!=null){
+						while(ss[k].length()>0){
+							if(Character.valueOf(ss[k].charAt(ss[k].length()-1)).hashCode()<16){
+								ss[k]=ss[k].substring(0, ss[k].length()-1);
+							}else{
+								break;
+							}
+						}
+					}
+				}
+				item.title=ss[0];
+				item.wordCount=ss[1];
+				item.createTime=ss[2];
+				item.editTime=ss[3];
+				item.tagsString=ss[4];
+				item.content=ss[5];
+				item.updateDbData();
+			}
+			new alert("over");
+			/*/
 			break;
 		case R.id.set_password:
 			startSafeActivity(new Intent(this, activity_setPassword.class));
@@ -82,6 +110,7 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 	@Override
 	public void onRestart(){
 		if(isFromStack){
+			Item.loadSticks();
 			listView = (ListView)findViewById(R.id.listView);
 			int tableItemsLength = Item.getTableLength(MyApplication.db, "items");
 			//根据数据库中Item行数，初始化list

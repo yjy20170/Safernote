@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -23,12 +24,13 @@ public class ItemAdapter extends ArrayAdapter<Item>{
 	public View getView(int position, View convertView, ViewGroup parent){
 		item = getItem(position);
 		//从数据库加载
-		item.getDbData(position);
+		item.loadDbData(position);
 		View view;
 		ViewHolder viewHolder;
 		if(convertView==null){
 			view = LayoutInflater.from(getContext()).inflate(resourceId, null);
 			viewHolder = new ViewHolder();
+			viewHolder.itemStick = (ImageView)view.findViewById(R.id.itemStick);
 			viewHolder.itemTitle = (TextView)view.findViewById(R.id.itemTitle);
 			viewHolder.itemWordCount = (TextView)view.findViewById(R.id.itemWordCount);
 			viewHolder.itemCreateTime = (TextView)view.findViewById(R.id.itemCreateTime);
@@ -39,6 +41,12 @@ public class ItemAdapter extends ArrayAdapter<Item>{
 		}else{
 			view = convertView;
 			viewHolder = (ViewHolder)view.getTag();
+		}
+		
+		if(item.stick > 0){
+			viewHolder.itemStick.setVisibility(View.VISIBLE);
+		}else{
+			viewHolder.itemStick.setVisibility(View.GONE);
 		}
 		
 		viewHolder.itemTitle.setText(item.title);
@@ -53,6 +61,7 @@ public class ItemAdapter extends ArrayAdapter<Item>{
 		return view;
 	}
 	class ViewHolder{
+		public ImageView itemStick;
 		public TextView itemTitle;
 		public TextView itemWordCount;
 		public TextView itemCreateTime;
