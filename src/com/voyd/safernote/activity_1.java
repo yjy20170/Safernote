@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import com.voyd.safernote.R;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
@@ -66,11 +65,14 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 	public void onClick(View v){
 		switch(v.getId()){
 		case R.id.createItem:
-			//
+			listView.setStackFromBottom(!listView.isStackFromBottom());
+			
+			/*/
 			Intent intent = new Intent(this, activity_2.class);
 			intent.putExtra("viewType", 2);
 			intent.putExtra("position", -1);
 			startSafeActivity(intent);
+			/*/
 			/*/加密可能会出现在字符串结尾随机加上ascii码小于等于16的字符的bug;先滑动显示完每个item再使用
 			for(Item item:list){
 				String[] ss = {item.title,item.wordCount,item.createTime,item.editTime,item.tagsString,item.content};
@@ -95,6 +97,7 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 			}
 			new alert("over");
 			/*/
+			
 			break;
 		case R.id.set_password:
 			startSafeActivity(new Intent(this, activity_setPassword.class));

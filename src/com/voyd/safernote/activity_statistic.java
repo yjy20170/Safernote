@@ -2,13 +2,23 @@ package com.voyd.safernote;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import com.meetme.android.horizontallistview.HorizontalListView;
+
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ListView;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
 
 public class activity_statistic extends SafeActivity{
 	private HorizontalListView eventColumnListView;
@@ -50,42 +60,50 @@ public class activity_statistic extends SafeActivity{
 		findViewById(R.id.test).setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v){
-				activity_statistic.this.eventColumnListView.scrollTo((int)eventColumnListView.getX(), 0);
+				//eventColumnListView.scrollTo(1000);
+				LinearLayout h = (LinearLayout)findViewById(R.id.horLinearLayout);
+				RelativeLayout col = (RelativeLayout)LayoutInflater.from((Context)activity_statistic.this).inflate(R.layout.layout_event_column, null);
+				h.addView(col);
 			}
 		});
-		
+		new Handler().postDelayed(new Runnable(){
+			@Override
+			public void run(){
+				((HorizontalScrollView)findViewById(R.id.horScrollView)).fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+			}
+		}, 150);
 	}
-	private void loadEventList(ArrayList<EventColumn> eventList){
+	private void loadEventList(ArrayList<EventColumn> eventColumnList){
 		//*
-		eventList.add(new EventColumn(0,1,2,0,0,1,3,"2001","Feb"));
-		eventList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
-		eventList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
-		eventList.add(new EventColumn(0,1,2,0,0,1,3,"2017","Feb"));
-		eventList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
-		eventList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
-		eventList.add(new EventColumn(0,1,2,0,0,1,3,"2017","Feb"));
-		eventList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
-		eventList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
-		eventList.add(new EventColumn(0,1,2,0,0,1,3,"2017","Feb"));
-		eventList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
-		eventList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
-		eventList.add(new EventColumn(0,1,2,0,0,1,3,"2017","Feb"));
-		eventList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
-		eventList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
-		eventList.add(new EventColumn(0,1,2,0,0,1,3,"2017","Feb"));
-		eventList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
-		eventList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
-		eventList.add(new EventColumn(0,1,2,0,0,1,3,"2017","Feb"));
-		eventList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
-		eventList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
-		eventList.add(new EventColumn(0,1,2,0,0,1,3,"2017","Feb"));
-		eventList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
-		eventList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
-		eventList.add(new EventColumn(0,1,2,0,0,1,3,"2017","Feb"));
-		eventList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
-		eventList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
-		eventList.add(new EventColumn(0,1,2,0,0,1,3,"2049","Feb"));
-		eventList.add(new EventColumn(-1,-1,-1,-1,-1,-1,-1,"",""));
+		eventColumnList.add(new EventColumn(0,1,2,0,0,1,3,"2011","Feb"));
+		eventColumnList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
+		eventColumnList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
+		eventColumnList.add(new EventColumn(0,1,2,0,0,1,3,"2012","Feb"));
+		eventColumnList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
+		eventColumnList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
+		eventColumnList.add(new EventColumn(0,1,2,0,0,1,3,"2013","Feb"));
+		eventColumnList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
+		eventColumnList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
+		eventColumnList.add(new EventColumn(0,1,2,0,0,1,3,"2014","Feb"));
+		eventColumnList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
+		eventColumnList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
+		eventColumnList.add(new EventColumn(0,1,2,0,0,1,3,"2015","Feb"));
+		eventColumnList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
+		eventColumnList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
+		eventColumnList.add(new EventColumn(0,1,2,0,0,1,3,"2016","Feb"));
+		eventColumnList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
+		eventColumnList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
+		eventColumnList.add(new EventColumn(0,1,2,0,0,1,3,"2017","Feb"));
+		eventColumnList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
+		eventColumnList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
+		eventColumnList.add(new EventColumn(0,1,2,0,0,1,3,"2018","Feb"));
+		eventColumnList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
+		eventColumnList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
+		eventColumnList.add(new EventColumn(0,1,2,0,0,1,3,"2019","Feb"));
+		eventColumnList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
+		eventColumnList.add(new EventColumn(1,3,4,0,2,1,0,"",""));
+		eventColumnList.add(new EventColumn(0,1,2,0,0,1,3,"2020","Feb"));
+		eventColumnList.add(new EventColumn(-1,-1,-1,-1,-1,-1,-1,"",""));
 		//*/
 		//首先得到有记录的最早日期
 		SQLiteDatabase db = MyApplication.db;
