@@ -123,12 +123,6 @@ public class activity_statistic extends SafeActivity{
 		//填充空白 即默认0
 		col.blocks[pointerDay.get(Calendar.DAY_OF_WEEK)-1] = level;
 		if(pointerDay.get(Calendar.DAY_OF_WEEK)-1 == 6){//开始新的一周
-			eventColumnList.add(new EventColumn(col));
-			col.reset();
-		}
-		if(pointerDay.get(Calendar.DAY_OF_WEEK)-1 == 0){
-			Calendar spointerDay = pointerDay;//Calendar.getInstance();
-			//new alert((spointerDay.get(Calendar.MONTH)+1)+"月 "+spointerDay.get(Calendar.DATE)+"号 level"+level);
 			//新一列column，需判断是否显示/更新年，月
 			if(pointerDay.get(Calendar.YEAR) != lastYearAndMonth[0]){
 				col.year = Integer.toString(pointerDay.get(Calendar.YEAR));
@@ -138,6 +132,9 @@ public class activity_statistic extends SafeActivity{
 				col.month = toMonthString(pointerDay.get(Calendar.MONTH)+1);
 				lastYearAndMonth[1] = pointerDay.get(Calendar.MONTH)+1;
 			}
+			eventColumnList.add(new EventColumn(col));
+			//new alert((spointerDay.get(Calendar.MONTH)+1)+"月 "+spointerDay.get(Calendar.DATE)+"号 level"+level);
+			col.reset();
 		}
 		//pointer移至下一天
 		pointerDay.add(Calendar.DATE, 1);
