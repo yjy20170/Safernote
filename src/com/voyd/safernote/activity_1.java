@@ -28,9 +28,9 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_1);
 		
-		listView = (ListView)findViewById(R.id.listView);
+		listView = (ListView)findViewById(R.id.itemListView);
 		int tableItemsLength = Item.getTableLength(MyApplication.db, "items");
-		//初始化stick数组
+		//初始化sticks数组
 		Item.loadSticks();
 		//根据数据库中Item行数，初始化list
 		list = new ArrayList<Item>();
@@ -53,9 +53,11 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 			}
 		});
 		((Button) findViewById(R.id.createItem)).setOnClickListener(this);
+		//左侧菜单
 		((Button) findViewById(R.id.set_password)).setOnClickListener(this);
 		((Button) findViewById(R.id.import_export_db)).setOnClickListener(this);
 		((Button) findViewById(R.id.settings)).setOnClickListener(this);
+		((Button) findViewById(R.id.statistic)).setOnClickListener(this);
 		
 		//改变左侧菜单响应范围
 		setDrawerLeftEdgeSize((DrawerLayout)findViewById(R.id.drawer_layout),(float)0.10);
@@ -103,6 +105,9 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 		case R.id.settings:
 			startSafeActivity(new Intent(this, activity_settings.class));
 			break;
+		case R.id.statistic:
+			startSafeActivity(new Intent(this, activity_statistic.class));
+			break;
 		default:
 		}
 	}
@@ -112,7 +117,6 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 	public void onRestart(){
 		if(isFromStack){
 			Item.loadSticks();
-			listView = (ListView)findViewById(R.id.listView);
 			int tableItemsLength = Item.getTableLength(MyApplication.db, "items");
 			//根据数据库中Item行数，初始化list
 			list.clear();

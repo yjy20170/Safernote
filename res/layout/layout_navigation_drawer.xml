@@ -33,4 +33,11 @@
         android:background="#fff"
         android:text="设置"
         />
+    <Button
+        android:id="@+id/statistic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:text="统计"
+        />
 </LinearLayout>

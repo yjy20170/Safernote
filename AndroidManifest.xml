@@ -46,6 +46,9 @@
 		<activity 
 		    android:name="com.voyd.safernote.activity_settings"
 		    android:excludeFromRecents="true"></activity>
+		<activity 
+		    android:name="com.voyd.safernote.activity_statistic"
+		    android:excludeFromRecents="true"></activity>
     </application>
 
 </manifest>
