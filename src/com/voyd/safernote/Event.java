@@ -18,8 +18,8 @@ public class Event {
 		level = cursor.getInt(cursor.getColumnIndex("level"));
 	}
 	public int compareTo(Calendar thatDay){
-		int thisValue = this.year * 13 + this.month * 32 + this.date;
-		int thatValue = thatDay.get(Calendar.YEAR) * 13 + (thatDay.get(Calendar.MONTH)+1) * 32 + thatDay.get(Calendar.DATE);
+		int thisValue = this.year * 13 * 32 + this.month * 32 + this.date;
+		int thatValue = thatDay.get(Calendar.YEAR) * 13 * 32 + (thatDay.get(Calendar.MONTH)+1) * 32 + thatDay.get(Calendar.DATE);
 		if(thisValue > thatValue){return 1;}
 		else if(thisValue == thatValue){return 0;}
 		else return -1;
