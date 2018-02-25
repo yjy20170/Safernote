@@ -25,7 +25,7 @@ public class DbHelper extends SQLiteOpenHelper {
 			+ "md5password,safetyLevel) values("
 			+ "'"+MD5Util.MD5(defaultPassword)+"',"
 			+ "1)";
-	public static final String CREATE_RECORD = "create table record ("
+	public static final String CREATE_EVENTS = "create table events ("
 			+ "year integer,"
 			+ "month integer,"
 			+ "date integer,"
@@ -43,7 +43,7 @@ public class DbHelper extends SQLiteOpenHelper {
 			db.execSQL(CREATE_ITEMS);
 			db.execSQL(CREATE_SETTINGS);
 			db.execSQL(INSERT_SETTINGS);
-			db.execSQL(CREATE_RECORD);
+			db.execSQL(CREATE_EVENTS);
 			new alert("数据库创建完毕\n初始密码为"+defaultPassword);
 		}
 	}
@@ -56,7 +56,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		case 2://置顶
 			db.execSQL("alter table items add column stick integer DEFAULT 0");
 		case 3://记录
-			db.execSQL(CREATE_RECORD);
+			db.execSQL(CREATE_EVENTS);
 		}
 	}
 }
