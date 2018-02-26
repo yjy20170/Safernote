@@ -163,7 +163,8 @@ public class activity_statistic extends SafeActivity{
 	
 	private void loadStatText(){
 		String statText;
-		Cursor cursor = MyApplication.db.rawQuery("select createTime, wordCount from items",null);
+		Cursor cursor = MyApplication.db.rawQuery(
+				"select createTime, wordCount,writingSeconds,readingSeconds from items",null);
 		if(cursor.moveToFirst()){
 			//第一个item的时间
 			Date firstTime;
@@ -183,15 +184,21 @@ public class activity_statistic extends SafeActivity{
 			int itemsCount = cursor.getCount();
 			
 			int itemsWordCount = 0;
+			int itemsWritingSecondsSum = 0;
+			int itemsReadingSecondsSum = 0;
 			do{
 				itemsWordCount += Integer.parseInt(AES.decrypt(MyApplication.password, 
 									cursor.getString(cursor.getColumnIndex("wordCount"))));
+				itemsWritingSecondsSum += cursor.getInt(cursor.getColumnIndex("writingSeconds"));
+				itemsReadingSecondsSum += cursor.getInt(cursor.getColumnIndex("readingSeconds"));
 			}while(cursor.moveToNext());
 			statText = "在过去的"+((years == 0)?"":(years+"年"))+days+"天里\n"
 					+ "写了"+itemsCount+"条日志\n"
 					+ "共计"+itemsWordCount+"字\n"
-					+ "写作时长4小时29分钟\n"//TODO: activity_2中的时间统计
-					+ "阅读时长1小时7分钟";
+					+ "写作时长"+(itemsWritingSecondsSum/3600)+"小时"
+					+ (itemsWritingSecondsSum%3600)/60+"分钟\n"
+					+ "阅读时长"+(itemsReadingSecondsSum/3600)+"小时"
+					+ (itemsReadingSecondsSum%3600)/60+"分钟";
 		}else{
 			statText = " \n\n快去创建第一条日志吧\n\n ";
 		}

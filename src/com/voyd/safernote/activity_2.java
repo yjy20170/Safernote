@@ -1,6 +1,7 @@
 ﻿package com.voyd.safernote;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import com.voyd.safernote.R;
@@ -28,7 +29,7 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 	private Button setStick;
 	//-1:activity_2不在前台  0:无键盘无按钮  1:无键盘有按钮  2:有键盘无按钮  3:有键盘有按钮
 	public int viewType = -1;
-	public int viewTypeBeforeStop = -1;
+	public int lastViewType = -1;
 	Item item;
 	int itemPosition;
 	
@@ -182,13 +183,12 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 	@Override
 	protected void onStop(){
 		super.onStop();
-		viewTypeBeforeStop = viewType;
 		setViewType(null, -1);
 	}
 	@Override
  	protected void onRestart(){
 		super.onRestart();
-		setViewType(null, viewTypeBeforeStop);
+		setViewType(null, lastViewType);
 		
 		if(viewType==2||viewType==3){
 			//打开键盘
@@ -196,6 +196,12 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 					(InputMethodManager)this.getSystemService(Context.INPUT_METHOD_SERVICE);    
 			inputManager.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
 		}
+	}
+	
+	@Override
+	protected void onDestroy(){
+		super.onDestroy();
+		item.updateSeconds();
 	}
 	
 	//根据当前所处状态：read 返回到activity_1 ; editing 关闭软键盘，进入edited状态 ; edited 弹出dialog选择是否保存
@@ -236,18 +242,31 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 				&& contentView.getText().toString().equals(item.content));
 	}
 	
-	public void setViewType(View v, int viewType){	//v 被点击的元素，只有editing和edited用到
+	public void setViewType(View v, int newViewType){	//v 被点击的元素，只有editing和edited用到
+		lastViewType = viewType;
+		viewType = newViewType;
 		//判断seconds记录的变化
+		//new alert(lastViewType+" -> "+viewType);
+		if(lastViewType != viewType){
+			if(lastViewType==0 || lastViewType==1){
+				item.readingSeconds += (int)(Calendar.getInstance().getTime().getTime() - startReadingTime.getTime())/1000;
+			}else if(lastViewType==2 || lastViewType==3){
+				item.writingSeconds += (int)(Calendar.getInstance().getTime().getTime() - startWritingTime.getTime())/1000;
+			}
+			if(viewType==0 || viewType==1){
+				startReadingTime = Calendar.getInstance().getTime();
+			}else if(viewType==2 || viewType==3){
+				startWritingTime = Calendar.getInstance().getTime();
+			}
+		}
 		
 		if(viewType==-1){
-			this.viewType = viewType;
 			return;
 		}
 		//改变SuperEditText内容后，根据与数据库中内容的对比来触发
 		if((viewType==2||viewType==3) && v == null){
 			save.setVisibility(viewType==3?View.VISIBLE:View.GONE);
 			cancel.setVisibility(viewType==3?View.VISIBLE:View.GONE);
-			this.viewType = viewType;
 			return;
 		}
 		//按钮
@@ -269,7 +288,6 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 			layoutParams.height = 755;//TODO: 自动化
 			findViewById(R.id.layout_2).setLayoutParams(layoutParams);
 		}
-		this.viewType = viewType;
 	}
 	public void setLongClickViewType(View v, int viewType){
 		setViewType(v, viewType);
