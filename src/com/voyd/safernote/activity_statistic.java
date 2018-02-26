@@ -21,7 +21,7 @@ public class activity_statistic extends SafeActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_statistic);
 
-		//for test
+		/*/for test
 		MyApplication.db.execSQL("delete from events");
 		MyApplication.db.execSQL("insert into events values (2017,4,7,5,1)");
 		MyApplication.db.execSQL("insert into events values (2017,7,27,4,1)");
@@ -36,6 +36,7 @@ public class activity_statistic extends SafeActivity{
 		MyApplication.db.execSQL("insert into events values (2018,2,5,1,3)");
 		MyApplication.db.execSQL("insert into events values (2018,2,10,6,1)");
 		MyApplication.db.execSQL("insert into events values (2018,2,25,0,4)");
+		*/
 		
 		eventColumnListView = (HorizontalListView)findViewById(R.id.eventColumnListView);
 		
@@ -44,19 +45,13 @@ public class activity_statistic extends SafeActivity{
 		EventColumnAdapter eventColomnAdapter = new EventColumnAdapter(this, R.layout.layout_event_column, eventColumnList);
 		eventColumnListView.setAdapter(eventColomnAdapter);
 		//定位到最右侧
-		/*
+		
 		findViewById(R.id.test).setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v){
-				//eventColumnListView.scrollTo(1000);
-				new Handler().postDelayed(new Runnable(){
-					@Override
-					public void run(){
-						new alert("aaaa");
-					}
-				}, 150);
+				MyApplication.db.execSQL("delete from events");
 			}
-		});*/
+		});
 		
 		findViewById(R.id.eventGraph).setVisibility(View.INVISIBLE);
 		new Handler().postDelayed(new Runnable(){

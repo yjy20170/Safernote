@@ -58,5 +58,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		case 3://记录
 			db.execSQL(CREATE_EVENTS);
 		}
+		
+		Event.recordTodayEvent(4);
 	}
 }

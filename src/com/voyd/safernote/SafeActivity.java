@@ -17,6 +17,8 @@ public class SafeActivity extends Activity{
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
+		Event.recordTodayEvent(1);
 	}
 	
 	@Override

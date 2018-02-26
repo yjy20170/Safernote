@@ -65,6 +65,8 @@ public class Item {
 		values.put("tagsString",AES.encrypt(password, tagsString));
 		values.put("content", AES.encrypt(password, content));
 		db.update("items", values, "id = ?", new String[]{Integer.toString(id)});
+		
+		Event.recordTodayEvent(2);
 	}
 	public void updateDbData(){
 		if(isNew){
@@ -78,6 +80,8 @@ public class Item {
 			cursor.moveToFirst();
 			id = Integer.parseInt(cursor.getString(cursor.getColumnIndex("id")));
 			isNew = false;
+			
+			Event.recordTodayEvent(3);
 		}
 		//new alert(context, "updateDbData...");
 		updateDbData(MyApplication.password);
@@ -131,6 +135,8 @@ public class Item {
 			return;
 		}
 		db.delete("items", "id = ?", new String[] { Integer.toString(id) });
+		
+		Event.recordTodayEvent(3);
 	}
 	
 	public static int getTableLength(SQLiteDatabase db, String tableName){
