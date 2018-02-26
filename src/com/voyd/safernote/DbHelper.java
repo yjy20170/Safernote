@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DbHelper extends SQLiteOpenHelper {
-	public static final String defaultPassword = "12345";
+	public static final String defaultPassword = "123456";
 	public static final String CREATE_ITEMS = "create table items ("
 			+ "id integer primary key autoincrement, "
 			+ "title text, "
@@ -17,7 +17,9 @@ public class DbHelper extends SQLiteOpenHelper {
 			+ "editTime text, "
 			+ "tagsString text, "
 			+ "content text, "
-			+ "stick integer DEFAULT 0)";
+			+ "stick integer DEFAULT 0, "
+			+ "writingSeconds integer DEFAULT 0, "
+			+ "readingSeconds integer DEFAULT 0)";
 	public static final String CREATE_SETTINGS = "create table settings ("
 			+ "md5password text,"
 			+ "safetyLevel integer)";
@@ -55,10 +57,11 @@ public class DbHelper extends SQLiteOpenHelper {
 			db.execSQL("update settings set safetyLevel = 1");
 		case 2://置顶
 			db.execSQL("alter table items add column stick integer DEFAULT 0");
-		case 3://记录
+		case 3://事件
 			db.execSQL(CREATE_EVENTS);
+		case 4://时间记录
+			db.execSQL("alter table items add column writingSeconds integer DEFAULT 0");
+			db.execSQL("alter table items add column readingSeconds integer DEFAULT 0");
 		}
-		
-		Event.recordTodayEvent(4);
 	}
 }

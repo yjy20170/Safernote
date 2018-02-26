@@ -1,5 +1,6 @@
 ﻿package com.voyd.safernote;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import android.content.ContentValues;
@@ -8,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
 public class Item {
+	public static SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	public int id;
 	public boolean isNew = false;
 	public static SQLiteDatabase db = MyApplication.db;
@@ -22,28 +24,13 @@ public class Item {
 	public static ArrayList<Integer> sticks = new ArrayList<Integer>();
 	public static int stickyCount = 0;
 	public int stick;
+	//时间记录
+	public int writingSeconds = 0;
+	public int readingSeconds = 0;
 	
-	public static void loadSticks(){
-		sticks.clear();
-		stickyCount = 0;
-		Cursor cursor = db.rawQuery("select * from items", null);
-		if(cursor.moveToFirst()){
-			do{
-				int stick = cursor.getInt(cursor.getColumnIndex("stick"));
-				if(stick>0)stickyCount++;
-				sticks.add(stick);
-			}while(cursor.moveToNext());
-		}
-		cursor.close();
-	}
 	
-	public Item(){
-	}
-	//供测试
-	public Item(String title){
-		this.title = title;
-		this.wordCount = "999";
-	}
+	
+	public Item(){}
 	
 	public void createNew(String createTime){
 		isNew = true;
@@ -56,7 +43,6 @@ public class Item {
 	}
 	//用于修改密码后的更新
 	public void updateDbData(String password){
-		//new alert(context, "updateDbData...");
 		ContentValues values = new ContentValues();
 		values.put("title", AES.encrypt(password, title));
 		values.put("wordCount",AES.encrypt(password, wordCount));
@@ -85,12 +71,6 @@ public class Item {
 		}
 		//new alert(context, "updateDbData...");
 		updateDbData(MyApplication.password);
-	}
-	public void setStick(int newStick){
-		stick = newStick;
-		ContentValues values = new ContentValues();
-		values.put("stick", stick);
-		db.update("items", values, "id = ?", new String[]{Integer.toString(id)});
 	}
 	
 	//根据id，从数据库加载数据
@@ -128,6 +108,8 @@ public class Item {
 		}
 		content = AES.decrypt(MyApplication.password, cursor.getString(cursor.getColumnIndex("content")));
 		stick = cursor.getInt(cursor.getColumnIndex("stick"));
+		writingSeconds = cursor.getInt(cursor.getColumnIndex("writingSeconds"));
+		readingSeconds = cursor.getInt(cursor.getColumnIndex("readingSeconds"));
 	}
 	
 	public void delete(){
@@ -146,4 +128,30 @@ public class Item {
 		return (int)count;
 	}
 	
+	public static void loadSticks(){
+		sticks.clear();
+		stickyCount = 0;
+		Cursor cursor = db.rawQuery("select * from items", null);
+		if(cursor.moveToFirst()){
+			do{
+				int stick = cursor.getInt(cursor.getColumnIndex("stick"));
+				if(stick>0)stickyCount++;
+				sticks.add(stick);
+			}while(cursor.moveToNext());
+		}
+		cursor.close();
+	}
+	public void setStick(int newStick){
+		stick = newStick;
+		ContentValues values = new ContentValues();
+		values.put("stick", stick);
+		db.update("items", values, "id = ?", new String[]{Integer.toString(id)});
+	}
+	
+	public void updateSeconds(){
+		ContentValues values = new ContentValues();
+		values.put("writingSeconds", writingSeconds);
+		values.put("readingSeconds", readingSeconds);
+		db.update("items", values, "id = ?", new String[]{Integer.toString(id)});
+	}
 }

@@ -26,12 +26,14 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 	private Button delete;
 	private SuperEditText contentView;
 	private Button setStick;
-	public static SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	//0：无键盘无按钮  1：无键盘有按钮  2：有键盘无按钮  3：有键盘有按钮
-	public int viewType;
+	//-1:activity_2不在前台  0:无键盘无按钮  1:无键盘有按钮  2:有键盘无按钮  3:有键盘有按钮
+	public int viewType = -1;
+	public int viewTypeBeforeStop = -1;
 	Item item;
 	int itemPosition;
 	
+	Date startWritingTime;
+	Date startReadingTime;
 	
 	public SuperEditText lastFocus = null;
 	
@@ -58,18 +60,18 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 		setStick.setOnClickListener(this);
 		
 		itemPosition = getIntent().getIntExtra("position", 0);
-		viewType = getIntent().getIntExtra("viewType", 0);
+		int newViewType = getIntent().getIntExtra("viewType", 0);
 		item = new Item();
-		if(viewType==0){
+		if(newViewType==0){
 			//从数据库加载内容
 			item.loadDbData(itemPosition);
 			showItem();
-			setViewType(null, 0);
-		}else if(viewType==2){
-			item.createNew(timeFormat.format(new Date()));
+			setViewType(null, newViewType);
+		}else if(newViewType==2){
+			item.createNew(Item.timeFormat.format(new Date()));
 			showItem();
 			lastFocus = titleView;
-			setViewType(titleView, 2);
+			setViewType(titleView, newViewType);
 			titleView.enterEdit();
 		}
 		
@@ -178,8 +180,16 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 	}
 	
 	@Override
+	protected void onStop(){
+		super.onStop();
+		viewTypeBeforeStop = viewType;
+		setViewType(null, -1);
+	}
+	@Override
  	protected void onRestart(){
 		super.onRestart();
+		setViewType(null, viewTypeBeforeStop);
+		
 		if(viewType==2||viewType==3){
 			//打开键盘
 			InputMethodManager inputManager = 
@@ -213,7 +223,7 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 		//将View中的字符串写入item，及相关数据
 		item.title = titleView.getText().toString();
 		item.wordCount = Integer.toString(contentView.getText().length());
-		item.editTime = timeFormat.format(new Date());
+		item.editTime = Item.timeFormat.format(new Date());
 		item.tagsString = tagsView.getText().toString();
 		item.content = contentView.getText().toString();
 		//将item上传到数据库
@@ -227,7 +237,12 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 	}
 	
 	public void setViewType(View v, int viewType){	//v 被点击的元素，只有editing和edited用到
-		//new alert("setViewType: "+Integer.toString(viewType));
+		//判断seconds记录的变化
+		
+		if(viewType==-1){
+			this.viewType = viewType;
+			return;
+		}
 		//改变SuperEditText内容后，根据与数据库中内容的对比来触发
 		if((viewType==2||viewType==3) && v == null){
 			save.setVisibility(viewType==3?View.VISIBLE:View.GONE);

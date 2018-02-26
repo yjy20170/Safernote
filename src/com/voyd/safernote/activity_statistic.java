@@ -1,7 +1,9 @@
 package com.voyd.safernote;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import com.meetme.android.horizontallistview.HorizontalListView;
 
@@ -11,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 
 
 public class activity_statistic extends SafeActivity{
@@ -66,6 +69,8 @@ public class activity_statistic extends SafeActivity{
 				}, 250);
 			}
 		}, 150);
+		
+		loadStatText();
 	}
 	private void loadEventList(){
 		//首先得到有记录的最早日期
@@ -154,5 +159,42 @@ public class activity_statistic extends SafeActivity{
 		}
 		//pointer移至下一天
 		pointerDay.add(Calendar.DATE, 1);
+	}
+	
+	private void loadStatText(){
+		String statText;
+		Cursor cursor = MyApplication.db.rawQuery("select createTime, wordCount from items",null);
+		if(cursor.moveToFirst()){
+			//第一个item的时间
+			Date firstTime;
+			try{
+				firstTime = Item.timeFormat.parse(AES.decrypt(MyApplication.password, 
+						cursor.getString(cursor.getColumnIndex("createTime"))));
+			}catch (ParseException e) {
+				new alert(e.toString());
+				return;
+			}
+			int totalDays = (int)(Calendar.getInstance().getTime().getTime()-firstTime.getTime())
+					/ (24 * 60 * 60 * 1000);
+			int years = totalDays/365;
+			int days = totalDays%365;
+			if(years == 0 && days == 0) days = 1;
+			
+			int itemsCount = cursor.getCount();
+			
+			int itemsWordCount = 0;
+			do{
+				itemsWordCount += Integer.parseInt(AES.decrypt(MyApplication.password, 
+									cursor.getString(cursor.getColumnIndex("wordCount"))));
+			}while(cursor.moveToNext());
+			statText = "在过去的"+((years == 0)?"":(years+"年"))+days+"天里\n"
+					+ "写了"+itemsCount+"条日志\n"
+					+ "共计"+itemsWordCount+"字\n"
+					+ "写作时长4小时29分钟\n"//TODO: activity_2中的时间统计
+					+ "阅读时长1小时7分钟";
+		}else{
+			statText = " \n\n快去创建第一条日志吧\n\n ";
+		}
+		((TextView)findViewById(R.id.statText)).setText(statText);
 	}
 }

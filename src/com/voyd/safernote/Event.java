@@ -35,7 +35,7 @@ public class Event {
 	//1: SafeActivity.onCreate()
 	//2: Item.updateDbData(pw)
 	//3: Item.updateDbData()[isNew] / Item.delete()[!isNew]
-	//4: DbHelper.onUpgrade()
+	//TODO 4: ?
 	public static void recordTodayEvent(int level){
 		Cursor cursor = MyApplication.db.rawQuery("select * from events",null);
 		int eventsCount = cursor.getCount();

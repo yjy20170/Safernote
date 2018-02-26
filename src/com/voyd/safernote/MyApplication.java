@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 public class MyApplication extends Application{
 	public static Context context;
 	public static SQLiteDatabase db;
-	public static final int dbVersion = 4;
+	public static final int dbVersion = 5;
 	public static String password="";
 	public static boolean isErrorPasswordInputed = false;
 	@Override
