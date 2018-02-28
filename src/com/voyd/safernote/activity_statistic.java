@@ -9,6 +9,7 @@ import com.meetme.android.horizontallistview.HorizontalListView;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -23,6 +24,15 @@ public class activity_statistic extends SafeActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_statistic);
+		
+		((TextView)findViewById(R.id.titlebarText)).setText("统计");
+		findViewById(R.id.save).setVisibility(View.INVISIBLE);
+		findViewById(R.id.finish).setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v){
+				activity_statistic.this.onBackPressed();
+			}
+		});
 
 		/*/for test
 		MyApplication.db.execSQL("delete from events");
@@ -52,9 +62,10 @@ public class activity_statistic extends SafeActivity{
 		findViewById(R.id.test).setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v){
-				MyApplication.db.execSQL("delete from events");
+				//MyApplication.db.execSQL("delete from events");
 			}
 		});
+		findViewById(R.id.test).setVisibility(View.GONE);
 		
 		findViewById(R.id.eventGraph).setVisibility(View.INVISIBLE);
 		new Handler().postDelayed(new Runnable(){
@@ -71,6 +82,23 @@ public class activity_statistic extends SafeActivity{
 		}, 150);
 		
 		loadStatText();
+		
+		findViewById(R.id.event_legend_block_1).setBackgroundColor(
+				Color.parseColor(EventColumn.color[1]));
+		findViewById(R.id.event_legend_block_2).setBackgroundColor(
+				Color.parseColor(EventColumn.color[2]));
+		findViewById(R.id.event_legend_block_3).setBackgroundColor(
+				Color.parseColor(EventColumn.color[3]));
+		findViewById(R.id.event_legend_block_4).setBackgroundColor(
+				Color.parseColor(EventColumn.color[4]));
+		((TextView)findViewById(R.id.event_legend_text_1)).setText(
+				"打开过软件");
+		((TextView)findViewById(R.id.event_legend_text_2)).setText(
+				"修改过日志");
+		((TextView)findViewById(R.id.event_legend_text_3)).setText(
+				"创建或删除过日志");
+		((TextView)findViewById(R.id.event_legend_text_4)).setText(
+				"    ?");
 	}
 	private void loadEventList(){
 		//首先得到有记录的最早日期
@@ -175,8 +203,8 @@ public class activity_statistic extends SafeActivity{
 				new alert(e.toString());
 				return;
 			}
-			int totalDays = (int)(Calendar.getInstance().getTime().getTime()-firstTime.getTime())
-					/ (24 * 60 * 60 * 1000);
+			int totalDays = (int)((Calendar.getInstance().getTime().getTime()-firstTime.getTime())
+					/ (24 * 60 * 60 * 1000));
 			int years = totalDays/365;
 			int days = totalDays%365;
 			if(years == 0 && days == 0) days = 1;

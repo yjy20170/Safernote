@@ -18,7 +18,7 @@ public class activity_setPassword extends SafeActivity implements OnClickListene
 		setContentView(R.layout.layout_set_password);
 		((Button)findViewById(R.id.finish)).setOnClickListener(this);
 		((Button)findViewById(R.id.save)).setOnClickListener(this);
-		tip = (TextView)findViewById(R.id.input_password_tip);
+		tip = (TextView)findViewById(R.id.titlebarText);
 		tip.setText("请输入新密码");
 		inputString = "null";
 		passwordInputer = (PasswordInputer)findViewById(R.id.password_inputer);

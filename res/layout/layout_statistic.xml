@@ -3,11 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+    <include layout="@layout/layout_titlebar"/>
     <TextView 
         android:id="@+id/statText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="50dp"
         android:gravity="center_horizontal"
         android:textStyle="italic"
         android:textSize="18sp"
@@ -50,8 +51,79 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="180dp"
-            android:clipChildren="false"
-            android:stackFromBottom="true"/>
+            android:clipChildren="false"/>
+    </LinearLayout>
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+	    android:layout_marginLeft="35dp"
+        android:orientation="horizontal">
+        <LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical">
+	        <LinearLayout 
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="horizontal">
+			    <include
+			        layout="@layout/view_event_block"
+			        android:id="@+id/event_legend_block_1"/>
+	            <TextView
+	                android:id="@+id/event_legend_text_1"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+			        android:layout_marginLeft="3dp"/>
+			</LinearLayout>
+	        <LinearLayout 
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	        	android:layout_marginLeft="19dp"
+	        	android:layout_marginTop="1dp"
+	            android:orientation="horizontal">
+			    <include
+			        layout="@layout/view_event_block"
+			        android:id="@+id/event_legend_block_3"/>
+	            <TextView
+	                android:id="@+id/event_legend_text_3"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+			        android:layout_marginLeft="3dp"/>
+			</LinearLayout>
+		</LinearLayout>
+        <LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical">
+	        <LinearLayout 
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="horizontal">
+			    <include
+			        layout="@layout/view_event_block"
+			        android:id="@+id/event_legend_block_2"/>
+	            <TextView
+	                android:id="@+id/event_legend_text_2"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+			        android:layout_marginLeft="3dp"/>
+			</LinearLayout>
+	        <LinearLayout 
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	        	android:layout_marginLeft="19dp"
+	        	android:layout_marginTop="1dp"
+	            android:orientation="horizontal">
+			    <include
+			        layout="@layout/view_event_block"
+			        android:id="@+id/event_legend_block_4"/>
+	            <TextView
+	                android:id="@+id/event_legend_text_4"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+			        android:layout_marginLeft="3dp"/>
+			</LinearLayout>
+		</LinearLayout>
     </LinearLayout>
 	<Button
 	    android:id="@+id/test"

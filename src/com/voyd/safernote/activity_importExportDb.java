@@ -17,6 +17,7 @@ import android.os.Environment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class activity_importExportDb extends SafeActivity implements OnClickListener{
     @Override
@@ -29,6 +30,9 @@ public class activity_importExportDb extends SafeActivity implements OnClickList
         ((Button) findViewById(R.id.export_db)).setText(
         		"将数据导出至 /" + getString(R.string.app_name)
         		+ "/" + getString(R.string.database_name));
+        //titlebar设置
+        ((TextView) findViewById(R.id.titlebarText)).setText("导入与导出");
+        findViewById(R.id.save).setVisibility(View.INVISIBLE);
     }
     @Override
     public void onClick(View v){

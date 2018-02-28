@@ -21,7 +21,7 @@ public class activity_testNewDb extends SafeActivity implements OnClickListener{
 		setContentView(R.layout.layout_set_password);//只是借用布局，逻辑和activity_setPassword不同
 		((Button)findViewById(R.id.finish)).setOnClickListener(this);
 		((Button)findViewById(R.id.save)).setOnClickListener(this);
-		tip = (TextView)findViewById(R.id.input_password_tip);
+		tip = (TextView)findViewById(R.id.titlebarText);
 		tip.setText("验证导入数据的密码");
 		passwordInputer = (PasswordInputer)findViewById(R.id.password_inputer);
 	}

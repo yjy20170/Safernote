@@ -32,6 +32,7 @@ public class Event {
 		else return -1;
 	}
 	
+	//与activity_statistic同步
 	//1: SafeActivity.onCreate()
 	//2: Item.updateDbData(pw)
 	//3: Item.updateDbData()[isNew] / Item.delete()[!isNew]

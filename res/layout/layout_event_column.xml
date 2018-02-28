@@ -28,47 +28,33 @@
         android:layout_alignParentLeft="true"
 	    android:layout_below="@id/event_month"
 		android:orientation="vertical">
-	    <View
+	    <include
 	        android:id="@+id/event_block_0"
-	        android:layout_width="17dp"
-	        android:layout_height="17dp"
-	        android:layout_margin="1dp"
+	        layout="@layout/view_event_block"
 	        />
-	    <View
+	    <include
 	        android:id="@+id/event_block_1"
-	        android:layout_width="17dp"
-	        android:layout_height="17dp"
-	        android:layout_margin="1dp"
+	        layout="@layout/view_event_block"
 	        />
-	    <View
+	    <include
 	        android:id="@+id/event_block_2"
-	        android:layout_width="17dp"
-	        android:layout_height="17dp"
-	        android:layout_margin="1dp"
+	        layout="@layout/view_event_block"
 	        />
-	    <View
+	    <include
 	        android:id="@+id/event_block_3"
-	        android:layout_width="17dp"
-	        android:layout_height="17dp"
-	        android:layout_margin="1dp"
+	        layout="@layout/view_event_block"
 	        />
-	    <View
+	    <include
 	        android:id="@+id/event_block_4"
-	        android:layout_width="17dp"
-	        android:layout_height="17dp"
-	        android:layout_margin="1dp"
+	        layout="@layout/view_event_block"
 	        />
-	    <View
+	    <include
 	        android:id="@+id/event_block_5"
-	        android:layout_width="17dp"
-	        android:layout_height="17dp"
-	        android:layout_margin="1dp"
+	        layout="@layout/view_event_block"
 	        />
-	    <View
+	    <include
 	        android:id="@+id/event_block_6"
-	        android:layout_width="17dp"
-	        android:layout_height="17dp"
-	        android:layout_margin="1dp"
+	        layout="@layout/view_event_block"
 	        />
         
     </LinearLayout>

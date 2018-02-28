@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.TextView;
 
 public class activity_settings extends SafeActivity implements OnCheckedChangeListener,OnClickListener{
 	@Override
@@ -16,6 +17,8 @@ public class activity_settings extends SafeActivity implements OnCheckedChangeLi
 		((RadioGroup)findViewById(R.id.set_safety_level)).setOnCheckedChangeListener(this);
 		findViewById(R.id.finish).setOnClickListener(this);
 		initView();
+		((TextView)findViewById(R.id.titlebarText)).setText("设置");
+		findViewById(R.id.save).setVisibility(View.INVISIBLE);
 	}
 	void initView(){
 		//安全等级

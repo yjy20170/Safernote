@@ -3,28 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    <LinearLayout
-        android:layout_height="47dp"
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:background="#dadcdc">
-        <com.voyd.safernote.SuperButton
-            android:id="@+id/finish"
-            android:background="@drawable/back"
-            android:layout_width="37dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
-        <TextView
-            android:id="@+id/input_password_tip"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:text="导入与导出"
-            android:textSize="22sp"/>
-    </LinearLayout>
+    <include layout="@layout/layout_titlebar"/>"
     <Button 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,9 +12,9 @@
         android:text="选择数据库文件并导入"
         />
     <Button 
+        android:id="@+id/export_db"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:id="@+id/export_db"
         />
 </LinearLayout>
