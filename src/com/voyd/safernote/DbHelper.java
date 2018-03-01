@@ -22,7 +22,12 @@ public class DbHelper extends SQLiteOpenHelper {
 			+ "readingSeconds integer DEFAULT 0)";
 	public static final String CREATE_SETTINGS = "create table settings ("
 			+ "md5password text,"
-			+ "safetyLevel integer)";
+			+ "safetyLevel integer DEFAULT 1,"
+			+ "isShowWordCount integer DEFAULT 1,"
+			+ "isShowCreateAndEditTime integer DEFAULT 1,"
+			+ "isShowTags integer DEFAULT 1,"
+			+ "isShowSummary integer DEFAULT 1,"
+			+ "summaryLength integer DEFAULT 0)";
 	public static final String INSERT_SETTINGS = "insert into settings ("
 			+ "md5password,safetyLevel) values("
 			+ "'"+MD5Util.MD5(defaultPassword)+"',"
@@ -62,6 +67,12 @@ public class DbHelper extends SQLiteOpenHelper {
 		case 4://时间记录
 			db.execSQL("alter table items add column writingSeconds integer DEFAULT 0");
 			db.execSQL("alter table items add column readingSeconds integer DEFAULT 0");
+		case 5://视图
+			db.execSQL("alter table settings add column isShowWordCount integer DEFAULT 1");
+			db.execSQL("alter table settings add column isShowCreateAndEditTime integer DEFAULT 1");
+			db.execSQL("alter table settings add column isShowTags integer DEFAULT 1");
+			db.execSQL("alter table settings add column isShowSummary integer DEFAULT 1");
+			db.execSQL("alter table settings add column summaryLength integer DEFAULT 0");
 		}
 	}
 }

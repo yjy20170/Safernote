@@ -66,7 +66,8 @@ public class Item {
 			cursor.moveToFirst();
 			id = Integer.parseInt(cursor.getString(cursor.getColumnIndex("id")));
 			isNew = false;
-			
+			//stick也需更新
+			setStick(stick);
 			Event.recordTodayEvent(3);
 		}
 		//new alert(context, "updateDbData...");
@@ -143,6 +144,7 @@ public class Item {
 	}
 	public void setStick(int newStick){
 		stick = newStick;
+		//若isNew，下面操作无意义
 		ContentValues values = new ContentValues();
 		values.put("stick", stick);
 		db.update("items", values, "id = ?", new String[]{Integer.toString(id)});

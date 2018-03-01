@@ -20,7 +20,7 @@
 			android:layout_height="wrap_content"
 			android:layout_alignParentLeft="true"
 			android:padding="3dp"
-			android:background="@drawable/askifsave_dialog_btn_style"
+			android:background="@drawable/dialog_btn_style"
 			android:text="取消"
 			android:textSize="15sp"/>
         <Button
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignParentRight="true"
-			android:background="@drawable/askifsave_dialog_btn_style"
+			android:background="@drawable/dialog_btn_style"
 			android:text="保存"
 			android:textSize="15sp"/>
         <Button
@@ -37,7 +37,7 @@
 			android:layout_height="wrap_content"
 			android:layout_toLeftOf="@id/dialogSave"
 			android:layout_marginRight="6dp"
-			android:background="@drawable/askifsave_dialog_btn_style"
+			android:background="@drawable/dialog_btn_style"
 			android:text="放弃"
 			android:textSize="15sp"/>
     </RelativeLayout>

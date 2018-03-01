@@ -27,7 +27,7 @@ public class SafeActivity extends Activity{
 		if(!isFromStack){
 			Intent intent = new Intent(this,activity_locked.class);
 			intent.putExtra("isOnAppStart", false);
-			if(MyApplication.getSafetyLevel()!=0){
+			if(MyApplication.getSetting("safetyLevel")!=0){
 				startSafeActivityForResult(intent, 1);
 			}
 		}else{

@@ -82,16 +82,10 @@
 		            android:hint="无"
 		            android:textColor="#555555"/>
 		        <Button 
-		            android:id="@+id/delete"
+		            android:id="@+id/item_more"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            android:text="删除"
-		            />
-		        <Button 
-		            android:id="@+id/setStick"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:text="置顶"
+		            android:text="更多"
 		            />
 		    </LinearLayout>
 		    

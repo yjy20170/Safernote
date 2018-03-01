@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 public class MyApplication extends Application{
 	public static Context context;
 	public static SQLiteDatabase db;
-	public static final int dbVersion = 5;
+	public static final int dbVersion = 6;
 	public static String password="";
 	public static boolean isErrorPasswordInputed = false;
 	@Override
@@ -41,12 +41,16 @@ public class MyApplication extends Application{
 		
 		password = newPassword;
 	}
-	public static int getSafetyLevel(){
-		Cursor cursor = db.rawQuery("select * from settings", null);		
-		cursor.moveToFirst();
-		return cursor.getInt(cursor.getColumnIndex("safetyLevel"));
+	public static void updateSetting(String name, int value){
+		db.execSQL("update settings set "+name+" = "+value);
 	}
-	public static void updateSafetyLevel(int k){
-		db.execSQL("update settings set safetyLevel = "+k);
+	public static int getSetting(String name){
+		Cursor cursor = db.rawQuery("select * from settings", null);		
+		if(cursor.moveToFirst()){
+			return cursor.getInt(cursor.getColumnIndex(name));
+		}else{
+			new alert("error when getting "+name);
+			return 0;
+		}
 	}
 }

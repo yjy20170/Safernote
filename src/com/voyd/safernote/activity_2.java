@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -24,9 +25,7 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 	private Button cancel;
 	private Button save;
 	private SuperEditText tagsView;
-	private Button delete;
 	private SuperEditText contentView;
-	private Button setStick;
 	//-1:activity_2不在前台  0:无键盘无按钮  1:无键盘有按钮  2:有键盘无按钮  3:有键盘有按钮
 	public int viewType = -1;
 	public int lastViewType = -1;
@@ -49,16 +48,13 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 		cancel = (Button)findViewById(R.id.cancel);
 		save = (Button)findViewById(R.id.save);
 		tagsView = (SuperEditText)findViewById(R.id.tags);
-		delete = (Button)findViewById(R.id.delete);
 		contentView = (SuperEditText)findViewById(R.id.content);
-		setStick = (Button)findViewById(R.id.setStick);
 		
 		//绑定OnClickListener!!!
 		finish.setOnClickListener(this);
 		cancel.setOnClickListener(this);
 		save.setOnClickListener(this);
-		delete.setOnClickListener(this);
-		setStick.setOnClickListener(this);
+		findViewById(R.id.item_more).setOnClickListener(this);
 		
 		itemPosition = getIntent().getIntExtra("position", 0);
 		int newViewType = getIntent().getIntExtra("viewType", 0);
@@ -74,13 +70,6 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 			lastFocus = titleView;
 			setViewType(titleView, newViewType);
 			titleView.enterEdit();
-		}
-		
-		//随stick切换置顶按钮状态 
-		if(item.stick==0){
-			setStick.setText("置顶");
-		}else{
-			setStick.setText("取消置顶");
 		}
 	}
 	
@@ -108,18 +97,54 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 			setViewType(lastFocus, 0);
 			lastFocus.leaveEdit();
 			break;
-		case R.id.delete:
-			deleteWarning();
-			break;
-		case R.id.setStick:
-			item.setStick(1-item.stick);//0-1
-			if(item.stick==0){
-				setStick.setText("置顶");
-			}else{
-				setStick.setText("取消置顶");
-			}
+		case R.id.item_more:
+			seeMore();
 			break;
 		}
+	}
+	
+	@SuppressLint("InflateParams")
+	public void seeMore(){
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity_2.this);
+		LinearLayout dialogView= (LinearLayout) getLayoutInflater().inflate(R.layout.layout_more_dialog,null);
+		dialogBuilder.setView(dialogView);
+		dialogBuilder.setCancelable(true);
+		String text = "创建时间："+item.createTime
+				+ "\n修改时间："+item.editTime
+				+ "\n字数："+item.wordCount+"字"
+				+ "\n写作时长："+(item.writingSeconds>=3600?(item.writingSeconds/3600+"小时"):"")
+					+(item.writingSeconds%3600/60)+"分钟"
+				+ "\n阅读时长："+(item.readingSeconds>=3600?(item.readingSeconds/3600+"小时"):"")
+					+(item.readingSeconds%3600/60)+"分钟";
+		final AlertDialog dialog = dialogBuilder.show();
+		((TextView)dialog.findViewById(R.id.item_more_text)).setText(text);
+		final Button setStickBtn = (Button)dialog.findViewById(R.id.setStick);
+		//随stick切换置顶按钮状态 
+		if(item.stick==0){
+			setStickBtn.setText("置顶");
+		}else{
+			setStickBtn.setText("取消置顶");
+		}
+		OnClickListener onClickListener = new OnClickListener(){
+        	@Override
+        	public void onClick(View v){
+        		switch(v.getId()){
+        		case R.id.delete:
+        			deleteWarning();
+        			break;
+        		case R.id.setStick:
+        			item.setStick(1-item.stick);//0-1
+        			if(item.stick==0){
+        				setStickBtn.setText("置顶");
+        			}else{
+        				setStickBtn.setText("取消置顶");
+        			}
+        			break;
+        		}
+        	}
+        };
+        dialog.findViewById(R.id.delete).setOnClickListener(onClickListener);
+        dialog.findViewById(R.id.setStick).setOnClickListener(onClickListener);
 	}
 	
 	@SuppressLint("InflateParams")
@@ -148,7 +173,7 @@ public class activity_2 extends SafeActivity implements OnClickListener{
         dialog.findViewById(R.id.dialogCancel).setOnClickListener(onClickListener);
         dialog.findViewById(R.id.dialogConfirm).setOnClickListener(onClickListener);
 	}
-	
+
 	@SuppressLint("InflateParams")
 	public void finishWithoutSave(){
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity_2.this);

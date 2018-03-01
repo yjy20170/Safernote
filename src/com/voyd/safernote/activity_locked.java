@@ -50,7 +50,7 @@ public class activity_locked extends Activity implements OnClickListener{
 					MyApplication.isErrorPasswordInputed = false;
 					finish();
 				}else if(!MyApplication.isErrorPasswordInputed
-						&& MyApplication.getSafetyLevel()==1
+						&& MyApplication.getSetting("safetyLevel")==1
 						&& MyApplication.password.length() > 4
 						&& passwordInputer.getInput().equals(MyApplication.password.substring(0, 4))){
 					finish();
