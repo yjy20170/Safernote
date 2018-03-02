@@ -7,6 +7,8 @@ import java.util.Date;
 import com.voyd.safernote.R;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
@@ -73,6 +75,14 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 			newItem.createNew(Item.timeFormat.format(new Date()));
 			intent.putExtra("item", newItem);
 			startSafeActivity(intent);
+			/*
+			SQLiteDatabase db = MyApplication.db;
+			db.execSQL(DbHelper.CREATE_ITEMS.replace("items", "temp"));
+			db.execSQL("insert into temp(title,wordCount,createTime,editTime,tagsString,content,stick) select title,wordCount,createTime,editTime,tagsString,content,stick from items");
+			db.execSQL("drop table if exists items");
+			db.execSQL("alter table temp rename to items");
+			db.execSQL("update items set writingSeconds='"+AES.encrypt(MyApplication.password, "0")+"'");
+			db.execSQL("update items set readingSeconds='"+AES.encrypt(MyApplication.password, "0")+"'");*/
 			/*/加密可能会出现在字符串结尾随机加上ascii码小于等于16的字符的bug;先滑动显示完每个item再使用
 			for(Item item:list){
 				String[] ss = {item.title,item.wordCount,item.createTime,item.editTime,item.tagsString,item.content};

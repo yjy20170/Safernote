@@ -65,8 +65,9 @@ public class Item implements Serializable{
 		if(isNew){
 			//建一条空项目
 			String INSERT_ITEM = "insert into items ("
-					+ "title, wordCount, createTime, editTime, tagsString, content) values("
-					+ "'', 0, '"+AES.encrypt(MyApplication.password, createTime)+"','','','')";
+					+ "title, wordCount, createTime, editTime, tagsString, content,writingSeconds,readingSeconds) "
+					+ "values('', 0, '"+AES.encrypt(MyApplication.password, createTime)+"','','','',"
+					+ "'"+AES.encrypt(MyApplication.password, "0")+"','"+AES.encrypt(MyApplication.password, "0")+"')";
 			db.execSQL(INSERT_ITEM);
 			int offset = MyApplication.getTableLength("items") - 1;
 			Cursor cursor = db.rawQuery("select * from items limit 1 offset "+offset, null);		
@@ -77,7 +78,6 @@ public class Item implements Serializable{
 			setStick(stick);
 			Event.recordTodayEvent(3);
 		}
-		//new alert(context, "updateDbData...");
 		updateDbData(MyApplication.password);
 	}
 
@@ -120,8 +120,15 @@ public class Item implements Serializable{
 		}
 		content = AES.decrypt(MyApplication.password, cursor.getString(cursor.getColumnIndex("content")));
 		stick = cursor.getInt(cursor.getColumnIndex("stick"));
-		writingSeconds = cursor.getInt(cursor.getColumnIndex("writingSeconds"));
-		readingSeconds = cursor.getInt(cursor.getColumnIndex("readingSeconds"));
+		try{
+			writingSeconds = Integer.parseInt(AES.decrypt(MyApplication.password, cursor.getString(cursor.getColumnIndex("writingSeconds"))));
+			readingSeconds = Integer.parseInt(AES.decrypt(MyApplication.password, cursor.getString(cursor.getColumnIndex("readingSeconds"))));
+		}catch(Exception e){
+		}
+		finally{
+			writingSeconds = Math.max(writingSeconds, 0);
+			readingSeconds = Math.max(readingSeconds, 0);
+		}
 	}
 	
 	public void delete(){
@@ -156,8 +163,8 @@ public class Item implements Serializable{
 	
 	public void updateSeconds(){
 		ContentValues values = new ContentValues();
-		values.put("writingSeconds", writingSeconds);
-		values.put("readingSeconds", readingSeconds);
+		values.put("writingSeconds", AES.encrypt(MyApplication.password, Integer.toString(writingSeconds)));
+		values.put("readingSeconds", AES.encrypt(MyApplication.password, Integer.toString(readingSeconds)));
 		db.update("items", values, "id = ?", new String[]{Integer.toString(id)});
 	}
 }

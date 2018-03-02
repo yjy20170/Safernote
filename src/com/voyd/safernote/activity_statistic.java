@@ -217,8 +217,10 @@ public class activity_statistic extends SafeActivity{
 			do{
 				itemsWordCount += Integer.parseInt(AES.decrypt(MyApplication.password, 
 									cursor.getString(cursor.getColumnIndex("wordCount"))));
-				itemsWritingSecondsSum += cursor.getInt(cursor.getColumnIndex("writingSeconds"));
-				itemsReadingSecondsSum += cursor.getInt(cursor.getColumnIndex("readingSeconds"));
+				itemsWritingSecondsSum += Integer.parseInt(AES.decrypt(MyApplication.password, 
+						cursor.getString(cursor.getColumnIndex("writingSeconds"))));
+				itemsReadingSecondsSum += Integer.parseInt(AES.decrypt(MyApplication.password, 
+						cursor.getString(cursor.getColumnIndex("readingSeconds"))));
 			}while(cursor.moveToNext());
 			statText = "在过去的"+((years == 0)?"":(years+"年"))+days+"天里\n"
 					+ "写了"+itemsCount+"条日志\n"
