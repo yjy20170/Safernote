@@ -16,17 +16,24 @@ import android.widget.TextView;
 
 
 public class ItemAdapter extends ArrayAdapter<Item>{
+	private boolean isEmptyList;
+	private boolean isShowStick;
 	private int resourceId;
 	private Item item;
-	public ItemAdapter(Context context, int itemViewResourceId, List<Item> items){
+	public static int[] showSettings = {0,0,0,0,0};
+	public ItemAdapter(Context context, int itemViewResourceId, List<Item> items, boolean isEmptyList, boolean isShowStick){
 		super(context, itemViewResourceId, items);
 		resourceId = itemViewResourceId;
+		this.isEmptyList = isEmptyList;
+		this.isShowStick = isShowStick;
 	}
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent){
 		item = getItem(position);
-		//从数据库加载
-		item.loadDbData(position);
+		if(isEmptyList){
+			//从数据库加载
+			item.loadDataByPosition(position, true);
+		}
 		View view;
 		ViewHolder viewHolder;
 		if(convertView==null){
@@ -49,25 +56,22 @@ public class ItemAdapter extends ArrayAdapter<Item>{
 			viewHolder = (ViewHolder)view.getTag();
 		}
 		
-		if(item.stick > 0){
+		if(item.stick > 0 && isShowStick){
 			viewHolder.itemStick.setVisibility(View.VISIBLE);
 		}else{
 			viewHolder.itemStick.setVisibility(View.GONE);
 		}
 		
 		//根据setting设置是否显示
+		loadShowSettings();
 		viewHolder.itemWordCount.setVisibility(
-				MyApplication.getSetting("isShowWordCount")==1//TODO 减少读取数据库次数
-					?View.VISIBLE:View.GONE);
+				showSettings[0]==1?View.VISIBLE:View.GONE);
 		viewHolder.itemCreateAndEditTimeLine.setVisibility(
-				MyApplication.getSetting("isShowCreateAndEditTime")==1
-					?View.VISIBLE:View.GONE);
+				showSettings[1]==1?View.VISIBLE:View.GONE);
 		viewHolder.itemTagLine.setVisibility(
-				MyApplication.getSetting("isShowTags")==1
-					?View.VISIBLE:View.GONE);
+				showSettings[2]==1?View.VISIBLE:View.GONE);
 		viewHolder.itemSummary.setVisibility(
-				MyApplication.getSetting("isShowSummary")==1
-					?View.VISIBLE:View.GONE);
+				showSettings[3]==1?View.VISIBLE:View.GONE);
 		viewHolder.itemTitle.setText(item.title);
 		viewHolder.itemWordCount.setText("字数："+item.wordCount);
 		viewHolder.itemCreateTime.setText("创建:"+item.createTime);
@@ -77,7 +81,7 @@ public class ItemAdapter extends ArrayAdapter<Item>{
 		}else{
 			viewHolder.itemTags.setText(item.tagsString);
 		}
-		if(MyApplication.getSetting("summaryLength")==0){
+		if(showSettings[4]==0){
 			viewHolder.itemSummary.setMaxLines(3);
 			viewHolder.itemSummary.setEllipsize(TruncateAt.END);
 			viewHolder.itemSummary.setText(item.content.replace("\n", "  "));
@@ -99,5 +103,12 @@ public class ItemAdapter extends ArrayAdapter<Item>{
 		public LinearLayout itemTagLine;
 		public TextView itemTags;
 		public TextView itemSummary;
+	}
+	public void loadShowSettings(){
+		showSettings[0] = MyApplication.getSetting("isShowWordCount");
+		showSettings[1] = MyApplication.getSetting("isShowCreateAndEditTime");
+		showSettings[2] = MyApplication.getSetting("isShowTags");
+		showSettings[3] = MyApplication.getSetting("isShowSummary");
+		showSettings[4] = MyApplication.getSetting("summaryLength");
 	}
 }

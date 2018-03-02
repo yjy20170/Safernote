@@ -1,6 +1,5 @@
 ﻿package com.voyd.safernote;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -58,14 +57,11 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 		
 		itemPosition = getIntent().getIntExtra("position", 0);
 		int newViewType = getIntent().getIntExtra("viewType", 0);
-		item = new Item();
+		item = (Item)getIntent().getSerializableExtra("item");
 		if(newViewType==0){
-			//从数据库加载内容
-			item.loadDbData(itemPosition);
 			showItem();
 			setViewType(null, newViewType);
 		}else if(newViewType==2){
-			item.createNew(Item.timeFormat.format(new Date()));
 			showItem();
 			lastFocus = titleView;
 			setViewType(titleView, newViewType);

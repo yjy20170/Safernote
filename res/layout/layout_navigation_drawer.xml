@@ -12,6 +12,27 @@
         android:layout_marginLeft="6dp"
         android:src="@drawable/icon_large"
         />
+    <Button
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:text="搜索"
+        />
+    <Button
+        android:id="@+id/statistic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:text="统计"
+        />
+    <Button
+        android:id="@+id/settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:text="设置"
+        />
     <Button 
         android:id="@+id/set_password"
         android:layout_width="match_parent"
@@ -25,19 +46,5 @@
         android:layout_height="wrap_content"
         android:background="#fff"
         android:text="导入与导出"
-        />
-    <Button
-        android:id="@+id/settings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#fff"
-        android:text="设置"
-        />
-    <Button
-        android:id="@+id/statistic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#fff"
-        android:text="统计"
         />
 </LinearLayout>

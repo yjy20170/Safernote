@@ -1,14 +1,16 @@
 ﻿package com.voyd.safernote;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 
-public class Item {
+public class Item implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	public static SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	public int id;
 	public boolean isNew = false;
@@ -28,9 +30,14 @@ public class Item {
 	public int writingSeconds = 0;
 	public int readingSeconds = 0;
 	
-	
-	
 	public Item(){}
+	
+	public Item(Item oldItem){
+		Item newItem = new Item();
+		newItem.id = oldItem.id;
+		newItem.isNew = oldItem.isNew;
+		//未完成
+	}
 	
 	public void createNew(String createTime){
 		isNew = true;
@@ -61,7 +68,7 @@ public class Item {
 					+ "title, wordCount, createTime, editTime, tagsString, content) values("
 					+ "'', 0, '"+AES.encrypt(MyApplication.password, createTime)+"','','','')";
 			db.execSQL(INSERT_ITEM);
-			int offset = getTableLength(db, "items") - 1;
+			int offset = MyApplication.getTableLength("items") - 1;
 			Cursor cursor = db.rawQuery("select * from items limit 1 offset "+offset, null);		
 			cursor.moveToFirst();
 			id = Integer.parseInt(cursor.getString(cursor.getColumnIndex("id")));
@@ -73,29 +80,33 @@ public class Item {
 		//new alert(context, "updateDbData...");
 		updateDbData(MyApplication.password);
 	}
-	
+
 	//根据id，从数据库加载数据
-	public void loadDbData(int position){
+	public void loadDataByPosition(int position, boolean isUseStick){
 		//position: activity_1显示的顺序
 		//positionS: 在数据库中按id递减的顺序
 		int positionS = 0;
-		if(position<=stickyCount-1){//是置顶项
-			while(true){
-				if(sticks.get(sticks.size()-positionS-1)>0)position--;
-				if(position<0)break;
-				positionS++;
-			}
+		if(!isUseStick){
+			positionS = position;
 		}else{
-			position -= stickyCount;
-			while(true){
-				if(sticks.get(sticks.size()-positionS-1)==0)position--;
-				if(position<0)break;
-				positionS++;
+			if(position<=stickyCount-1){//是置顶项
+				while(true){
+					if(sticks.get(sticks.size()-positionS-1)>0)position--;
+					if(position<0)break;
+					positionS++;
+				}
+			}else{
+				position -= stickyCount;
+				while(true){
+					if(sticks.get(sticks.size()-positionS-1)==0)position--;
+					if(position<0)break;
+					positionS++;
+				}
 			}
 		}
 		//wrong: this.id = getTableLength(db, "items") - position;未考虑删除
-		int offset = getTableLength(db, "items") - positionS - 1;
-		Cursor cursor = db.rawQuery("select * from items limit 1 offset "+offset, null);		
+		int offset = MyApplication.getTableLength("items") - positionS - 1;
+		Cursor cursor = db.rawQuery("select * from items limit 1 offset "+offset, null);
 		cursor.moveToFirst();
 		id = Integer.parseInt(cursor.getString(cursor.getColumnIndex("id")));
 		
@@ -120,13 +131,6 @@ public class Item {
 		db.delete("items", "id = ?", new String[] { Integer.toString(id) });
 		
 		Event.recordTodayEvent(3);
-	}
-	
-	public static int getTableLength(SQLiteDatabase db, String tableName){
-		//得到表中行数
-		SQLiteStatement statement = db.compileStatement("select count(*) from "+tableName);
-		long count = statement.simpleQueryForLong();
-		return (int)count;
 	}
 	
 	public static void loadSticks(){

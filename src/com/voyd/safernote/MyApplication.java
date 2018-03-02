@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 
 public class MyApplication extends Application{
 	public static Context context;
@@ -32,10 +33,10 @@ public class MyApplication extends Application{
 		values.put("md5password", newMD5Password);
 		db.update("settings", values, null, null);
 		
-		int itemsCount = Item.getTableLength(db, "items");
+		int itemsCount = getTableLength("items");
 		Item item = new Item();
 		for(int i=0;i<itemsCount;i++){
-			item.loadDbData(i);
+			item.loadDataByPosition(i, false);
 			item.updateDbData(newPassword);
 		}
 		
@@ -52,5 +53,12 @@ public class MyApplication extends Application{
 			new alert("error when getting "+name);
 			return 0;
 		}
+	}
+	
+	public static int getTableLength(String tableName){
+		//得到表中行数
+		SQLiteStatement statement = db.compileStatement("select count(*) from "+tableName);
+		long count = statement.simpleQueryForLong();
+		return (int)count;
 	}
 }

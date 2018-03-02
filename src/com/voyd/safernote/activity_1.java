@@ -2,6 +2,7 @@
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.voyd.safernote.R;
 
@@ -28,7 +29,7 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 		setContentView(R.layout.layout_1);
 		
 		listView = (ListView)findViewById(R.id.itemListView);
-		int tableItemsLength = Item.getTableLength(MyApplication.db, "items");
+		int tableItemsLength = MyApplication.getTableLength("items");
 		//初始化sticks数组
 		Item.loadSticks();
 		//根据数据库中Item行数，初始化list
@@ -37,7 +38,7 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 			list.add(new Item());
 		}
 		
-		itemAdapter = new ItemAdapter(this, R.layout.layout_item, list);
+		itemAdapter = new ItemAdapter(this, R.layout.layout_item, list, true, true);
 		listView.setAdapter(itemAdapter);
 		
 		listView.setOnItemClickListener(new OnItemClickListener(){
@@ -45,7 +46,7 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				Intent intent = new Intent(activity_1.this,activity_2.class);
-				intent.putExtra("position",position);
+				intent.putExtra("item",list.get(position));
 				intent.putExtra("viewType", 0);
 				
 				startSafeActivity(intent);
@@ -57,6 +58,7 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 		((Button) findViewById(R.id.import_export_db)).setOnClickListener(this);
 		((Button) findViewById(R.id.settings)).setOnClickListener(this);
 		((Button) findViewById(R.id.statistic)).setOnClickListener(this);
+		((Button) findViewById(R.id.search)).setOnClickListener(this);
 		
 		//改变左侧菜单响应范围
 		setDrawerLeftEdgeSize((DrawerLayout)findViewById(R.id.drawer_layout),(float)0.10);
@@ -67,7 +69,9 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 		case R.id.createItem:
 			Intent intent = new Intent(this, activity_2.class);
 			intent.putExtra("viewType", 2);
-			intent.putExtra("position", -1);
+			Item newItem = new Item();
+			newItem.createNew(Item.timeFormat.format(new Date()));
+			intent.putExtra("item", newItem);
 			startSafeActivity(intent);
 			/*/加密可能会出现在字符串结尾随机加上ascii码小于等于16的字符的bug;先滑动显示完每个item再使用
 			for(Item item:list){
@@ -107,6 +111,9 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 		case R.id.statistic:
 			startSafeActivity(new Intent(this, activity_statistic.class));
 			break;
+		case R.id.search:
+			startSafeActivity(new Intent(this, activity_search.class));
+			break;
 		default:
 		}
 	}
@@ -116,7 +123,7 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 	public void onRestart(){
 		if(isFromStack){
 			Item.loadSticks();
-			int tableItemsLength = Item.getTableLength(MyApplication.db, "items");
+			int tableItemsLength = MyApplication.getTableLength("items");
 			//根据数据库中Item行数，初始化list
 			list.clear();
 			for(int i=0;i<tableItemsLength;i++){
