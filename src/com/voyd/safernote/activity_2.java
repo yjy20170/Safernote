@@ -11,6 +11,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,7 +25,7 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 	private SuperEditText titleView;
 	private Button cancel;
 	private Button save;
-	private SuperEditText tagsView;
+	private TextView tagsView;
 	private SuperEditText contentView;
 	//-1:activity_2不在前台  0:无键盘无按钮  1:无键盘有按钮  2:有键盘无按钮  3:有键盘有按钮
 	public int viewType = -1;
@@ -46,13 +48,14 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 		titleView = (SuperEditText)findViewById(R.id.title);
 		cancel = (Button)findViewById(R.id.cancel);
 		save = (Button)findViewById(R.id.save);
-		tagsView = (SuperEditText)findViewById(R.id.tags);
+		tagsView = (TextView)findViewById(R.id.tags);
 		contentView = (SuperEditText)findViewById(R.id.content);
 		
 		//绑定OnClickListener!!!
 		finish.setOnClickListener(this);
 		cancel.setOnClickListener(this);
 		save.setOnClickListener(this);
+		tagsView.setOnClickListener(this);
 		findViewById(R.id.item_more).setOnClickListener(this);
 		
 		itemPosition = getIntent().getIntExtra("position", 0);
@@ -93,6 +96,9 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 			setViewType(lastFocus, 0);
 			lastFocus.leaveEdit();
 			break;
+		case R.id.tags:
+			new TagsManager(this, item, (TextView)findViewById(R.id.tags));
+			break;
 		case R.id.item_more:
 			seeMore();
 			break;
@@ -102,7 +108,7 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 	@SuppressLint("InflateParams")
 	public void seeMore(){
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity_2.this);
-		LinearLayout dialogView= (LinearLayout) getLayoutInflater().inflate(R.layout.layout_more_dialog,null);
+		LinearLayout dialogView= (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_more,null);
 		dialogBuilder.setView(dialogView);
 		dialogBuilder.setCancelable(true);
 		String text = "创建时间："+item.createTime
@@ -146,7 +152,7 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 	@SuppressLint("InflateParams")
 	public void deleteWarning(){
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity_2.this);
-		LinearLayout dialogView= (LinearLayout) getLayoutInflater().inflate(R.layout.layout_delete_dialog,null);
+		LinearLayout dialogView= (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_delete,null);
 		
 		dialogBuilder.setView(dialogView);
 		dialogBuilder.setCancelable(true);
@@ -173,7 +179,7 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 	@SuppressLint("InflateParams")
 	public void finishWithoutSave(){
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity_2.this);
-		LinearLayout dialogView= (LinearLayout) getLayoutInflater().inflate(R.layout.layout_askifsave_dialog,null);
+		LinearLayout dialogView= (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_askifsave,null);
 		
 		dialogBuilder.setView(dialogView);
 		dialogBuilder.setCancelable(true);
@@ -254,7 +260,7 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 		item.tagsString = tagsView.getText().toString();
 		item.content = contentView.getText().toString();
 		//将item上传到数据库
-		item.updateDbData();
+		item.updateMainData();
 	}
 	
 	public boolean isChanged(){

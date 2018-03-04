@@ -55,7 +55,7 @@ public class activity_statistic extends SafeActivity{
 		
 		loadEventList();
 		
-		EventColumnAdapter eventColomnAdapter = new EventColumnAdapter(this, R.layout.layout_event_column, eventColumnList);
+		EventColumnAdapter eventColomnAdapter = new EventColumnAdapter(this, R.layout.view_event_column, eventColumnList);
 		eventColumnListView.setAdapter(eventColomnAdapter);
 		//定位到最右侧
 		
@@ -102,7 +102,7 @@ public class activity_statistic extends SafeActivity{
 	}
 	private void loadEventList(){
 		//首先得到有记录的最早日期
-		SQLiteDatabase db = MyApplication.db;
+		SQLiteDatabase db = MyApp.db;
 		Cursor cursor = db.rawQuery("select * from events", null);
 		if(cursor.moveToFirst()){//打开app即会添加event，因此不会为空
 			int[] lastYearAndMonth = {-1, -1};
@@ -191,13 +191,13 @@ public class activity_statistic extends SafeActivity{
 	
 	private void loadStatText(){
 		String statText;
-		Cursor cursor = MyApplication.db.rawQuery(
+		Cursor cursor = MyApp.db.rawQuery(
 				"select createTime, wordCount,writingSeconds,readingSeconds from items",null);
 		if(cursor.moveToFirst()){
 			//第一个item的时间
 			Date firstTime;
 			try{
-				firstTime = Item.timeFormat.parse(AES.decrypt(MyApplication.password, 
+				firstTime = Item.timeFormat.parse(AES.decrypt(MyApp.password, 
 						cursor.getString(cursor.getColumnIndex("createTime"))));
 			}catch (ParseException e) {
 				new alert(e.toString());
@@ -215,11 +215,11 @@ public class activity_statistic extends SafeActivity{
 			int itemsWritingSecondsSum = 0;
 			int itemsReadingSecondsSum = 0;
 			do{
-				itemsWordCount += Integer.parseInt(AES.decrypt(MyApplication.password, 
+				itemsWordCount += Integer.parseInt(AES.decrypt(MyApp.password, 
 									cursor.getString(cursor.getColumnIndex("wordCount"))));
-				itemsWritingSecondsSum += Integer.parseInt(AES.decrypt(MyApplication.password, 
+				itemsWritingSecondsSum += Integer.parseInt(AES.decrypt(MyApp.password, 
 						cursor.getString(cursor.getColumnIndex("writingSeconds"))));
-				itemsReadingSecondsSum += Integer.parseInt(AES.decrypt(MyApplication.password, 
+				itemsReadingSecondsSum += Integer.parseInt(AES.decrypt(MyApp.password, 
 						cursor.getString(cursor.getColumnIndex("readingSeconds"))));
 			}while(cursor.moveToNext());
 			statText = "在过去的"+((years == 0)?"":(years+"年"))+days+"天里\n"

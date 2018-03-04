@@ -14,12 +14,12 @@ public class Item implements Serializable{
 	public static SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	public int id;
 	public boolean isNew = false;
-	public static SQLiteDatabase db = MyApplication.db;
+	public static SQLiteDatabase db = MyApp.db;
 	public String title;
 	public String createTime;
 	public String editTime;
 	public ArrayList<String> tags = new ArrayList<String>();
-	public String tagsString;
+	public String tagsString = "";
 	public String content;
 	public String wordCount;
 	//置顶功能相关
@@ -32,13 +32,6 @@ public class Item implements Serializable{
 	
 	public Item(){}
 	
-	public Item(Item oldItem){
-		Item newItem = new Item();
-		newItem.id = oldItem.id;
-		newItem.isNew = oldItem.isNew;
-		//未完成
-	}
-	
 	public void createNew(String createTime){
 		isNew = true;
 		title = "";
@@ -48,8 +41,27 @@ public class Item implements Serializable{
 		content = "";
 		stick = 0;
 	}
+	
+	public void addTag(String choosedTag){
+		if(tags.indexOf(choosedTag) == -1){
+			tags.add(choosedTag);
+			tagsString = MyApp.listToString(tags);
+		}else{
+			new alert("本日志已添加该标签");
+		}
+	}
+	public void removeTag(String choosedTag){
+		if(tags.indexOf(choosedTag) != -1){
+			tags.remove(choosedTag);
+			tagsString = MyApp.listToString(tags);
+		}
+	}
+	public void updateTags(){
+		db.execSQL("update items set tagsString='"
+				+AES.encrypt(MyApp.password, tagsString)+"' where id="+id);
+	}
 	//用于修改密码后的更新
-	public void updateDbData(String password){
+	public void updateMainData(String password){
 		ContentValues values = new ContentValues();
 		values.put("title", AES.encrypt(password, title));
 		values.put("wordCount",AES.encrypt(password, wordCount));
@@ -61,15 +73,15 @@ public class Item implements Serializable{
 		
 		Event.recordTodayEvent(2);
 	}
-	public void updateDbData(){
+	public void updateMainData(){
 		if(isNew){
 			//建一条空项目
 			String INSERT_ITEM = "insert into items ("
 					+ "title, wordCount, createTime, editTime, tagsString, content,writingSeconds,readingSeconds) "
-					+ "values('', 0, '"+AES.encrypt(MyApplication.password, createTime)+"','','','',"
-					+ "'"+AES.encrypt(MyApplication.password, "0")+"','"+AES.encrypt(MyApplication.password, "0")+"')";
+					+ "values('', 0, '"+AES.encrypt(MyApp.password, createTime)+"','','','',"
+					+ "'"+AES.encrypt(MyApp.password, "0")+"','"+AES.encrypt(MyApp.password, "0")+"')";
 			db.execSQL(INSERT_ITEM);
-			int offset = MyApplication.getTableLength("items") - 1;
+			int offset = MyApp.getTableLength("items") - 1;
 			Cursor cursor = db.rawQuery("select * from items limit 1 offset "+offset, null);		
 			cursor.moveToFirst();
 			id = Integer.parseInt(cursor.getString(cursor.getColumnIndex("id")));
@@ -78,7 +90,7 @@ public class Item implements Serializable{
 			setStick(stick);
 			Event.recordTodayEvent(3);
 		}
-		updateDbData(MyApplication.password);
+		updateMainData(MyApp.password);
 	}
 
 	//根据id，从数据库加载数据
@@ -105,24 +117,30 @@ public class Item implements Serializable{
 			}
 		}
 		//wrong: this.id = getTableLength(db, "items") - position;未考虑删除
-		int offset = MyApplication.getTableLength("items") - positionS - 1;
+		int offset = MyApp.getTableLength("items") - positionS - 1;
 		Cursor cursor = db.rawQuery("select * from items limit 1 offset "+offset, null);
 		cursor.moveToFirst();
 		id = Integer.parseInt(cursor.getString(cursor.getColumnIndex("id")));
 		
-		title = AES.decrypt(MyApplication.password, cursor.getString(cursor.getColumnIndex("title")));
-		wordCount = AES.decrypt(MyApplication.password, cursor.getString(cursor.getColumnIndex("wordCount")));
-		createTime = AES.decrypt(MyApplication.password, cursor.getString(cursor.getColumnIndex("createTime")));
-		editTime = AES.decrypt(MyApplication.password, cursor.getString(cursor.getColumnIndex("editTime")));
-		tagsString = AES.decrypt(MyApplication.password, cursor.getString(cursor.getColumnIndex("tagsString")));
-		for(String tag: tagsString.split(", ")){
-			tags.add(tag);
+		title = AES.decrypt(MyApp.password, cursor.getString(cursor.getColumnIndex("title")));
+		wordCount = AES.decrypt(MyApp.password, cursor.getString(cursor.getColumnIndex("wordCount")));
+		createTime = AES.decrypt(MyApp.password, cursor.getString(cursor.getColumnIndex("createTime")));
+		editTime = AES.decrypt(MyApp.password, cursor.getString(cursor.getColumnIndex("editTime")));
+		
+		tagsString = AES.decrypt(MyApp.password, cursor.getString(cursor.getColumnIndex("tagsString")));
+		MyApp.stringToList(tagsString, tags);
+		for(String tag: tags){
+			if(MyApp.getAllTags().indexOf(tag)==-1){
+				tags.remove(tag);
+			}
 		}
-		content = AES.decrypt(MyApplication.password, cursor.getString(cursor.getColumnIndex("content")));
+		tagsString = MyApp.listToString(tags);
+		
+		content = AES.decrypt(MyApp.password, cursor.getString(cursor.getColumnIndex("content")));
 		stick = cursor.getInt(cursor.getColumnIndex("stick"));
 		try{
-			writingSeconds = Integer.parseInt(AES.decrypt(MyApplication.password, cursor.getString(cursor.getColumnIndex("writingSeconds"))));
-			readingSeconds = Integer.parseInt(AES.decrypt(MyApplication.password, cursor.getString(cursor.getColumnIndex("readingSeconds"))));
+			writingSeconds = Integer.parseInt(AES.decrypt(MyApp.password, cursor.getString(cursor.getColumnIndex("writingSeconds"))));
+			readingSeconds = Integer.parseInt(AES.decrypt(MyApp.password, cursor.getString(cursor.getColumnIndex("readingSeconds"))));
 		}catch(Exception e){
 		}
 		finally{
@@ -163,8 +181,8 @@ public class Item implements Serializable{
 	
 	public void updateSeconds(){
 		ContentValues values = new ContentValues();
-		values.put("writingSeconds", AES.encrypt(MyApplication.password, Integer.toString(writingSeconds)));
-		values.put("readingSeconds", AES.encrypt(MyApplication.password, Integer.toString(readingSeconds)));
+		values.put("writingSeconds", AES.encrypt(MyApp.password, Integer.toString(writingSeconds)));
+		values.put("readingSeconds", AES.encrypt(MyApp.password, Integer.toString(readingSeconds)));
 		db.update("items", values, "id = ?", new String[]{Integer.toString(id)});
 	}
 }

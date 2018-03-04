@@ -38,7 +38,7 @@ public class Event {
 	//3: Item.updateDbData()[isNew] / Item.delete()[!isNew]
 	//TODO 4: ?
 	public static void recordTodayEvent(int level){
-		Cursor cursor = MyApplication.db.rawQuery("select * from events",null);
+		Cursor cursor = MyApp.db.rawQuery("select * from events",null);
 		int eventsCount = cursor.getCount();
 		boolean isInsertNecessary = true;
 		if(eventsCount > 0){
@@ -47,7 +47,7 @@ public class Event {
 			if(lastEvent.compareTo(Calendar.getInstance()) == 0){
 				isInsertNecessary = false;
 				if(lastEvent.level < level){
-					MyApplication.db.execSQL("update events set level="+level
+					MyApp.db.execSQL("update events set level="+level
 							+ " where year="+lastEvent.year
 							+ " and month="+lastEvent.month
 							+ " and date="+lastEvent.date);
@@ -56,7 +56,7 @@ public class Event {
 		}
 		if(isInsertNecessary){
 			Event todayEvent = new Event(Calendar.getInstance(),level);
-			MyApplication.db.execSQL("insert into events values ("
+			MyApp.db.execSQL("insert into events values ("
 					+ todayEvent.year+","
 					+ todayEvent.month+","
 					+ todayEvent.date+","

@@ -39,7 +39,7 @@ public class activity_setPassword extends SafeActivity implements OnClickListene
 			}else{
 				if(inputString.equals(passwordInputer.getInput())){
 					new alert("设置成功");
-					MyApplication.updatePassword(inputString);
+					MyApp.updatePassword(inputString);
 					onBackPressed();
 				}else{
 					new alert("两次输入不一致，请重新输入");

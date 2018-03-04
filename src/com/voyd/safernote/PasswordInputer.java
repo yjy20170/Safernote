@@ -15,7 +15,7 @@ public class PasswordInputer extends LinearLayout implements OnClickListener{
 	private String inputString;
 	public PasswordInputer(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		LayoutInflater.from(context).inflate(R.layout.layout_password_inputer, this);
+		LayoutInflater.from(context).inflate(R.layout.view_password_inputer, this);
 		input = (TextView) findViewById(R.id.input_password);
 		inputString = "";
 		findViewById(R.id.pw_1).setOnClickListener(this);

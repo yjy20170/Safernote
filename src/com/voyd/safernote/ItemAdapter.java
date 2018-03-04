@@ -76,11 +76,7 @@ public class ItemAdapter extends ArrayAdapter<Item>{
 		viewHolder.itemWordCount.setText("字数："+item.wordCount);
 		viewHolder.itemCreateTime.setText("创建:"+item.createTime);
 		viewHolder.itemEditTime.setText("修改:"+item.editTime);
-		if(item.tagsString.equals("")){
-			viewHolder.itemTags.setText("无");
-		}else{
-			viewHolder.itemTags.setText(item.tagsString);
-		}
+		viewHolder.itemTags.setText(item.tagsString);
 		if(showSettings[4]==0){
 			viewHolder.itemSummary.setMaxLines(3);
 			viewHolder.itemSummary.setEllipsize(TruncateAt.END);
@@ -105,10 +101,10 @@ public class ItemAdapter extends ArrayAdapter<Item>{
 		public TextView itemSummary;
 	}
 	public void loadShowSettings(){
-		showSettings[0] = MyApplication.getSetting("isShowWordCount");
-		showSettings[1] = MyApplication.getSetting("isShowCreateAndEditTime");
-		showSettings[2] = MyApplication.getSetting("isShowTags");
-		showSettings[3] = MyApplication.getSetting("isShowSummary");
-		showSettings[4] = MyApplication.getSetting("summaryLength");
+		showSettings[0] = MyApp.getIntSetting("isShowWordCount");
+		showSettings[1] = MyApp.getIntSetting("isShowCreateAndEditTime");
+		showSettings[2] = MyApp.getIntSetting("isShowTags");
+		showSettings[3] = MyApp.getIntSetting("isShowSummary");
+		showSettings[4] = MyApp.getIntSetting("summaryLength");
 	}
 }

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    <include layout="@layout/layout_titlebar"/>"
+    <include layout="@layout/view_titlebar"/>"
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,10 +32,11 @@
             android:text="内容"/>
     </LinearLayout>
 	<TextView
+	    android:id="@+id/search_inputTip"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
     	android:layout_marginLeft="3dp"
-	    android:text="搜索内容（以 &quot;,&quot; 分隔）："
+	    android:text="关键词（与关系，以 &quot;,&quot; 分隔）："
 	    android:textSize="18sp"/>
 	<EditText 
 	    android:id="@+id/search_inputText"
@@ -46,6 +47,18 @@
 	    android:layout_marginTop="6dp"
 	    android:padding="3dp"
 	    android:background="#dadada"
+	    />
+	<TextView
+	    android:id="@+id/search_tagsManager"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="7dp"
+	    android:layout_marginRight="5dp"
+	    android:layout_marginTop="6dp"
+	    android:padding="3dp"
+	    android:background="#dadada"
+	    android:textSize="18sp"
+	    android:hint="选择标签（或关系）"
 	    />
     <TextView 
         android:layout_width="wrap_content"

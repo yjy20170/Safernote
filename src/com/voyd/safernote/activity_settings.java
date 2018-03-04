@@ -33,7 +33,7 @@ public class activity_settings extends SafeActivity
 	}
 	void initView(){
 		//安全等级
-		switch (MyApplication.getSetting("safetyLevel")){
+		switch (MyApp.getIntSetting("safetyLevel")){
 		case 0:
 			((RadioGroup)findViewById(R.id.set_safety_level)).check(R.id.safety_level_0);
 			break;
@@ -46,18 +46,18 @@ public class activity_settings extends SafeActivity
 		}
 		//视图
 		((CheckBox)findViewById(R.id.check_wordCount)).setChecked(
-				MyApplication.getSetting("isShowWordCount")==1?true:false);
+				MyApp.getIntSetting("isShowWordCount")==1?true:false);
 		((CheckBox)findViewById(R.id.check_createAndEditTime)).setChecked(
-				MyApplication.getSetting("isShowCreateAndEditTime")==1?true:false);
+				MyApp.getIntSetting("isShowCreateAndEditTime")==1?true:false);
 		((CheckBox)findViewById(R.id.check_tags)).setChecked(
-				MyApplication.getSetting("isShowTags")==1?true:false);
+				MyApp.getIntSetting("isShowTags")==1?true:false);
 		((CheckBox)findViewById(R.id.check_summary)).setChecked(
-				MyApplication.getSetting("isShowSummary")==1?true:false);
+				MyApp.getIntSetting("isShowSummary")==1?true:false);
 		findViewById(R.id.set_summary_length).setVisibility(
 				((CheckBox)findViewById(R.id.check_summary)).isChecked()
 					?View.VISIBLE:View.GONE);
 		((RadioGroup)findViewById(R.id.set_summary_length)).check(
-				MyApplication.getSetting("summaryLength")==1?R.id.summary_long:R.id.summary_short);
+				MyApp.getIntSetting("summaryLength")==1?R.id.summary_long:R.id.summary_short);
 	}
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -65,23 +65,23 @@ public class activity_settings extends SafeActivity
 		case R.id.set_safety_level:
 			switch(checkedId){
 			case R.id.safety_level_0:
-				MyApplication.updateSetting("safetyLevel", 0);
+				MyApp.updateIntSetting("safetyLevel", 0);
 				break;
 			case R.id.safety_level_1:
-				MyApplication.updateSetting("safetyLevel", 1);
+				MyApp.updateIntSetting("safetyLevel", 1);
 				break;
 			case R.id.safety_level_2:
-				MyApplication.updateSetting("safetyLevel", 2);
+				MyApp.updateIntSetting("safetyLevel", 2);
 				break;
 			}
 			break;
 		case R.id.set_summary_length:
 			switch(checkedId){
 			case R.id.summary_short:
-				MyApplication.updateSetting("summaryLength", 0);
+				MyApp.updateIntSetting("summaryLength", 0);
 				break;
 			case R.id.summary_long:
-				MyApplication.updateSetting("summaryLength", 1);
+				MyApp.updateIntSetting("summaryLength", 1);
 				break;
 			}
 			break;
@@ -91,16 +91,16 @@ public class activity_settings extends SafeActivity
 	public void onCheckedChanged(CompoundButton btn, boolean isChecked) {
 		switch(btn.getId()){
 		case R.id.check_wordCount:
-			MyApplication.updateSetting("isShowWordCount", isChecked?1:0);
+			MyApp.updateIntSetting("isShowWordCount", isChecked?1:0);
 			break;
 		case R.id.check_createAndEditTime:
-			MyApplication.updateSetting("isShowCreateAndEditTime", isChecked?1:0);
+			MyApp.updateIntSetting("isShowCreateAndEditTime", isChecked?1:0);
 			break;
 		case R.id.check_tags:
-			MyApplication.updateSetting("isShowTags", isChecked?1:0);
+			MyApp.updateIntSetting("isShowTags", isChecked?1:0);
 			break;
 		case R.id.check_summary:
-			MyApplication.updateSetting("isShowSummary", isChecked?1:0);
+			MyApp.updateIntSetting("isShowSummary", isChecked?1:0);
 			findViewById(R.id.set_summary_length).setVisibility(isChecked?View.VISIBLE:View.GONE);
 			break;
 		}

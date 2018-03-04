@@ -77,7 +77,7 @@ public class activity_importExportDb extends SafeActivity implements OnClickList
 	            File toDb;
 	            toDb = importDB(uri.getPath().toString(),"temp.db");//getString(R.string.database_name)
 	            if(toDb != null){
-		            dbHelper = new DbHelper(MyApplication.context, "temp.db", null, MyApplication.dbVersion);
+		            dbHelper = new DbHelper(MyApp.context, "temp.db", null, MyApp.dbVersion);
 		            db = dbHelper.getWritableDatabase();
 	            	try{
 			            Cursor cursor = db.rawQuery("select * from settings", null);
@@ -106,7 +106,7 @@ public class activity_importExportDb extends SafeActivity implements OnClickList
     public static File importDB(String importFilePath, String dbName){
     	try{
 	        File data  = Environment.getDataDirectory();
-	        String  currentDBPath= "//data//" + MyApplication.context.getString(R.string.package_name)
+	        String  currentDBPath= "//data//" + MyApp.context.getString(R.string.package_name)
 	                + "//databases//" + dbName;
 	        File backupDB = new File(importFilePath);
 	        File currentDB  = new File(data, currentDBPath);
@@ -135,10 +135,10 @@ public class activity_importExportDb extends SafeActivity implements OnClickList
             File data = Environment.getDataDirectory();
 
             if (sd.canWrite()) {
-                String  currentDBPath= "//data//" + MyApplication.context.getString(R.string.package_name)
-                        + "//databases//" + MyApplication.context.getString(R.string.database_name);
-                String backupDBPath  = "/" + MyApplication.context.getString(R.string.app_name)
-                		+ "/" + MyApplication.context.getString(R.string.database_name);
+                String  currentDBPath= "//data//" + MyApp.context.getString(R.string.package_name)
+                        + "//databases//" + MyApp.context.getString(R.string.database_name);
+                String backupDBPath  = "/" + MyApp.context.getString(R.string.app_name)
+                		+ "/" + MyApp.context.getString(R.string.database_name);
                 File currentDB = new File(data, currentDBPath);
                 File backupDB = new File(sd, backupDBPath);
                 if(!backupDB.exists()){

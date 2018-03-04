@@ -45,13 +45,14 @@ public class activity_search extends SafeActivity implements OnClickListener, On
         ((CheckBox)findViewById(R.id.search_inTitle)).setChecked(isInTitle);
         ((CheckBox)findViewById(R.id.search_inTags)).setChecked(isInTags);
         ((CheckBox)findViewById(R.id.search_inContent)).setChecked(isInContent);
+        findViewById(R.id.search_tagsManager).setOnClickListener(this);
         findViewById(R.id.search_create_limitStartDate).setOnClickListener(this);
         findViewById(R.id.search_create_limitEndDate).setOnClickListener(this);
         ((TextView)findViewById(R.id.search_create_limitStartDate)).setText("2000-01-01");
         ((TextView)findViewById(R.id.search_create_limitEndDate)).setText("2099-12-31");
 
 		list = new ArrayList<Item>();
-		itemAdapter = new ItemAdapter(this, R.layout.layout_item, list, false, false);
+		itemAdapter = new ItemAdapter(this, R.layout.view_item, list, false, false);
 		((ListView)findViewById(R.id.itemListView)).setAdapter(itemAdapter);
 		
 		((ListView)findViewById(R.id.itemListView)).setOnItemClickListener(new OnItemClickListener(){
@@ -82,12 +83,15 @@ public class activity_search extends SafeActivity implements OnClickListener, On
 			doSearch();
 			new alert("找到"+list.size()+"条结果");
 			break;
+		case R.id.search_tagsManager:
+			new TagsManager(this, null,(TextView)findViewById(R.id.search_tagsManager));
+			break;
 		case R.id.search_create_limitStartDate:
 		case R.id.search_create_limitEndDate:
 			AlertDialog.Builder localBuilder = new AlertDialog.Builder(activity_search.this);
 	        localBuilder.setTitle("选择日期");
 	        //
-	        final LinearLayout layout_alert= (LinearLayout) getLayoutInflater().inflate(R.layout.layout_date_picker_dialog, null);
+	        final LinearLayout layout_alert= (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_date_picker, null);
 	        localBuilder.setView(layout_alert);
 	        localBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener()
 	        {
@@ -119,16 +123,34 @@ public class activity_search extends SafeActivity implements OnClickListener, On
 			break;
 		case R.id.search_inTags:
 			isInTags = isChecked;
+			findViewById(R.id.search_tagsManager).setVisibility(isChecked?View.VISIBLE:View.GONE);
 			break;
 		case R.id.search_inContent:
 			isInContent = isChecked;
 			break;
 		}
+		if(!(isInTitle||isInContent)){
+			InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			if (inputMethodManager != null && getCurrentFocus() != null) {
+				inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+						InputMethodManager.HIDE_NOT_ALWAYS);
+			}
+		}
+		findViewById(R.id.search_inputText).setVisibility((isInTitle||isInContent)?View.VISIBLE:View.GONE);
+		findViewById(R.id.search_inputTip).setVisibility((isInTitle||isInContent)?View.VISIBLE:View.GONE);
 	}
+
+	@Override
+	public void onRestart(){
+		if(isFromStack){
+			doSearch();
+		}
+		super.onRestart();
+	}
+	
 	private void doSearch(){
 		list.clear();
-		String[] searchWords = ((EditText)findViewById(R.id.search_inputText)).getText().toString().split(",");
-		int itemsCount = MyApplication.getTableLength("items");
+		int itemsCount = MyApp.getTableLength("items");
 		Date createLimitStartDate;
 		Date createLimitEndDate;
 		try{
@@ -158,28 +180,40 @@ public class activity_search extends SafeActivity implements OnClickListener, On
 					|| itemCreateDate.after(createLimitEndDate)){
 				continue;
 			}
-			boolean isMatch = true;
-			for(String word:searchWords){
-				if(word.equals("")) continue;
-				if(!((isInTitle && item.title.indexOf(word)!=-1)
-						|| (isInTags && item.tagsString.indexOf(word)!=-1)
-						|| (isInContent && item.content.indexOf(word)!=-1))){
-					isMatch = false;
-					break;
+			boolean isMatchTag;
+			if(isInTags){
+				isMatchTag = false;
+				String[] searchTags = ((TextView)findViewById(R.id.search_tagsManager)).getText().toString().split(",");
+				for(String word:searchTags){//与关系
+					if(word.equals("")) continue;
+					if(item.tagsString.indexOf(word)!=-1){
+						isMatchTag = true;
+						break;
+					}
 				}
+				if(searchTags.length == 0) isMatchTag = true;
+			}else{
+				isMatchTag = true;
 			}
-			if(isMatch){
+			boolean isMatchWords;
+			if(isInTitle || isInContent){
+				isMatchWords = true;
+				String[] searchWords = ((EditText)findViewById(R.id.search_inputText)).getText().toString().split(",");
+				for(String word:searchWords){//与关系
+					if(word.equals("")) continue;
+					if(!((isInTitle && item.title.indexOf(word)!=-1)
+							|| (isInContent && item.content.indexOf(word)!=-1))){
+						isMatchWords = false;
+						break;
+					}
+				}
+			}else{
+				isMatchWords = true;
+			}
+			if(isMatchTag && isMatchWords){
 				list.add(item);
 			}
 		}
 		itemAdapter.notifyDataSetChanged();
-	}
-	
-	@Override
-	public void onRestart(){
-		if(isFromStack){
-			doSearch();
-		}
-		super.onRestart();
 	}
 }

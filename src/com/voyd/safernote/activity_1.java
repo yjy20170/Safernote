@@ -31,7 +31,7 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 		setContentView(R.layout.layout_1);
 		
 		listView = (ListView)findViewById(R.id.itemListView);
-		int tableItemsLength = MyApplication.getTableLength("items");
+		int tableItemsLength = MyApp.getTableLength("items");
 		//初始化sticks数组
 		Item.loadSticks();
 		//根据数据库中Item行数，初始化list
@@ -40,7 +40,7 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 			list.add(new Item());
 		}
 		
-		itemAdapter = new ItemAdapter(this, R.layout.layout_item, list, true, true);
+		itemAdapter = new ItemAdapter(this, R.layout.view_item, list, true, true);
 		listView.setAdapter(itemAdapter);
 		
 		listView.setOnItemClickListener(new OnItemClickListener(){
@@ -133,7 +133,7 @@ public class activity_1 extends SafeActivity implements OnClickListener{
 	public void onRestart(){
 		if(isFromStack){
 			Item.loadSticks();
-			int tableItemsLength = MyApplication.getTableLength("items");
+			int tableItemsLength = MyApp.getTableLength("items");
 			//根据数据库中Item行数，初始化list
 			list.clear();
 			for(int i=0;i<tableItemsLength;i++){

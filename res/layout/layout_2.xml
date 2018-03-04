@@ -66,11 +66,11 @@
 		        <ImageView 
 		            android:layout_width="32dp"
 		            android:layout_height="32dp"
-		            android:layout_marginTop="6dp"
+		            android:layout_marginTop="8dp"
 		            android:layout_marginBottom="0dp"
 		            android:src="@drawable/tag_large"
 		            />
-		        <com.voyd.safernote.SuperEditText 
+		        <TextView 
 		            android:id="@+id/tags"
 		            android:layout_width="0dp"
 		            android:layout_weight="1"
@@ -80,6 +80,7 @@
 		            android:paddingLeft="4dp"
 		            android:paddingRight="4dp"
 		            android:hint="无"
+		            android:textSize="18sp"
 		            android:textColor="#555555"/>
 		        <Button 
 		            android:id="@+id/item_more"

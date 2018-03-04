@@ -47,7 +47,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	}
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		if(dbName.equals(MyApplication.context.getString(R.string.database_name))){
+		if(dbName.equals(MyApp.context.getString(R.string.database_name))){
 			db.execSQL(CREATE_ITEMS);
 			db.execSQL(CREATE_SETTINGS);
 			db.execSQL(INSERT_SETTINGS);
@@ -74,6 +74,8 @@ public class DbHelper extends SQLiteOpenHelper {
 			db.execSQL("alter table settings add column isShowTags integer DEFAULT 1");
 			db.execSQL("alter table settings add column isShowSummary integer DEFAULT 1");
 			db.execSQL("alter table settings add column summaryLength integer DEFAULT 0");
+		case 6://tags
+			db.execSQL("alter table settings add column tags text");
 		}
 	}
 }

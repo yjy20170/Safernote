@@ -45,10 +45,10 @@ public class activity_testNewDb extends SafeActivity implements OnClickListener{
 					public void onClick(DialogInterface dialog, int which) {
 						activity_importExportDb.exportDB();
 						String  tempDbPath= Environment.getDataDirectory() + "//data//" 
-								+ MyApplication.context.getString(R.string.package_name)
+								+ MyApp.context.getString(R.string.package_name)
 				                + "//databases//" + "temp.db";
-						activity_importExportDb.importDB(tempDbPath,MyApplication.context.getString(R.string.database_name));
-						MyApplication.password = passwordOfImportDb;
+						activity_importExportDb.importDB(tempDbPath,MyApp.context.getString(R.string.database_name));
+						MyApp.password = passwordOfImportDb;
 						activity_testNewDb.this.onBackPressed();//返回importExport
 					}});
 				dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {

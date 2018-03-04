@@ -21,7 +21,7 @@ public class activity_locked extends Activity implements OnClickListener{
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.layout_locked);
 		
-		MD5Password = MyApplication.getMD5Password();
+		MD5Password = MyApp.getMD5Password();
 		
 		passwordInputer = (PasswordInputer)findViewById(R.id.password_inputer);
 		findViewById(R.id.submit_password).setOnClickListener(this);
@@ -38,7 +38,7 @@ public class activity_locked extends Activity implements OnClickListener{
 			if(getIntent().getBooleanExtra("isOnAppStart",true)){
 				if(MD5inputString.equals(MD5Password)){
 					//将password储存到静态变量中
-					MyApplication.password = passwordInputer.getInput();
+					MyApp.password = passwordInputer.getInput();
 					startActivity(new Intent(this,activity_1.class));
 					finish();
 				}else{
@@ -47,15 +47,15 @@ public class activity_locked extends Activity implements OnClickListener{
 				}
 			}else{//onRestart
 				if(MD5inputString.equals(MD5Password)){
-					MyApplication.isErrorPasswordInputed = false;
+					MyApp.isErrorPasswordInputed = false;
 					finish();
-				}else if(!MyApplication.isErrorPasswordInputed
-						&& MyApplication.getSetting("safetyLevel")==1
-						&& MyApplication.password.length() > 4
-						&& passwordInputer.getInput().equals(MyApplication.password.substring(0, 4))){
+				}else if(!MyApp.isErrorPasswordInputed
+						&& MyApp.getIntSetting("safetyLevel")==1
+						&& MyApp.password.length() > 4
+						&& passwordInputer.getInput().equals(MyApp.password.substring(0, 4))){
 					finish();
 				}else{
-					MyApplication.isErrorPasswordInputed = true;
+					MyApp.isErrorPasswordInputed = true;
 					new alert("密码错误！需输入长密码!");
 					passwordInputer.reset();
 				}
