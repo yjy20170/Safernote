@@ -8,6 +8,8 @@ import com.voyd.safernote.R;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -97,7 +99,19 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 			lastFocus.leaveEdit();
 			break;
 		case R.id.tags:
-			new TagsManager(this, item, (TextView)findViewById(R.id.tags));
+			TagsManager tagsManager = new TagsManager(this, item, (TextView)findViewById(R.id.tags));
+			tagsManager.dialog.setOnDismissListener(new OnDismissListener(){
+				@Override
+				public void onDismiss(DialogInterface dialogInterface) {
+					InputMethodManager inputMethodManager = 
+							(InputMethodManager)activity_2.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+					if (inputMethodManager != null && activity_2.this.getCurrentFocus() != null) {
+        				inputMethodManager.hideSoftInputFromWindow(activity_2.this.getCurrentFocus().getWindowToken(),
+        						InputMethodManager.HIDE_NOT_ALWAYS);
+        			}
+					if(viewType==2||viewType==3) inputMethodManager.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+				}
+			});
 			break;
 		case R.id.item_more:
 			seeMore();

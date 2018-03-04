@@ -12,9 +12,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class TagsManager{
-	public Context context;
+	private Context context;
 	private Item item;
-	private AlertDialog dialog;
+	public AlertDialog dialog;
 	public TagsManager(Context context, Item item, TextView textView){
 		this.context = context;
 		this.item = item;
