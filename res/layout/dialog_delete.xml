@@ -17,20 +17,20 @@
         <Button
             android:id="@+id/dialogCancel"
             android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentLeft="true"
-			android:padding="3dp"
-			android:background="@drawable/dialog_btn_style"
-			android:text="取消"
-			android:textSize="15sp"/>
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:padding="3dp"
+            android:background="@drawable/dialog_btn_style"
+            android:text="取消"
+            android:textSize="15sp"/>
         <Button
             android:id="@+id/dialogConfirm"
             android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentRight="true"
-			android:background="@drawable/dialog_btn_style"
-			android:text="确定"
-			android:textSize="15sp"/>
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/dialog_btn_style"
+            android:text="确定"
+            android:textSize="15sp"/>
     </RelativeLayout>
 
 </LinearLayout>

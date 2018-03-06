@@ -1,4 +1,4 @@
-﻿package com.voyd.safernote;
+package com.voyd.safernote;
 
 import com.voyd.safernote.R;
 
@@ -11,18 +11,18 @@ import android.view.View;
 import android.widget.Button;
 
 public class SuperButton extends Button{
-	public SuperButton(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		Drawable image = getBackground();
-		setTwoBackground(this, image);
-	}
-	private void setTwoBackground(View v, Drawable image){
-		GradientDrawable pressed = (GradientDrawable)getResources()
-				.getDrawable(R.drawable.superbutton_pressed_style);
-		Drawable normal = image;
-		StateListDrawable stateListDrawable = new StateListDrawable();
+    public SuperButton(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        Drawable image = getBackground();
+        setTwoBackground(this, image);
+    }
+    private void setTwoBackground(View v, Drawable image){
+        GradientDrawable pressed = (GradientDrawable)getResources()
+                .getDrawable(R.drawable.superbutton_pressed_style);
+        Drawable normal = image;
+        StateListDrawable stateListDrawable = new StateListDrawable();
         stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, pressed);
         stateListDrawable.addState(new int[]{}, normal);
         v.setBackground(stateListDrawable);
-	}
+    }
 }

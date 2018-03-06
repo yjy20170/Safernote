@@ -1,7 +1,7 @@
-﻿<resources>
+<resources>
 
     <string name="app_name">Safernote</string>
     <string name="package_name">com.voyd.safernote</string>
-	<string name="database_name">dataStore.db</string>
-	<string name="create_item">创建新项目</string>
+    <string name="database_name">dataStore.db</string>
+    <string name="create_item">创建新项目</string>
 </resources>

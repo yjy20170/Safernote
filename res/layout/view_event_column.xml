@@ -23,39 +23,39 @@
         android:typeface="monospace"
         />
     <LinearLayout
-	    android:layout_width="19dp"
-	    android:layout_height="wrap_content"
+        android:layout_width="19dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-	    android:layout_below="@id/event_month"
-		android:orientation="vertical">
-	    <include
-	        android:id="@+id/event_block_0"
-	        layout="@layout/view_event_block"
-	        />
-	    <include
-	        android:id="@+id/event_block_1"
-	        layout="@layout/view_event_block"
-	        />
-	    <include
-	        android:id="@+id/event_block_2"
-	        layout="@layout/view_event_block"
-	        />
-	    <include
-	        android:id="@+id/event_block_3"
-	        layout="@layout/view_event_block"
-	        />
-	    <include
-	        android:id="@+id/event_block_4"
-	        layout="@layout/view_event_block"
-	        />
-	    <include
-	        android:id="@+id/event_block_5"
-	        layout="@layout/view_event_block"
-	        />
-	    <include
-	        android:id="@+id/event_block_6"
-	        layout="@layout/view_event_block"
-	        />
+        android:layout_below="@id/event_month"
+        android:orientation="vertical">
+        <include
+            android:id="@+id/event_block_0"
+            layout="@layout/view_event_block"
+            />
+        <include
+            android:id="@+id/event_block_1"
+            layout="@layout/view_event_block"
+            />
+        <include
+            android:id="@+id/event_block_2"
+            layout="@layout/view_event_block"
+            />
+        <include
+            android:id="@+id/event_block_3"
+            layout="@layout/view_event_block"
+            />
+        <include
+            android:id="@+id/event_block_4"
+            layout="@layout/view_event_block"
+            />
+        <include
+            android:id="@+id/event_block_5"
+            layout="@layout/view_event_block"
+            />
+        <include
+            android:id="@+id/event_block_6"
+            layout="@layout/view_event_block"
+            />
         
     </LinearLayout>
 

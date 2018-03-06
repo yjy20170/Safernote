@@ -17,17 +17,17 @@
         <Button
             android:id="@+id/delete"
             android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentLeft="true"
-			android:background="@drawable/dialog_btn_style"
-			android:text="删除"
-			android:textSize="15sp"/>
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/dialog_btn_style"
+            android:text="删除"
+            android:textSize="15sp"/>
         <Button
             android:id="@+id/setStick"
             android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentRight="true"
-			android:background="@drawable/dialog_btn_style"
-			android:textSize="15sp"/>
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/dialog_btn_style"
+            android:textSize="15sp"/>
     </RelativeLayout>
 </LinearLayout>
