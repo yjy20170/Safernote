@@ -90,7 +90,11 @@ public class Item implements Serializable{
             isNew = false;
             //stick也需更新
             setStick(stick);
-            Event.recordTodayEvent(3);
+            if(content.length()<200){
+            	Event.recordTodayEvent(3);
+            }else{
+            	Event.recordTodayEvent(4);
+            }
         }
         updateMainData(MyApp.password);
     }

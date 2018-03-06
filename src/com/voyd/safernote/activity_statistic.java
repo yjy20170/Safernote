@@ -98,7 +98,7 @@ public class activity_statistic extends SafeActivity{
         ((TextView)findViewById(R.id.event_legend_text_3)).setText(
                 "创建或删除过日志");
         ((TextView)findViewById(R.id.event_legend_text_4)).setText(
-                "    ?");
+                "创建过超200字的日志");
     }
     private void loadEventList(){
         //首先得到有记录的最早日期
