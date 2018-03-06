@@ -57,8 +57,10 @@ public class Item implements Serializable{
 		}
 	}
 	public void updateTags(){
-		db.execSQL("update items set tagsString='"
-				+AES.encrypt(MyApp.password, tagsString)+"' where id="+id);
+		if(!isNew){
+			db.execSQL("update items set tagsString='"
+					+AES.encrypt(MyApp.password, tagsString)+"' where id="+id);
+		}
 	}
 	//用于修改密码后的更新
 	public void updateMainData(String password){

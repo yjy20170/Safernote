@@ -15,7 +15,7 @@ public class TagsManager{
 	private Context context;
 	private Item item;
 	public AlertDialog dialog;
-	public TagsManager(Context context, Item item, TextView textView){
+	public TagsManager(Context context, Item item, TextView textView, boolean isForSearch){
 		this.context = context;
 		this.item = item;
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
@@ -24,18 +24,16 @@ public class TagsManager{
 		dialogBuilder.setView(dialogView);
 		dialogBuilder.setCancelable(true);
 		dialog = dialogBuilder.show();
-
 		Window window = dialog.getWindow();
 		WindowManager.LayoutParams lp = window.getAttributes();
 		lp.width = 470;
 		dialog.getWindow().setAttributes(lp);
         
-		if(item == null){
+		if(isForSearch){
 			dialog.findViewById(R.id.addNewTag_raw).setVisibility(View.GONE);
 		}
-        final TagAdapter tagAdapter = new TagAdapter(context, R.layout.view_tag, item, textView);
+        final TagAdapter tagAdapter = new TagAdapter(context, R.layout.view_tag, item, textView, isForSearch);
         ((ListView)dialog.findViewById(R.id.tags_listView)).setAdapter(tagAdapter);
-		
 		OnClickListener onClickListener = new OnClickListener(){
         	@Override
         	public void onClick(View v){

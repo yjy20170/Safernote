@@ -36,7 +36,7 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
     	android:layout_marginLeft="3dp"
-	    android:text="关键词（与关系，以 &quot;,&quot; 分隔）："
+	    android:text="关键词（与关系，以 &quot; &quot; 分隔）："
 	    android:textSize="18sp"/>
 	<EditText 
 	    android:id="@+id/search_inputText"
@@ -60,11 +60,6 @@
 	    android:textSize="18sp"
 	    android:hint="选择标签（或关系）"
 	    />
-    <TextView 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="创建时间："
-    	android:textSize="18sp"/>
 	<LinearLayout 
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
@@ -74,7 +69,8 @@
 	    <TextView 
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:text="不早于"
+	        android:layout_marginRight="3dp"
+	        android:text="创建日期：["
 	    	android:textSize="18sp"/>
 	    <TextView 
 	        android:id="@+id/search_create_limitStartDate"
@@ -87,8 +83,9 @@
 	    <TextView 
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_marginLeft="13dp"
-	        android:text="不晚于"
+	        android:layout_marginLeft="5dp"
+	        android:layout_marginRight="5dp"
+	        android:text=","
 	    	android:textSize="18sp"/>
 	    <TextView 
 	        android:id="@+id/search_create_limitEndDate"
@@ -98,11 +95,76 @@
 	    	android:paddingRight="7dp"
 		    android:background="#dadada"
 	    	android:textSize="17sp"/>
+	    <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="3dp"
+	        android:text="]"
+	    	android:textSize="18sp"/>
 	</LinearLayout>
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="3dp"
+	    android:layout_marginTop="10dp"
+	    android:orientation="horizontal">
+	    <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginRight="3dp"
+	        android:text="修改日期：["
+	    	android:textSize="18sp"/>
+	    <TextView 
+	        android:id="@+id/search_edit_limitStartDate"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	    	android:paddingLeft="7dp"
+	    	android:paddingRight="7dp"
+		    android:background="#dadada"
+	    	android:textSize="17sp"/>
+	    <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="5dp"
+	        android:layout_marginRight="5dp"
+	        android:text=","
+	    	android:textSize="18sp"/>
+	    <TextView 
+	        android:id="@+id/search_edit_limitEndDate"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	    	android:paddingLeft="7dp"
+	    	android:paddingRight="7dp"
+		    android:background="#dadada"
+	    	android:textSize="17sp"/>
+	    <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="3dp"
+	        android:text="]"
+	    	android:textSize="18sp"/>
+	</LinearLayout>
+    <RadioGroup 
+        android:id="@+id/search_order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+        <RadioButton
+        	android:id="@+id/search_order_newTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="由新到旧" />
+        <RadioButton
+        	android:id="@+id/search_order_oldTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="由旧到新" />
+    </RadioGroup>
     <View 
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="5dp"
         android:background="#707070"/>
     <ListView 
         android:id="@+id/itemListView"
@@ -110,5 +172,5 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:paddingLeft="5dp"
-        android:paddingRight="5dp"/>
+        android:paddingRight="5dp"/>"
 </LinearLayout>

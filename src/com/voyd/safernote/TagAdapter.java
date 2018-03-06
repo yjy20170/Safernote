@@ -1,8 +1,5 @@
 package com.voyd.safernote;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,22 +14,17 @@ import android.widget.TextView;
 public class TagAdapter extends ArrayAdapter<String> {
 	private String tag;
 	private Item item;
-	private boolean isItemNull;
+	private boolean isForSearch;
 	private int resourceId;
 	private Context context;
 	private CheckBox checkBox;
 	private TextView textView;
 	
-	public TagAdapter(Context context, int resourceId, Item item, TextView textView) {
+	public TagAdapter(Context context, int resourceId, Item item, TextView textView, boolean isForSearch) {
 		super(context, resourceId, MyApp.getAllTags());
 		this.resourceId = resourceId;
-		if(item == null){
-			isItemNull = true;
-			this.item = new Item();
-		}else{
-			isItemNull = false;
-			this.item = item;
-		}
+		this.item = item;
+		this.isForSearch = isForSearch;
 		this.context = context;
 		this.textView = textView;
 	}
@@ -42,13 +34,13 @@ public class TagAdapter extends ArrayAdapter<String> {
 		final View view = LayoutInflater.from(getContext()).inflate(resourceId, null);
 		checkBox = (CheckBox)view.findViewById(R.id.tag_checkBox);
 		checkBox.setText(tag);
-		if(isItemNull){
+		if(isForSearch){
 			view.findViewById(R.id.tag_delete).setVisibility(View.INVISIBLE);
-		}else{
-			if(item.tags.indexOf(tag)!=-1){
-				checkBox.setChecked(true);
-			}
 		}
+		if(item.tags.indexOf(tag)!=-1){
+			checkBox.setChecked(true);
+		}
+		
 		final String thisTag = tag;//若不使用final，调用方法时tag的值为最后一个tag
 		checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 			@Override
@@ -58,7 +50,7 @@ public class TagAdapter extends ArrayAdapter<String> {
 				}else{
 					item.removeTag(thisTag);
 				}
-				if(!isItemNull){
+				if(!isForSearch){
 					item.updateTags();
 				}
 				textView.setText(item.tagsString);

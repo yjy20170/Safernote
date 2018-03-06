@@ -99,7 +99,7 @@ public class activity_2 extends SafeActivity implements OnClickListener{
 			lastFocus.leaveEdit();
 			break;
 		case R.id.tags:
-			TagsManager tagsManager = new TagsManager(this, item, (TextView)findViewById(R.id.tags));
+			TagsManager tagsManager = new TagsManager(this, item, (TextView)findViewById(R.id.tags), true);
 			tagsManager.dialog.setOnDismissListener(new OnDismissListener(){
 				@Override
 				public void onDismiss(DialogInterface dialogInterface) {
