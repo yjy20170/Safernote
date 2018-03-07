@@ -2,13 +2,10 @@ package com.voyd.safernote;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.voyd.safernote.R;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
@@ -48,7 +45,8 @@ public class activity_1 extends SafeActivity implements OnClickListener{
             public void onItemClick(AdapterView<?> parent, View view,
                     int position, long id) {
                 Intent intent = new Intent(activity_1.this,activity_2.class);
-                intent.putExtra("item",list.get(position));
+                //intent.putExtra("item",list.get(position));
+                intent.putExtra("position", position);
                 intent.putExtra("viewType", 0);
                 
                 startSafeActivity(intent);
@@ -71,9 +69,9 @@ public class activity_1 extends SafeActivity implements OnClickListener{
         case R.id.createItem:
             Intent intent = new Intent(this, activity_2.class);
             intent.putExtra("viewType", 2);
-            Item newItem = new Item();
-            newItem.createNew(Item.timeFormat.format(new Date()));
-            intent.putExtra("item", newItem);
+            //Item newItem = new Item();
+            //newItem.createNew(Item.timeFormat.format(new Date()));
+            //intent.putExtra("item", newItem);
             startSafeActivity(intent);
             /*
             SQLiteDatabase db = MyApplication.db;
@@ -128,7 +126,6 @@ public class activity_1 extends SafeActivity implements OnClickListener{
         }
     }
     
-    //
     @Override
     public void onRestart(){
         if(isFromStack){

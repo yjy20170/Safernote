@@ -13,8 +13,6 @@ import android.content.DialogInterface.OnDismissListener;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
@@ -62,11 +60,14 @@ public class activity_2 extends SafeActivity implements OnClickListener{
         
         itemPosition = getIntent().getIntExtra("position", 0);
         int newViewType = getIntent().getIntExtra("viewType", 0);
-        item = (Item)getIntent().getSerializableExtra("item");
+        //item = (Item)getIntent().getSerializableExtra("item");
+        item = new Item();
         if(newViewType==0){
+        	item.loadDataByPosition(itemPosition, true);
             showItem();
             setViewType(null, newViewType);
         }else if(newViewType==2){
+        	item.createNew(Item.timeFormat.format(new Date()));
             showItem();
             lastFocus = titleView;
             setViewType(titleView, newViewType);
@@ -91,15 +92,11 @@ public class activity_2 extends SafeActivity implements OnClickListener{
             break;
         case R.id.save:
             save();
-            /*
-            //不改变键盘状态，只改变按钮显示
-            setViewType(lastFocus, viewType - 1);
-            */
             setViewType(lastFocus, 0);
             lastFocus.leaveEdit();
             break;
         case R.id.tags:
-            TagsManager tagsManager = new TagsManager(this, item, (TextView)findViewById(R.id.tags), true);
+            TagsManager tagsManager = new TagsManager(this, item, (TextView)findViewById(R.id.tags), false);
             tagsManager.dialog.setOnDismissListener(new OnDismissListener(){
                 @Override
                 public void onDismiss(DialogInterface dialogInterface) {
@@ -261,7 +258,6 @@ public class activity_2 extends SafeActivity implements OnClickListener{
     
     public void showItem(){
         titleView.setText(item.title);
-        //TODO: 改成一组按钮
         tagsView.setText(item.tagsString);
         contentView.setText(item.content);
     }
@@ -283,7 +279,7 @@ public class activity_2 extends SafeActivity implements OnClickListener{
                 && contentView.getText().toString().equals(item.content));
     }
     
-    public void setViewType(View v, int newViewType){    //v 被点击的元素，只有editing和edited用到
+    public void setViewType(View v, int newViewType){  //v 被点击的元素，只有editing和edited用到
         lastViewType = viewType;
         viewType = newViewType;
         //判断seconds记录的变化
