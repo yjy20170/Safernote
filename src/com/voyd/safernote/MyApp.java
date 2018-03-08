@@ -20,6 +20,9 @@ public class MyApp extends Application{
     public static boolean isErrorPasswordInputed = false;
     private static ArrayList<String> allTags = null;
     private static String allTagsString;
+    
+    public static ArrayList<Item> itemList = new ArrayList<Item>();
+    
     @Override
     public void onCreate(){
         context = getApplicationContext();
@@ -31,6 +34,15 @@ public class MyApp extends Application{
         cursor.moveToFirst();
         return cursor.getString(cursor.getColumnIndex("md5password"));
     }
+    public static void loadItemList(){
+    	itemList.clear();
+        int itemsCount = getTableLength("items");
+        for(int i=0;i<itemsCount;i++){
+            Item item = new Item();
+            item.loadDataByPosition(i, true);
+            itemList.add(item);
+        }
+    }
     public static void updatePassword(String newPassword){
         //更新数据库MD5密码；重新加密所有Item数据；更新内存中密码；
         String newMD5Password = MD5Util.MD5(newPassword);
@@ -39,14 +51,12 @@ public class MyApp extends Application{
         String oldTags = AES.decrypt(password, getStringSetting("tags"));
         updateStringSetting("tags", AES.encrypt(newPassword, oldTags));
         
-        int itemsCount = getTableLength("items");
-        Item item = new Item();
-        for(int i=0;i<itemsCount;i++){
-            item.loadDataByPosition(i, false);
-            item.updateMainData(newPassword);
-        }
-        
         password = newPassword;
+        loadItemList();
+        for(Item item: itemList){
+        	item.updateMainData();
+        	item.updateSeconds();
+        }
     }
     public static void updateIntSetting(String name, int value){
         db.execSQL("update settings set "+name+" = "+value);

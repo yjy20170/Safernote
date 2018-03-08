@@ -62,19 +62,7 @@ public class Item implements Serializable{
                     +AES.encrypt(MyApp.password, tagsString)+"' where id="+id);
         }
     }
-    //用于修改密码后的更新
-    public void updateMainData(String password){
-        ContentValues values = new ContentValues();
-        values.put("title", AES.encrypt(password, title));
-        values.put("wordCount",AES.encrypt(password, wordCount));
-        values.put("createTime", AES.encrypt(password, createTime));
-        values.put("editTime", AES.encrypt(password, editTime));
-        values.put("tagsString",AES.encrypt(password, tagsString));
-        values.put("content", AES.encrypt(password, content));
-        db.update("items", values, "id = ?", new String[]{Integer.toString(id)});
-        
-        Event.recordTodayEvent(2);
-    }
+    
     public void updateMainData(){
         if(isNew){
             //建一条空项目
@@ -96,7 +84,16 @@ public class Item implements Serializable{
             	Event.recordTodayEvent(4);
             }
         }
-        updateMainData(MyApp.password);
+        ContentValues values = new ContentValues();
+        values.put("title", AES.encrypt(MyApp.password, title));
+        values.put("wordCount",AES.encrypt(MyApp.password, wordCount));
+        values.put("createTime", AES.encrypt(MyApp.password, createTime));
+        values.put("editTime", AES.encrypt(MyApp.password, editTime));
+        values.put("tagsString",AES.encrypt(MyApp.password, tagsString));
+        values.put("content", AES.encrypt(MyApp.password, content));
+        db.update("items", values, "id = ?", new String[]{Integer.toString(id)});
+        
+        Event.recordTodayEvent(2);
     }
 
     //根据id，从数据库加载数据
