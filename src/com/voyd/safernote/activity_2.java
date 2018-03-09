@@ -63,11 +63,11 @@ public class activity_2 extends SafeActivity implements OnClickListener{
         //item = (Item)getIntent().getSerializableExtra("item");
         item = new Item();
         if(newViewType==0){
-        	item.loadDataByPosition(itemPosition, true);
+            item.loadDataByPosition(itemPosition, true);
             showItem();
             setViewType(null, newViewType);
         }else if(newViewType==2){
-        	item.createNew(Item.timeFormat.format(new Date()));
+            item.createNew(Item.timeFormat.format(new Date()));
             showItem();
             lastFocus = titleView;
             setViewType(titleView, newViewType);

@@ -5,12 +5,10 @@ import java.util.ArrayList;
 import com.voyd.safernote.R;
 
 import android.app.Application;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
-import android.view.inputmethod.InputMethodManager;
 
 public class MyApp extends Application{
     public static Context context;
@@ -35,7 +33,7 @@ public class MyApp extends Application{
         return cursor.getString(cursor.getColumnIndex("md5password"));
     }
     public static void loadItemList(){
-    	itemList.clear();
+        itemList.clear();
         int itemsCount = getTableLength("items");
         for(int i=0;i<itemsCount;i++){
             Item item = new Item();
@@ -54,8 +52,8 @@ public class MyApp extends Application{
         password = newPassword;
         loadItemList();
         for(Item item: itemList){
-        	item.updateMainData();
-        	item.updateSeconds();
+            item.updateMainData();
+            item.updateSeconds();
         }
     }
     public static void updateIntSetting(String name, int value){

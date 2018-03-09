@@ -156,18 +156,7 @@ public class activity_importExportDb extends SafeActivity implements OnClickList
                 new alert("导出成功");
             }
         } catch (Exception e) {
-
             new alert(e.toString());
-            new alert(e.toString());
-            new alert(e.toString());
-            new alert(e.toString());
-            new alert(e.toString());
-            new alert(e.toString());
-            new alert(e.toString());
-            new alert(e.toString());
-            new alert(e.toString());
-            new alert(e.toString());
-
         }
     }
 

@@ -79,9 +79,9 @@ public class Item implements Serializable{
             //stick也需更新
             setStick(stick);
             if(content.length()<200){
-            	Event.recordTodayEvent(3);
+                Event.recordTodayEvent(3);
             }else{
-            	Event.recordTodayEvent(4);
+                Event.recordTodayEvent(4);
             }
         }
         ContentValues values = new ContentValues();

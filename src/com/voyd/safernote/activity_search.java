@@ -124,7 +124,7 @@ public class activity_search extends SafeActivity implements OnClickListener, On
             }
         });
     }
-    @SuppressWarnings("deprecation")
+    
     @Override
     public void onClick(final View v) {
         switch(v.getId()){
