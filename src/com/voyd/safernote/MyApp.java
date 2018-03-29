@@ -37,7 +37,7 @@ public class MyApp extends Application{
         int itemsCount = getTableLength("items");
         for(int i=0;i<itemsCount;i++){
             Item item = new Item();
-            item.loadDataByPosition(i, true);
+            item.loadDataByPosition(i, false);
             itemList.add(item);
         }
     }
@@ -49,8 +49,8 @@ public class MyApp extends Application{
         String oldTags = AES.decrypt(password, getStringSetting("tags"));
         updateStringSetting("tags", AES.encrypt(newPassword, oldTags));
         
-        password = newPassword;
         loadItemList();
+        password = newPassword;
         for(Item item: itemList){
             item.updateMainData();
             item.updateSeconds();

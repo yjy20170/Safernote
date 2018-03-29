@@ -62,7 +62,7 @@ public class Item implements Serializable{
                     +AES.encrypt(MyApp.password, tagsString)+"' where id="+id);
         }
     }
-    
+
     public void updateMainData(){
         if(isNew){
             //建一条空项目
@@ -97,11 +97,19 @@ public class Item implements Serializable{
     }
 
     //根据id，从数据库加载数据
-    public void loadDataByPosition(int position, boolean isUseStick){
+    public void loadDataById(int id){
+        Cursor cursor = db.rawQuery("select * from items where id = "+id, null);
+        parseDateFromCursor(cursor);
+    }
+    //activity_1根据列表位置，先计算出在数据库中的位置，再加载
+    public void loadDataByPosition(int position){
+        loadDataByPosition(position, false);
+    }
+    public void loadDataByPosition(int position, boolean isIgnoreStick){
         //position: activity_1显示的顺序
         //positionS: 在数据库中按id递减的顺序
         int positionS = 0;
-        if(!isUseStick){
+        if(isIgnoreStick){
             positionS = position;
         }else{
             if(position<=stickyCount-1){//是置顶项
@@ -122,6 +130,9 @@ public class Item implements Serializable{
         //wrong: this.id = getTableLength(db, "items") - position;未考虑删除
         int offset = MyApp.getTableLength("items") - positionS - 1;
         Cursor cursor = db.rawQuery("select * from items limit 1 offset "+offset, null);
+        parseDateFromCursor(cursor);
+    }
+    private void parseDateFromCursor(Cursor cursor){
         cursor.moveToFirst();
         id = Integer.parseInt(cursor.getString(cursor.getColumnIndex("id")));
         
@@ -161,7 +172,7 @@ public class Item implements Serializable{
         Event.recordTodayEvent(3);
     }
     
-    public static void loadSticks(){
+    public static void loadSticks(){//加载记录所有item的stick信息的列表
         sticks.clear();
         stickyCount = 0;
         Cursor cursor = db.rawQuery("select * from items", null);

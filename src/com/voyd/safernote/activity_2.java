@@ -31,7 +31,6 @@ public class activity_2 extends SafeActivity implements OnClickListener{
     public int viewType = -1;
     public int lastViewType = -1;
     Item item;
-    int itemPosition;
     
     Date startWritingTime;
     Date startReadingTime;
@@ -58,12 +57,15 @@ public class activity_2 extends SafeActivity implements OnClickListener{
         tagsView.setOnClickListener(this);
         findViewById(R.id.item_more).setOnClickListener(this);
         
-        itemPosition = getIntent().getIntExtra("position", 0);
         int newViewType = getIntent().getIntExtra("viewType", 0);
         //item = (Item)getIntent().getSerializableExtra("item");
         item = new Item();
         if(newViewType==0){
-            item.loadDataByPosition(itemPosition, true);
+            if(getIntent().getIntExtra("position", -1) != -1){//表示来自activity_1 按位置排序
+                item.loadDataByPosition(getIntent().getIntExtra("position", -1));
+            }else{
+                item.loadDataById(getIntent().getIntExtra("id", -1));
+            }
             showItem();
             setViewType(null, newViewType);
         }else if(newViewType==2){
@@ -176,8 +178,8 @@ public class activity_2 extends SafeActivity implements OnClickListener{
                     dialog.dismiss();
                     break;
                 case R.id.dialogConfirm:
-                    item.delete();
                     dialog.dismiss();
+                    item.delete();
                     activity_2.super.onBackPressed();
                     break;
                 }

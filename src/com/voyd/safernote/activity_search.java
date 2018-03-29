@@ -117,7 +117,7 @@ public class activity_search extends SafeActivity implements OnClickListener, On
             public void onItemClick(AdapterView<?> parent, View view,
                     int position, long id) {
                 Intent intent = new Intent(activity_search.this,activity_2.class);
-                intent.putExtra("item",list.get(position));
+                intent.putExtra("id",list.get(position).id);
                 intent.putExtra("viewType", 0);
                 
                 startSafeActivity(intent);
@@ -249,7 +249,7 @@ public class activity_search extends SafeActivity implements OnClickListener, On
         }
         for(int i=0;i<itemsCount;i++){
             Item item = new Item();
-            item.loadDataByPosition(i, false);
+            item.loadDataByPosition(i, true);
             
             //判断创建时间
             Date itemCreateDate;

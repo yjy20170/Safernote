@@ -36,7 +36,7 @@ public class Event {
     //1: SafeActivity.onCreate()
     //2: Item.updateDbData(pw)
     //3: Item.updateDbData()[isNew] || Item.delete()[!isNew]
-    //TODO 4: Item.updateDbData()[isNew] && item.content.length() >= 200
+    //4: Item.updateDbData()[isNew] && item.content.length() >= 200
     public static void recordTodayEvent(int level){
         Cursor cursor = MyApp.db.rawQuery("select * from events",null);
         int eventsCount = cursor.getCount();

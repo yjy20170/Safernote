@@ -32,7 +32,7 @@ public class ItemAdapter extends ArrayAdapter<Item>{
         item = getItem(position);
         if(isEmptyList){
             //从数据库加载
-            item.loadDataByPosition(position, true);
+            item.loadDataByPosition(position);
         }
         View view;
         ViewHolder viewHolder;
